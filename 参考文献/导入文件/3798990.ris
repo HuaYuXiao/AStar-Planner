@@ -1,0 +1,17 @@
+TY  - JOUR
+A2  - Bovenga, Fabio
+AU  - He, Zhenqi
+AU  - Yao, Lu
+PY  - 2021
+DA  - 2021/09/10
+TI  - Research on an Obstacle Avoidance Method for UAV
+SP  - 3798990
+VL  - 2021
+AB  - With the continuous development of UAV technology, UAV has been widely used in various industries. In the flight process of UAV, UAV often changes the given path because of obstacles (including static nonliving body and moving living body). According to the properties of obstacles and the characteristics of UAV, standard Kalman filter is used for nonmaneuvering targets, and sigma point Kalman filter is used for maneuvering targets. In the aspect of obstacle avoidance, the minimum search method is used to get the initial population of local programming. Then, the improved genetic algorithm is run. Combined with the predicted obstacle features, the local planning path can be obtained. Finally, the local planning path and global planning path are combined to generate the planning path with new obstacles. At the end of the paper, the obstacle avoidance strategies of static and moving obstacles are simulated. The simulation results show that this method has fast convergence speed and good feasibility and can flexibly deal with the obstacle avoidance and local path planning of various new obstacles.
+SN  - 1024-123X
+UR  - https://doi.org/10.1155/2021/3798990
+DO  - 10.1155/2021/3798990
+JF  - Mathematical Problems in Engineering
+PB  - Hindawi
+KW  - 
+ER  - 
