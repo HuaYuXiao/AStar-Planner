@@ -1,1 +1,1 @@
-# Design-of-UAV-dynamic-obstacle-avoidance-algorithm
+# 基于 A*等算法的无人机复杂环境避障系统
