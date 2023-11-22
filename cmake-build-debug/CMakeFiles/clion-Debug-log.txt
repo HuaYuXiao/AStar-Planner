@@ -1,0 +1,4 @@
+"D:\software\CLion 2023.2.2\bin\cmake\win\x64\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Debug "-DCMAKE_MAKE_PROGRAM=D:/software/CLion 2023.2.2/bin/ninja/win/x64/ninja.exe" -G Ninja -S D:\Github\Design-of-UAV-dynamic-obstacle-avoidance-algorithm -B D:\Github\Design-of-UAV-dynamic-obstacle-avoidance-algorithm\cmake-build-debug
+-- Configuring done (0.7s)
+-- Generating done (0.0s)
+-- Build files have been written to: D:/Github/Design-of-UAV-dynamic-obstacle-avoidance-algorithm/cmake-build-debug

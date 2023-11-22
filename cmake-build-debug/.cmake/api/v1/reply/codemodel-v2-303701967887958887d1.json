@@ -1,0 +1,60 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"jsonFile" : "directory-.-Debug-d0094a50bb2071803777.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.26"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "Design_of_UAV_dynamic_obstacle_avoidance_algorithm",
+					"targetIndexes" : 
+					[
+						0
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "Design_of_UAV_dynamic_obstacle_avoidance_algorithm::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Design_of_UAV_dynamic_obstacle_avoidance_algorithm-Debug-af8ba39dd58a9d7b5323.json",
+					"name" : "Design_of_UAV_dynamic_obstacle_avoidance_algorithm",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "D:/Github/Design-of-UAV-dynamic-obstacle-avoidance-algorithm/cmake-build-debug",
+		"source" : "D:/Github/Design-of-UAV-dynamic-obstacle-avoidance-algorithm"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 5
+	}
+}
