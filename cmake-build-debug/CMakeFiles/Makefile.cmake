@@ -56,5 +56,5 @@ set(CMAKE_MAKEFILE_PRODUCTS
 
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
-  "CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/DependInfo.cmake"
+  "CMakeFiles/APF_3D.dir/DependInfo.cmake"
   )

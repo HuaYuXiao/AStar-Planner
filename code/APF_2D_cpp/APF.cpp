@@ -1,18 +1,12 @@
 #include <iostream>
-#include <cstdlib>
 #include <cmath>
-#include <cstdlib>
 #include <opencv2/opencv.hpp>
-
 
 using namespace std;
 using namespace cv;
 
+double obs[14] = {1, 1.2, 3, 2.5, 4, 4.5, 3, 6, 6, 2, 5.5, 5.5, 8, 8.5};
 
-double obs[14]={1,1.2,3,2.5,4,4.5,3,6,6,2,5.5,5.5,8,8.5};
-
-
-// 计算数组元素和的函数
 double sum(double *p1, int n) {
     double sum = 0;
     for (int i = 0; i < n; i++) {
@@ -32,8 +26,8 @@ public:
     double *goal_point;
     double *obstacles;
 
-    // 初始化函数
-    void APF_init(double Attraction_K, double Repulsion_K, double Obstacles_dis, double a, double step, double *start_point, double *goal_point, double *obstacles) {
+    void APF_init(double Attraction_K, double Repulsion_K, double Obstacles_dis, double a, double step,
+                  double *start_point, double *goal_point, double *obstacles) {
         this->Attraction_K = Attraction_K;
         this->Repulsion_K = Repulsion_K;
         this->Obstacles_dis = Obstacles_dis;
@@ -44,13 +38,10 @@ public:
         this->obstacles = obstacles;
     }
 
-    // 计算角度的函数
     double *compute_angle(double *start_point, int n);
 
-    // 计算引力的函数
     double *compute_attraction(double *start_point, double *att_angle);
 
-    // 计算斥力的函数
     double *compute_repulsion(double *start_point, double *angle, int n);
 };
 
@@ -125,7 +116,6 @@ double *APF::compute_repulsion(double *start_point, double *angle, int n) {
 }
 
 int main() {
-    cout << "开始" << endl;
     APF APF1;
     int n = sizeof(obs) / sizeof(double) / 2;
     double Attraction_K = 30;
@@ -136,7 +126,6 @@ int main() {
     double start_point[2] = {0, 0}, goal_point[2] = {10, 10};
     double *angle_re, *Yatt, *Y;
 
-    // 初始化APF
     APF1.APF_init(Attraction_K, Repulsion_K, Obstacles_dis, a, step, start_point, goal_point, obs);
     double path[200][2];
     int iterator = 200;
@@ -144,7 +133,17 @@ int main() {
     double Xj[2] = {0, 0};
     double Xnext[2] = {0, 0};
 
-    // 开始模拟
+    Mat img(500, 500, CV_8UC3, Scalar(255, 255, 255));
+    Point p(0, 1000);
+
+    // 绘制障碍物
+    for (int i = 0; i < n; i++) {
+        p.x = int(obs[i * 2] * 50);
+        p.y = 500 - int(obs[i * 2 + 1] * 50);
+        circle(img, p, 5, Scalar(0, 0, 255), -1);
+    }
+
+    // 模拟
     for (int j = 0; j < iterator; j++) {
         path[j][0] = Xj[0];
         path[j][1] = Xj[1];
@@ -159,26 +158,23 @@ int main() {
         Xj[0] = Xnext[0];
         Xj[1] = Xnext[1];
 
-        // 判断是否到达目标点
+        // 是否到达目标点
         if (fabs(Xj[0] - APF1.goal_point[0]) < 0.1 && fabs(Xj[1] - APF1.goal_point[1]) < 0.1) {
             path[j + 1][0] = Xj[0];
             path[j + 1][1] = Xj[1];
             k1 = j;
-            cout << "到达目标点   " << k1 << endl;
             break;
         }
     }
 
-    // 在图像中绘制路径
-    Mat img(500, 500, CV_8UC3, Scalar(255, 255, 255));
-    Point p(0, 1000);
+    // 绘制路径
     for (int j = 0; j < k1 + 2; j++) {
         p.x = int(path[j][0] * 50);
         p.y = 500 - int(path[j][1] * 50);
         circle(img, p, 3, Scalar(255, 0, 0), -1);
     }
 
-    imshow("绘制路径", img);
+    imshow("绘制路径和障碍物", img);
     waitKey(0);
     return 0;
 }

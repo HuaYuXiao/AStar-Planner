@@ -63,7 +63,7 @@ CMAKE_BINARY_DIR = /Users/hyx020222/Documents/GitHub/Design-of-UAV-dynamic-obsta
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
-all: CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/all
+all: CMakeFiles/APF_3D.dir/all
 .PHONY : all
 
 # The main recursive "preinstall" target.
@@ -71,34 +71,34 @@ preinstall:
 .PHONY : preinstall
 
 # The main recursive "clean" target.
-clean: CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/clean
+clean: CMakeFiles/APF_3D.dir/clean
 .PHONY : clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir
+# Target rules for target CMakeFiles/APF_3D.dir
 
 # All Build rule for target.
-CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/all:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/build.make CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/build.make CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/hyx020222/Documents/GitHub/Design-of-UAV-dynamic-obstacle-avoidance-algorithm/cmake-build-debug/CMakeFiles --progress-num=1,2 "Built target Design_of_UAV_dynamic_obstacle_avoidance_algorithm"
-.PHONY : CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/all
+CMakeFiles/APF_3D.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/APF_3D.dir/build.make CMakeFiles/APF_3D.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/APF_3D.dir/build.make CMakeFiles/APF_3D.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/hyx020222/Documents/GitHub/Design-of-UAV-dynamic-obstacle-avoidance-algorithm/cmake-build-debug/CMakeFiles --progress-num=1,2 "Built target APF_3D"
+.PHONY : CMakeFiles/APF_3D.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/rule: cmake_check_build_system
+CMakeFiles/APF_3D.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/hyx020222/Documents/GitHub/Design-of-UAV-dynamic-obstacle-avoidance-algorithm/cmake-build-debug/CMakeFiles 2
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/APF_3D.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/hyx020222/Documents/GitHub/Design-of-UAV-dynamic-obstacle-avoidance-algorithm/cmake-build-debug/CMakeFiles 0
-.PHONY : CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/rule
+.PHONY : CMakeFiles/APF_3D.dir/rule
 
 # Convenience name for target.
-Design_of_UAV_dynamic_obstacle_avoidance_algorithm: CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/rule
-.PHONY : Design_of_UAV_dynamic_obstacle_avoidance_algorithm
+APF_3D: CMakeFiles/APF_3D.dir/rule
+.PHONY : APF_3D
 
 # clean rule for target.
-CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/build.make CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/clean
-.PHONY : CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/clean
+CMakeFiles/APF_3D.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/APF_3D.dir/build.make CMakeFiles/APF_3D.dir/clean
+.PHONY : CMakeFiles/APF_3D.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

@@ -117,41 +117,41 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named Design_of_UAV_dynamic_obstacle_avoidance_algorithm
+# Target rules for targets named APF_3D
 
 # Build rule for target.
-Design_of_UAV_dynamic_obstacle_avoidance_algorithm: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 Design_of_UAV_dynamic_obstacle_avoidance_algorithm
-.PHONY : Design_of_UAV_dynamic_obstacle_avoidance_algorithm
+APF_3D: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 APF_3D
+.PHONY : APF_3D
 
 # fast build rule for target.
-Design_of_UAV_dynamic_obstacle_avoidance_algorithm/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/build.make CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/build
-.PHONY : Design_of_UAV_dynamic_obstacle_avoidance_algorithm/fast
+APF_3D/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/APF_3D.dir/build.make CMakeFiles/APF_3D.dir/build
+.PHONY : APF_3D/fast
 
-code/APF_3D_cpp/APF.o: code/APF_3D_cpp/APF.cpp.o
-.PHONY : code/APF_3D_cpp/APF.o
+code/APF_3D_cpp/APF_3D.o: code/APF_3D_cpp/APF_3D.cpp.o
+.PHONY : code/APF_3D_cpp/APF_3D.o
 
 # target to build an object file
-code/APF_3D_cpp/APF.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/build.make CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/code/APF_3D_cpp/APF.cpp.o
-.PHONY : code/APF_3D_cpp/APF.cpp.o
+code/APF_3D_cpp/APF_3D.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/APF_3D.dir/build.make CMakeFiles/APF_3D.dir/code/APF_3D_cpp/APF_3D.cpp.o
+.PHONY : code/APF_3D_cpp/APF_3D.cpp.o
 
-code/APF_3D_cpp/APF.i: code/APF_3D_cpp/APF.cpp.i
-.PHONY : code/APF_3D_cpp/APF.i
+code/APF_3D_cpp/APF_3D.i: code/APF_3D_cpp/APF_3D.cpp.i
+.PHONY : code/APF_3D_cpp/APF_3D.i
 
 # target to preprocess a source file
-code/APF_3D_cpp/APF.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/build.make CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/code/APF_3D_cpp/APF.cpp.i
-.PHONY : code/APF_3D_cpp/APF.cpp.i
+code/APF_3D_cpp/APF_3D.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/APF_3D.dir/build.make CMakeFiles/APF_3D.dir/code/APF_3D_cpp/APF_3D.cpp.i
+.PHONY : code/APF_3D_cpp/APF_3D.cpp.i
 
-code/APF_3D_cpp/APF.s: code/APF_3D_cpp/APF.cpp.s
-.PHONY : code/APF_3D_cpp/APF.s
+code/APF_3D_cpp/APF_3D.s: code/APF_3D_cpp/APF_3D.cpp.s
+.PHONY : code/APF_3D_cpp/APF_3D.s
 
 # target to generate assembly for a file
-code/APF_3D_cpp/APF.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/build.make CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/code/APF_3D_cpp/APF.cpp.s
-.PHONY : code/APF_3D_cpp/APF.cpp.s
+code/APF_3D_cpp/APF_3D.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/APF_3D.dir/build.make CMakeFiles/APF_3D.dir/code/APF_3D_cpp/APF_3D.cpp.s
+.PHONY : code/APF_3D_cpp/APF_3D.cpp.s
 
 # Help Target
 help:
@@ -161,10 +161,10 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... Design_of_UAV_dynamic_obstacle_avoidance_algorithm"
-	@echo "... code/APF_3D_cpp/APF.o"
-	@echo "... code/APF_3D_cpp/APF.i"
-	@echo "... code/APF_3D_cpp/APF.s"
+	@echo "... APF_3D"
+	@echo "... code/APF_3D_cpp/APF_3D.o"
+	@echo "... code/APF_3D_cpp/APF_3D.i"
+	@echo "... code/APF_3D_cpp/APF_3D.s"
 .PHONY : help
 
 
