@@ -129,53 +129,29 @@ Design_of_UAV_dynamic_obstacle_avoidance_algorithm/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/build.make CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/build
 .PHONY : Design_of_UAV_dynamic_obstacle_avoidance_algorithm/fast
 
-code/Astar/Astar.o: code/Astar/Astar.cpp.o
-.PHONY : code/Astar/Astar.o
+code/APF_2D_cpp/ArtificialPotential.o: code/APF_2D_cpp/ArtificialPotential.cpp.o
+.PHONY : code/APF_2D_cpp/ArtificialPotential.o
 
 # target to build an object file
-code/Astar/Astar.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/build.make CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/code/Astar/Astar.cpp.o
-.PHONY : code/Astar/Astar.cpp.o
+code/APF_2D_cpp/ArtificialPotential.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/build.make CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/code/APF_2D_cpp/ArtificialPotential.cpp.o
+.PHONY : code/APF_2D_cpp/ArtificialPotential.cpp.o
 
-code/Astar/Astar.i: code/Astar/Astar.cpp.i
-.PHONY : code/Astar/Astar.i
-
-# target to preprocess a source file
-code/Astar/Astar.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/build.make CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/code/Astar/Astar.cpp.i
-.PHONY : code/Astar/Astar.cpp.i
-
-code/Astar/Astar.s: code/Astar/Astar.cpp.s
-.PHONY : code/Astar/Astar.s
-
-# target to generate assembly for a file
-code/Astar/Astar.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/build.make CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/code/Astar/Astar.cpp.s
-.PHONY : code/Astar/Astar.cpp.s
-
-code/Astar/main.o: code/Astar/main.cpp.o
-.PHONY : code/Astar/main.o
-
-# target to build an object file
-code/Astar/main.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/build.make CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/code/Astar/main.cpp.o
-.PHONY : code/Astar/main.cpp.o
-
-code/Astar/main.i: code/Astar/main.cpp.i
-.PHONY : code/Astar/main.i
+code/APF_2D_cpp/ArtificialPotential.i: code/APF_2D_cpp/ArtificialPotential.cpp.i
+.PHONY : code/APF_2D_cpp/ArtificialPotential.i
 
 # target to preprocess a source file
-code/Astar/main.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/build.make CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/code/Astar/main.cpp.i
-.PHONY : code/Astar/main.cpp.i
+code/APF_2D_cpp/ArtificialPotential.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/build.make CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/code/APF_2D_cpp/ArtificialPotential.cpp.i
+.PHONY : code/APF_2D_cpp/ArtificialPotential.cpp.i
 
-code/Astar/main.s: code/Astar/main.cpp.s
-.PHONY : code/Astar/main.s
+code/APF_2D_cpp/ArtificialPotential.s: code/APF_2D_cpp/ArtificialPotential.cpp.s
+.PHONY : code/APF_2D_cpp/ArtificialPotential.s
 
 # target to generate assembly for a file
-code/Astar/main.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/build.make CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/code/Astar/main.cpp.s
-.PHONY : code/Astar/main.cpp.s
+code/APF_2D_cpp/ArtificialPotential.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/build.make CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/code/APF_2D_cpp/ArtificialPotential.cpp.s
+.PHONY : code/APF_2D_cpp/ArtificialPotential.cpp.s
 
 # Help Target
 help:
@@ -186,12 +162,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... Design_of_UAV_dynamic_obstacle_avoidance_algorithm"
-	@echo "... code/Astar/Astar.o"
-	@echo "... code/Astar/Astar.i"
-	@echo "... code/Astar/Astar.s"
-	@echo "... code/Astar/main.o"
-	@echo "... code/Astar/main.i"
-	@echo "... code/Astar/main.s"
+	@echo "... code/APF_2D_cpp/ArtificialPotential.o"
+	@echo "... code/APF_2D_cpp/ArtificialPotential.i"
+	@echo "... code/APF_2D_cpp/ArtificialPotential.s"
 .PHONY : help
 
 

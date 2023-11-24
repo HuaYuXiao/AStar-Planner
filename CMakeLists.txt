@@ -3,9 +3,8 @@ project(Design_of_UAV_dynamic_obstacle_avoidance_algorithm)
 
 set(CMAKE_CXX_STANDARD 14)
 
-include_directories(code/Astar)
+include_directories(code/APF_2D_cpp)
 
 add_executable(Design_of_UAV_dynamic_obstacle_avoidance_algorithm
-        code/Astar/Astar.cpp
-        code/Astar/Astar.h
-        code/Astar/main.cpp)
+        code/APF_2D_cpp/ArtificialPotential.h
+        code/APF_2D_cpp/ArtificialPotential.cpp)

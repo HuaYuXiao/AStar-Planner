@@ -24,7 +24,7 @@
 				<Option type="1"/>
 				<Option compiler="gcc"/>
 				<Compiler>
-					<Add directory="/Users/hyx020222/Documents/GitHub/Design-of-UAV-dynamic-obstacle-avoidance-algorithm/code/Astar"/>
+					<Add directory="/Users/hyx020222/Documents/GitHub/Design-of-UAV-dynamic-obstacle-avoidance-algorithm/code/APF_2D_cpp"/>
 					<Add directory="/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1"/>
 					<Add directory="/Library/Developer/CommandLineTools/usr/lib/clang/15.0.0/include"/>
 					<Add directory="/Library/Developer/CommandLineTools/usr/include"/>
@@ -45,7 +45,7 @@
 				<Option type="1"/>
 				<Option compiler="gcc"/>
 				<Compiler>
-					<Add directory="/Users/hyx020222/Documents/GitHub/Design-of-UAV-dynamic-obstacle-avoidance-algorithm/code/Astar"/>
+					<Add directory="/Users/hyx020222/Documents/GitHub/Design-of-UAV-dynamic-obstacle-avoidance-algorithm/code/APF_2D_cpp"/>
 					<Add directory="/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1"/>
 					<Add directory="/Library/Developer/CommandLineTools/usr/lib/clang/15.0.0/include"/>
 					<Add directory="/Library/Developer/CommandLineTools/usr/include"/>
@@ -80,13 +80,10 @@
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/Users/hyx020222/Documents/GitHub/Design-of-UAV-dynamic-obstacle-avoidance-algorithm/code/Astar/Astar.cpp">
+		<Unit filename="/Users/hyx020222/Documents/GitHub/Design-of-UAV-dynamic-obstacle-avoidance-algorithm/code/APF_2D_cpp/ArtificialPotential.cpp">
 			<Option target="Design_of_UAV_dynamic_obstacle_avoidance_algorithm"/>
 		</Unit>
-		<Unit filename="/Users/hyx020222/Documents/GitHub/Design-of-UAV-dynamic-obstacle-avoidance-algorithm/code/Astar/Astar.h">
-			<Option target="Design_of_UAV_dynamic_obstacle_avoidance_algorithm"/>
-		</Unit>
-		<Unit filename="/Users/hyx020222/Documents/GitHub/Design-of-UAV-dynamic-obstacle-avoidance-algorithm/code/Astar/main.cpp">
+		<Unit filename="/Users/hyx020222/Documents/GitHub/Design-of-UAV-dynamic-obstacle-avoidance-algorithm/code/APF_2D_cpp/ArtificialPotential.h">
 			<Option target="Design_of_UAV_dynamic_obstacle_avoidance_algorithm"/>
 		</Unit>
 		<Unit filename="/Users/hyx020222/Documents/GitHub/Design-of-UAV-dynamic-obstacle-avoidance-algorithm/CMakeLists.txt">
