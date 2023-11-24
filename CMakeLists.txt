@@ -8,4 +8,6 @@ include_directories(code/Astar)
 add_executable(Design_of_UAV_dynamic_obstacle_avoidance_algorithm
         code/Astar/Astar.cpp
         code/Astar/Astar.h
-        code/Astar/main.cpp)
+        code/Astar/main.cpp
+        源代码/APF_cpp/ArtificialPotential.h
+        源代码/APF_cpp/ArtificialPotential.cpp)
