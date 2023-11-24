@@ -1226,6 +1226,30 @@
 			"value" : "/Users/hyx020222/Documents/GitHub/Design-of-UAV-dynamic-obstacle-avoidance-algorithm"
 		},
 		{
+			"name" : "FIND_PACKAGE_MESSAGE_DETAILS_OpenCV",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "Details about finding OpenCV"
+				}
+			],
+			"type" : "INTERNAL",
+			"value" : "[/opt/homebrew/Cellar/opencv/4.8.1_4][v4.8.1()]"
+		},
+		{
+			"name" : "OpenCV_DIR",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "The directory containing a CMake configuration file for OpenCV."
+				}
+			],
+			"type" : "PATH",
+			"value" : "/opt/homebrew/lib/cmake/opencv4"
+		},
+		{
 			"name" : "ProcessorCount_cmd_sysctl",
 			"properties" : 
 			[

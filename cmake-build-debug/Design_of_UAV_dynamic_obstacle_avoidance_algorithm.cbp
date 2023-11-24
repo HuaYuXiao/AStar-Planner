@@ -5,7 +5,7 @@
 		<Option title="Design_of_UAV_dynamic_obstacle_avoidance_algorithm"/>
 		<Option makefile_is_custom="1"/>
 		<Option compiler="gcc"/>
-		<Option virtualFolders="CMake Files\;"/>
+		<Option virtualFolders="CMake Files\;CMake Files\..\;CMake Files\..\..\;CMake Files\..\..\..\;CMake Files\..\..\..\..\;CMake Files\..\..\..\..\..\;CMake Files\..\..\..\..\..\opt\;CMake Files\..\..\..\..\..\opt\homebrew\;CMake Files\..\..\..\..\..\opt\homebrew\lib\;CMake Files\..\..\..\..\..\opt\homebrew\lib\cmake\;CMake Files\..\..\..\..\..\opt\homebrew\lib\cmake\opencv4\;"/>
 		<Build>
 			<Target title="all">
 				<Option working_dir="/Users/hyx020222/Documents/GitHub/Design-of-UAV-dynamic-obstacle-avoidance-algorithm/cmake-build-debug"/>
@@ -25,6 +25,8 @@
 				<Option compiler="gcc"/>
 				<Compiler>
 					<Add directory="/Users/hyx020222/Documents/GitHub/Design-of-UAV-dynamic-obstacle-avoidance-algorithm/code/APF_2D_cpp"/>
+					<Add directory="/opt/homebrew/Cellar/opencv/4.8.1_4/include/opencv4/opencv2"/>
+					<Add directory="/opt/homebrew/Cellar/opencv/4.8.1_4/include/opencv4"/>
 					<Add directory="/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1"/>
 					<Add directory="/Library/Developer/CommandLineTools/usr/lib/clang/15.0.0/include"/>
 					<Add directory="/Library/Developer/CommandLineTools/usr/include"/>
@@ -46,6 +48,8 @@
 				<Option compiler="gcc"/>
 				<Compiler>
 					<Add directory="/Users/hyx020222/Documents/GitHub/Design-of-UAV-dynamic-obstacle-avoidance-algorithm/code/APF_2D_cpp"/>
+					<Add directory="/opt/homebrew/Cellar/opencv/4.8.1_4/include/opencv4/opencv2"/>
+					<Add directory="/opt/homebrew/Cellar/opencv/4.8.1_4/include/opencv4"/>
 					<Add directory="/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1"/>
 					<Add directory="/Library/Developer/CommandLineTools/usr/lib/clang/15.0.0/include"/>
 					<Add directory="/Library/Developer/CommandLineTools/usr/include"/>
@@ -80,14 +84,23 @@
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/Users/hyx020222/Documents/GitHub/Design-of-UAV-dynamic-obstacle-avoidance-algorithm/code/APF_2D_cpp/ArtificialPotential.cpp">
-			<Option target="Design_of_UAV_dynamic_obstacle_avoidance_algorithm"/>
-		</Unit>
-		<Unit filename="/Users/hyx020222/Documents/GitHub/Design-of-UAV-dynamic-obstacle-avoidance-algorithm/code/APF_2D_cpp/ArtificialPotential.h">
+		<Unit filename="/Users/hyx020222/Documents/GitHub/Design-of-UAV-dynamic-obstacle-avoidance-algorithm/code/APF_3D_cpp/APF.cpp">
 			<Option target="Design_of_UAV_dynamic_obstacle_avoidance_algorithm"/>
 		</Unit>
 		<Unit filename="/Users/hyx020222/Documents/GitHub/Design-of-UAV-dynamic-obstacle-avoidance-algorithm/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+		<Unit filename="/Users/hyx020222/Documents/GitHub/Design-of-UAV-dynamic-obstacle-avoidance-algorithm/../../../../../opt/homebrew/lib/cmake/opencv4/OpenCVConfig-version.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\opt\homebrew\lib\cmake\opencv4\"/>
+		</Unit>
+		<Unit filename="/Users/hyx020222/Documents/GitHub/Design-of-UAV-dynamic-obstacle-avoidance-algorithm/../../../../../opt/homebrew/lib/cmake/opencv4/OpenCVConfig.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\opt\homebrew\lib\cmake\opencv4\"/>
+		</Unit>
+		<Unit filename="/Users/hyx020222/Documents/GitHub/Design-of-UAV-dynamic-obstacle-avoidance-algorithm/../../../../../opt/homebrew/lib/cmake/opencv4/OpenCVModules-release.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\opt\homebrew\lib\cmake\opencv4\"/>
+		</Unit>
+		<Unit filename="/Users/hyx020222/Documents/GitHub/Design-of-UAV-dynamic-obstacle-avoidance-algorithm/../../../../../opt/homebrew/lib/cmake/opencv4/OpenCVModules.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\opt\homebrew\lib\cmake\opencv4\"/>
 		</Unit>
 	</Project>
 </CodeBlocks_project_file>

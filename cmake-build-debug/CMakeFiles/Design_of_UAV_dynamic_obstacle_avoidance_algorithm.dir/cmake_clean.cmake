@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/code/APF_2D_cpp/ArtificialPotential.cpp.o"
-  "CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/code/APF_2D_cpp/ArtificialPotential.cpp.o.d"
+  "CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/code/APF_3D_cpp/APF.cpp.o"
+  "CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/code/APF_3D_cpp/APF.cpp.o.d"
   "Design_of_UAV_dynamic_obstacle_avoidance_algorithm"
   "Design_of_UAV_dynamic_obstacle_avoidance_algorithm.pdb"
 )

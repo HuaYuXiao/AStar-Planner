@@ -1,4 +1,4 @@
 /Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" -S /Users/hyx020222/Documents/GitHub/Design-of-UAV-dynamic-obstacle-avoidance-algorithm -B /Users/hyx020222/Documents/GitHub/Design-of-UAV-dynamic-obstacle-avoidance-algorithm/cmake-build-debug
--- Configuring done (0.5s)
+-- Configuring done (0.1s)
 -- Generating done (0.0s)
 -- Build files have been written to: /Users/hyx020222/Documents/GitHub/Design-of-UAV-dynamic-obstacle-avoidance-algorithm/cmake-build-debug

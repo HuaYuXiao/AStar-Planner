@@ -230,6 +230,9 @@ Design_of_UAV_dynamic_obstacle_avoidance_algorithm_IS_TOP_LEVEL:STATIC=ON
 //Value Computed by CMake
 Design_of_UAV_dynamic_obstacle_avoidance_algorithm_SOURCE_DIR:STATIC=/Users/hyx020222/Documents/GitHub/Design-of-UAV-dynamic-obstacle-avoidance-algorithm
 
+//The directory containing a CMake configuration file for OpenCV.
+OpenCV_DIR:PATH=/opt/homebrew/lib/cmake/opencv4
+
 //Path to a program.
 ProcessorCount_cmd_sysctl:FILEPATH=/usr/sbin/sysctl
 
@@ -379,6 +382,8 @@ CMAKE_STRIP-ADVANCED:INTERNAL=1
 CMAKE_UNAME:INTERNAL=/usr/bin/uname
 //ADVANCED property for variable: CMAKE_VERBOSE_MAKEFILE
 CMAKE_VERBOSE_MAKEFILE-ADVANCED:INTERNAL=1
+//Details about finding OpenCV
+FIND_PACKAGE_MESSAGE_DETAILS_OpenCV:INTERNAL=[/opt/homebrew/Cellar/opencv/4.8.1_4][v4.8.1()]
 //ADVANCED property for variable: ProcessorCount_cmd_sysctl
 ProcessorCount_cmd_sysctl-ADVANCED:INTERNAL=1
 

@@ -129,29 +129,29 @@ Design_of_UAV_dynamic_obstacle_avoidance_algorithm/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/build.make CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/build
 .PHONY : Design_of_UAV_dynamic_obstacle_avoidance_algorithm/fast
 
-code/APF_2D_cpp/ArtificialPotential.o: code/APF_2D_cpp/ArtificialPotential.cpp.o
-.PHONY : code/APF_2D_cpp/ArtificialPotential.o
+code/APF_3D_cpp/APF.o: code/APF_3D_cpp/APF.cpp.o
+.PHONY : code/APF_3D_cpp/APF.o
 
 # target to build an object file
-code/APF_2D_cpp/ArtificialPotential.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/build.make CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/code/APF_2D_cpp/ArtificialPotential.cpp.o
-.PHONY : code/APF_2D_cpp/ArtificialPotential.cpp.o
+code/APF_3D_cpp/APF.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/build.make CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/code/APF_3D_cpp/APF.cpp.o
+.PHONY : code/APF_3D_cpp/APF.cpp.o
 
-code/APF_2D_cpp/ArtificialPotential.i: code/APF_2D_cpp/ArtificialPotential.cpp.i
-.PHONY : code/APF_2D_cpp/ArtificialPotential.i
+code/APF_3D_cpp/APF.i: code/APF_3D_cpp/APF.cpp.i
+.PHONY : code/APF_3D_cpp/APF.i
 
 # target to preprocess a source file
-code/APF_2D_cpp/ArtificialPotential.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/build.make CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/code/APF_2D_cpp/ArtificialPotential.cpp.i
-.PHONY : code/APF_2D_cpp/ArtificialPotential.cpp.i
+code/APF_3D_cpp/APF.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/build.make CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/code/APF_3D_cpp/APF.cpp.i
+.PHONY : code/APF_3D_cpp/APF.cpp.i
 
-code/APF_2D_cpp/ArtificialPotential.s: code/APF_2D_cpp/ArtificialPotential.cpp.s
-.PHONY : code/APF_2D_cpp/ArtificialPotential.s
+code/APF_3D_cpp/APF.s: code/APF_3D_cpp/APF.cpp.s
+.PHONY : code/APF_3D_cpp/APF.s
 
 # target to generate assembly for a file
-code/APF_2D_cpp/ArtificialPotential.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/build.make CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/code/APF_2D_cpp/ArtificialPotential.cpp.s
-.PHONY : code/APF_2D_cpp/ArtificialPotential.cpp.s
+code/APF_3D_cpp/APF.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/build.make CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/code/APF_3D_cpp/APF.cpp.s
+.PHONY : code/APF_3D_cpp/APF.cpp.s
 
 # Help Target
 help:
@@ -162,9 +162,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... Design_of_UAV_dynamic_obstacle_avoidance_algorithm"
-	@echo "... code/APF_2D_cpp/ArtificialPotential.o"
-	@echo "... code/APF_2D_cpp/ArtificialPotential.i"
-	@echo "... code/APF_2D_cpp/ArtificialPotential.s"
+	@echo "... code/APF_3D_cpp/APF.o"
+	@echo "... code/APF_3D_cpp/APF.i"
+	@echo "... code/APF_3D_cpp/APF.s"
 .PHONY : help
 
 
