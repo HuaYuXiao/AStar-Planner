@@ -69,47 +69,31 @@ include CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/progre
 # Include the compile flags for this target's objects.
 include CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/flags.make
 
-CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/code/Astar/Astar.cpp.o: CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/flags.make
-CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/code/Astar/Astar.cpp.o: /Users/hyx020222/Documents/GitHub/Design-of-UAV-dynamic-obstacle-avoidance-algorithm/code/Astar/Astar.cpp
-CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/code/Astar/Astar.cpp.o: CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/hyx020222/Documents/GitHub/Design-of-UAV-dynamic-obstacle-avoidance-algorithm/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/code/Astar/Astar.cpp.o"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/code/Astar/Astar.cpp.o -MF CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/code/Astar/Astar.cpp.o.d -o CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/code/Astar/Astar.cpp.o -c /Users/hyx020222/Documents/GitHub/Design-of-UAV-dynamic-obstacle-avoidance-algorithm/code/Astar/Astar.cpp
+CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/code/APF_2D_cpp/ArtificialPotential.cpp.o: CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/flags.make
+CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/code/APF_2D_cpp/ArtificialPotential.cpp.o: /Users/hyx020222/Documents/GitHub/Design-of-UAV-dynamic-obstacle-avoidance-algorithm/code/APF_2D_cpp/ArtificialPotential.cpp
+CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/code/APF_2D_cpp/ArtificialPotential.cpp.o: CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/hyx020222/Documents/GitHub/Design-of-UAV-dynamic-obstacle-avoidance-algorithm/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/code/APF_2D_cpp/ArtificialPotential.cpp.o"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/code/APF_2D_cpp/ArtificialPotential.cpp.o -MF CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/code/APF_2D_cpp/ArtificialPotential.cpp.o.d -o CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/code/APF_2D_cpp/ArtificialPotential.cpp.o -c /Users/hyx020222/Documents/GitHub/Design-of-UAV-dynamic-obstacle-avoidance-algorithm/code/APF_2D_cpp/ArtificialPotential.cpp
 
-CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/code/Astar/Astar.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/code/Astar/Astar.cpp.i"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/hyx020222/Documents/GitHub/Design-of-UAV-dynamic-obstacle-avoidance-algorithm/code/Astar/Astar.cpp > CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/code/Astar/Astar.cpp.i
+CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/code/APF_2D_cpp/ArtificialPotential.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/code/APF_2D_cpp/ArtificialPotential.cpp.i"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/hyx020222/Documents/GitHub/Design-of-UAV-dynamic-obstacle-avoidance-algorithm/code/APF_2D_cpp/ArtificialPotential.cpp > CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/code/APF_2D_cpp/ArtificialPotential.cpp.i
 
-CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/code/Astar/Astar.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/code/Astar/Astar.cpp.s"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/hyx020222/Documents/GitHub/Design-of-UAV-dynamic-obstacle-avoidance-algorithm/code/Astar/Astar.cpp -o CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/code/Astar/Astar.cpp.s
-
-CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/code/Astar/main.cpp.o: CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/flags.make
-CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/code/Astar/main.cpp.o: /Users/hyx020222/Documents/GitHub/Design-of-UAV-dynamic-obstacle-avoidance-algorithm/code/Astar/main.cpp
-CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/code/Astar/main.cpp.o: CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/hyx020222/Documents/GitHub/Design-of-UAV-dynamic-obstacle-avoidance-algorithm/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/code/Astar/main.cpp.o"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/code/Astar/main.cpp.o -MF CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/code/Astar/main.cpp.o.d -o CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/code/Astar/main.cpp.o -c /Users/hyx020222/Documents/GitHub/Design-of-UAV-dynamic-obstacle-avoidance-algorithm/code/Astar/main.cpp
-
-CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/code/Astar/main.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/code/Astar/main.cpp.i"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/hyx020222/Documents/GitHub/Design-of-UAV-dynamic-obstacle-avoidance-algorithm/code/Astar/main.cpp > CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/code/Astar/main.cpp.i
-
-CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/code/Astar/main.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/code/Astar/main.cpp.s"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/hyx020222/Documents/GitHub/Design-of-UAV-dynamic-obstacle-avoidance-algorithm/code/Astar/main.cpp -o CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/code/Astar/main.cpp.s
+CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/code/APF_2D_cpp/ArtificialPotential.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/code/APF_2D_cpp/ArtificialPotential.cpp.s"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/hyx020222/Documents/GitHub/Design-of-UAV-dynamic-obstacle-avoidance-algorithm/code/APF_2D_cpp/ArtificialPotential.cpp -o CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/code/APF_2D_cpp/ArtificialPotential.cpp.s
 
 # Object files for target Design_of_UAV_dynamic_obstacle_avoidance_algorithm
 Design_of_UAV_dynamic_obstacle_avoidance_algorithm_OBJECTS = \
-"CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/code/Astar/Astar.cpp.o" \
-"CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/code/Astar/main.cpp.o"
+"CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/code/APF_2D_cpp/ArtificialPotential.cpp.o"
 
 # External object files for target Design_of_UAV_dynamic_obstacle_avoidance_algorithm
 Design_of_UAV_dynamic_obstacle_avoidance_algorithm_EXTERNAL_OBJECTS =
 
-Design_of_UAV_dynamic_obstacle_avoidance_algorithm: CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/code/Astar/Astar.cpp.o
-Design_of_UAV_dynamic_obstacle_avoidance_algorithm: CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/code/Astar/main.cpp.o
+Design_of_UAV_dynamic_obstacle_avoidance_algorithm: CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/code/APF_2D_cpp/ArtificialPotential.cpp.o
 Design_of_UAV_dynamic_obstacle_avoidance_algorithm: CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/build.make
 Design_of_UAV_dynamic_obstacle_avoidance_algorithm: CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/hyx020222/Documents/GitHub/Design-of-UAV-dynamic-obstacle-avoidance-algorithm/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable Design_of_UAV_dynamic_obstacle_avoidance_algorithm"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/hyx020222/Documents/GitHub/Design-of-UAV-dynamic-obstacle-avoidance-algorithm/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable Design_of_UAV_dynamic_obstacle_avoidance_algorithm"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/Design_of_UAV_dynamic_obstacle_avoidance_algorithm.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
