@@ -1,7 +1,50 @@
-function drawCube(position)
-    % 绘制方块障碍物
-    x = [position(1), position(1), position(1) + position(4), position(1) + position(4), position(1)];
-    y = [position(2), position(2) + position(5), position(2) + position(5), position(2), position(2)];
-    z = [position(3), position(3), position(3), position(3), position(3)];
-    fill3(x, y, z, 'b');
+function drawCube(position, s)
+    %正方体的八个顶点的坐标 
+    v1 = position + [-s/2, -s/2, -s/2]; 
+    v2 = position + [s/2, -s/2, -s/2]; 
+    v3 = position + [s/2, s/2, -s/2]; 
+    v4 = position + [-s/2, s/2, -s/2]; 
+    v5 = position + [-s/2, -s/2, s/2]; 
+    v6 = position + [s/2, -s/2, s/2]; 
+    v7 = position + [s/2, s/2, s/2]; 
+    v8 = position + [-s/2, s/2, s/2]; 
+
+    %正方体的六个面的坐标 
+    %下面
+    x1 = [v1(1), v2(1), v3(1), v4(1)]; 
+    y1 = [v1(2), v2(2), v3(2), v4(2)]; 
+    z1 = [v1(3), v2(3), v3(3), v4(3)]; 
+
+    %上面
+    x2 = [v5(1), v6(1), v7(1), v8(1)];    
+    y2 = [v5(2), v6(2), v7(2), v8(2)]; 
+    z2 = [v5(3), v6(3), v7(3), v8(3)]; 
+    
+    %前面 
+    x3 = [v1(1), v2(1), v6(1), v5(1)]; 
+    y3 = [v1(2), v2(2), v6(2), v5(2)]; 
+    z3 = [v1(3), v2(3), v6(3), v5(3)]; 
+    
+    %后面
+    x4 = [v4(1), v3(1), v7(1), v8(1)];  
+    y4 = [v4(2), v3(2), v7(2), v8(2)]; 
+    z4 = [v4(3), v3(3), v7(3), v8(3)]; 
+    
+    %右面
+    x5 = [v2(1), v3(1), v7(1), v6(1)];  
+    y5 = [v2(2), v3(2), v7(2), v6(2)]; 
+    z5 = [v2(3), v3(3), v7(3), v6(3)]; 
+    
+    %左面 
+    x6 = [v1(1), v4(1), v8(1), v5(1)]; 
+    y6 = [v1(2), v4(2), v8(2), v5(2)]; 
+    z6 = [v1(3), v4(3), v8(3), v5(3)]; 
+
+    %绘制正方体 
+    fill3(x1, y1, z1, 'r', ...
+        x2, y2, z2, 'r', ...
+        x3, y3, z3, 'r', ...
+        x4, y4, z4, 'r', ...
+        x5, y5, z5, 'r', ...
+        x6, y6, z6, 'r')
 end
