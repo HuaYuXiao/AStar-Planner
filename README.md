@@ -1,6 +1,6 @@
 # 动态环境下无人机主动避障技术研究 
 
-![Static Badge](https://img.shields.io/endpoint?url=https%3A%2F%2Fhits.dwyl.com%2FHuaYuXiao%2FUAV-Obstacle-Avoidance-System-for-Complex-Environment-Based-on-A-and-Other-Algorithms.json%3Fcolor%3Dpink)
+![HitCount](https://img.shields.io/endpoint?url=https%3A%2F%2Fhits.dwyl.com%2FHuaYuXiao%2FUAV-Obstacle-Avoidance-System-for-Complex-Environment-Based-on-A-and-Other-Algorithms.json%3Fcolor%3Dpink)
 ![Static Badge](https://img.shields.io/badge/ROS-noetic-blue?logo=ros)
 ![Static Badge](https://img.shields.io/badge/Ubuntu-22.04-red?logo=ubuntu)
 ![Static Badge](https://img.shields.io/badge/C%2B%2B-14-blue?logo=cplusplus)
