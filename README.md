@@ -1,7 +1,6 @@
 # 动态环境下无人机主动避障技术研究
 
 ![Static Badge](https://img.shields.io/badge/C%2B%2B-14-blue?logo=cplusplus)
-![Static Badge](https://img.shields.io/badge/C-blue?logo=c)
 ![Static Badge](https://img.shields.io/badge/Matlab-2023b-blue)
 ![Static Badge](https://img.shields.io/badge/Python-3.9.13-blue?logo=python)
 ![Static Badge](https://img.shields.io/badge/CMake-3.26.4-blue?logo=cmake)
