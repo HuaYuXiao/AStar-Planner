@@ -3,10 +3,10 @@ project(Design_of_UAV_dynamic_obstacle_avoidance_algorithm)
 
 set(CMAKE_CXX_STANDARD 14)
 
-include_directories(code/APF_2D_cpp)
+include_directories(code/APF_2D_point_cpp)
 
 add_executable(APF_3D
-        code/APF_3D_cpp/APF_3D.cpp
+        code/APF_3D_point_cpp/APF_3D.cpp
 )
 
 find_package(OpenCV REQUIRED COMPONENTS core highgui viz)

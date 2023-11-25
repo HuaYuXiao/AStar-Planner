@@ -1,5 +1,5 @@
 % Artificial Potential Field（APF）avoiding obstacle path
-function path = APF3D(start,goal,obstacle)
+function path = APF3D(start, goal, obstacle)
     %%APF参数初始化
     %引力增益系数
     att = 30;
@@ -12,7 +12,7 @@ function path = APF3D(start,goal,obstacle)
     %最大循环迭代次数
     maxIter = 200;
     %障碍物个数
-    n = length(obstacle(:,1));
+    num = length(obstacle(:,1));
     
     %路径初始化
     path = start;
@@ -27,16 +27,16 @@ function path = APF3D(start,goal,obstacle)
         P_att = att * V_att;
         
         %% 斥力计算
-        %改进的人工势场法，将斥力分散一部分到引力方向。通过添加随机扰动r_att^n实现，r_att为路径点到目标点的欧氏距离，本文n取2。
-        V_req = zeros(n,3);
-        for j =1:n
+        %改进的人工势场法，将斥力分散一部分到引力方向。通过添加随机扰动r_att^n实现，r_att为路径点到目标点的欧氏距离
+        V_req = zeros(num,3);
+        for j =1:num
             %路径点到各个障碍物的向量
             V_req(j,:) = [obstacle(j,1) - newNode(1), obstacle(j,2) - newNode(2), obstacle(j,3) - newNode(3)];
             %路径点到各个障碍物的欧氏距离
-            r_req(j) = sqrt(V_req(j,1)* V_req(j,1) + V_req(j,2)* V_req(j,2) + V_req(j,3)* V_req(j,3));
+            r_req(j) = sqrt(V_req(j,1)^2 + V_req(j,2)^2 + V_req(j,3)^2);
         end   
         P_req = 0;
-        for k = 1:n
+        for k = 1:num
             if r_req(k) <= p0
                 %斥力分量1：障碍物指向路径点的斥力
                 P_req1 = req * (1 / r_req(k) - 1 / p0) * r_att^2 / r_req(k)^2;
