@@ -4,6 +4,7 @@
 ![Static Badge](https://img.shields.io/badge/ROS-melodic-22314E?logo=ros)
 ![Static Badge](https://img.shields.io/badge/Ubuntu-18.04.6-E95420?logo=ubuntu)
 ![Static Badge](https://img.shields.io/badge/C%2B%2B-14-00599C?logo=cplusplus)
+![Static Badge](https://img.shields.io/badge/Python-2.7.17-3776AB?logo=python)
 ![Static Badge](https://img.shields.io/badge/Matlab-2023b-salmon)
 ![Static Badge](https://img.shields.io/badge/CMake-3.26.4-064F8C?logo=cmake)
 
