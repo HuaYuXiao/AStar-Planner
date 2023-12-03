@@ -38,3 +38,6 @@ set capture width 640
 VIDEOIO ERROR: V4L: Unable to get camera FPS
 [ INFO] [1701582420.766926648]: Camera 0 opened, resolution: 1920 x 1080, fps: -1
 ```
+
+![image](https://github.com/HuaYuXiao/UAV-Dynamic-Obstacle-Avoidance-Based-on-APF/assets/117464811/a396f1d2-2a44-4581-bb95-dc28aa306172)
+
