@@ -1,5 +1,4 @@
 
-
 ```
 ... logging to /home/amov/.ros/log/ba34ff88-91bb-11ee-9d82-48b02d67bcf5/roslaunch-amov-15340.log
 Checking log directory for disk usage. This may take a while.
@@ -141,4 +140,40 @@ process[t265/realsense2_camera-3]: started with pid [15387]
 [ INFO] [1701594601.429806779]: insert Pose to Tracking Module
 [ INFO] [1701594601.461938941]: SELECTED BASE:Pose, 0
 [ INFO] [1701594601.482328562]: RealSense Node Is Up!
+```
+
+```
+header: 
+  seq: 50627
+  stamp: 
+    secs: 1701594855
+    nsecs:  56689978
+  frame_id: "t265_odom_frame"
+child_frame_id: "t265_pose_frame"
+pose: 
+  pose: 
+    position: 
+      x: 7.40704563214e-05
+      y: -0.000107858519186
+      z: -6.98743315297e-05
+    orientation: 
+      x: 0.0116495192051
+      y: 0.047474257648
+      z: 0.000143731449498
+      w: 0.998804569244
+  covariance: [0.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.001, 0.0, 0
+.0, 0.0, 0.0, 0.0, 0.0, 0.001, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.001]
+twist: 
+  twist: 
+    linear: 
+      x: 0.00128825833631
+      y: -0.00328097023471
+      z: -0.0028903519471
+    angular: 
+      x: -0.00560505770556
+      y: 0.000531680910988
+      z: -0.000608012573227
+  covariance: [0.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.001, 0.0, 0
+.0, 0.0, 0.0, 0.0, 0.0, 0.001, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.001]
+---
 ```
