@@ -10,8 +10,5 @@
 
 ## Introduction
 
-从Prometheus450无人机搭载的T265双目相机、D435i深度相机感知环境中的障碍物，并设计人工势场算法实时规划运动路径，控制无人机安全稳定地到达目的地。
+从Prometheus450无人机搭载的T265双目相机和LDS-50-3C激光雷达感知环境中的障碍物，并设计人工势场算法实时规划运动路径，控制无人机安全稳定地到达目的地。
 
-## Documents
-
-[Online document for UAV](https://wiki.amovlab.com/public/prometheuswiki/P450%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C.html)
