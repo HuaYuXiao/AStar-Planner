@@ -1,29 +1,35 @@
 cmake_minimum_required(VERSION 3.26.4)
-project(Design_of_UAV_dynamic_obstacle_avoidance_algorithm)
+project(UAV_dynamic_obstacle_avoidance)
 
 set(CMAKE_CXX_STANDARD 14)
 
-include_directories(code/APF_2D_point_cpp)
+include_directories(
+        scripts/APF_2D_point_cpp
+)
 
-add_executable(APF_3D
-        code/APF_3D_point_cpp/APF_3D.cpp
+add_executable(readT265
+        source/readT265.cpp
+)
+add_executable(APF_3D_point
+        scripts/APF_3D_point_cpp/APF_3D.cpp
 )
 
 find_package(OpenCV REQUIRED COMPONENTS core highgui viz)
+find_package(realsense2 REQUIRED)
+
 
 # 包含OpenCV头文件路径
 include_directories(
         /opt/homebrew/Cellar/opencv/4.8.1_4/include/opencv4/opencv2
-        /opt/homebrew/Cellar/vtk/9.2.6_5/include/vtk-9.2
 )
 
 # 添加额外的库文件路径
 link_directories(
         /opt/homebrew/Cellar/opencv/4.8.1_4/lib
-        /opt/homebrew/Cellar/vtk/9.2.6_5/lib
 )
 
-target_link_libraries(APF_3D
+target_link_libraries(readT265
         ${OpenCV_LIBS}
-#        vtkCommonCore vtkCommonDataModel vtkRenderingCore vtkRenderingOpenGL2
+        ${realsense2_LIBRARY}
 )
+
