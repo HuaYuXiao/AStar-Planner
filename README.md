@@ -19,4 +19,6 @@
 
 ## 谢辞
 
-特别感谢哈尔滨工业大学MASLAB团队提供的场地支持！
+特别感谢 [HITSZ-MAS](https://github.com/HITSZ-MAS) 提供的场地支持！
+
+
