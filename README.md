@@ -37,7 +37,7 @@ roslaunch p450_experiment p450_vio_control.launch
 ### 启动自主降落脚本
 
 ```bash
-roslaunch p450_experiment p450_vio_control.launch
+roslaunch p450_experiment p450_indoor_landing_static_target.launch
 ```
 
 ### 将图像检测显示出来
