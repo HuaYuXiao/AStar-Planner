@@ -22,30 +22,47 @@
 
 ## 重要指令
 
-### 启动基本vio脚本
+### 室内指点飞行
+
+#### 启动基本vio脚本
 
 ```bash
 roslaunch p450_experiment p450_vio_onboard.launch
 ```
 
-### 启动控制脚本
+#### 启动控制脚本
 
 ```bash
 roslaunch p450_experiment p450_vio_control.launch
 ```
 
-### 启动自主降落脚本
+### 室内自主避障
+
+#### 
+
+```bash
+roslaunch p450_experiment astar_onboard.launch
+```
+
+####
+
+```bash
+roslaunch p450_experiment astar_ground.launch
+```
+
+### 室内自主降落
+
+#### 启动自主降落脚本
 
 ```bash
 roslaunch p450_experiment p450_indoor_landing_static_target.launch
 ```
 
-### 将图像检测显示出来
+#### 将图像检测显示出来
 
 ```bash
 rqt_image_view
 ```
-
 
 
 ## 谢辞
