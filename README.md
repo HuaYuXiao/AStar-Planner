@@ -22,6 +22,7 @@
 
 ## 重要指令
 
+<!--
 ### 室内指点飞行
 
 #### 启动基本vio脚本
@@ -35,6 +36,7 @@ roslaunch p450_experiment p450_vio_onboard.launch
 ```bash
 roslaunch p450_experiment p450_vio_control.launch
 ```
+-->
 
 ### 室内自主避障
 
@@ -50,6 +52,15 @@ roslaunch p450_experiment astar_onboard.launch
 roslaunch p450_experiment astar_ground.launch
 ```
 
+### EGOPlanner
+
+#### 
+
+```bash
+/home/amov/amovlab_ws/src/p450_experiment/ego_sh/ego.sh
+```
+
+<!--
 ### 室内自主降落
 
 #### 启动自主降落脚本
@@ -63,7 +74,7 @@ roslaunch p450_experiment p450_indoor_landing_static_target.launch
 ```bash
 rqt_image_view
 ```
-
+-->
 
 ## 谢辞
 
