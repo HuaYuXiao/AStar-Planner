@@ -22,6 +22,7 @@
 
 ## 重要指令
 
+<!--
 ### 室内指点飞行
 
 #### 启动基本vio脚本
@@ -35,21 +36,59 @@ roslaunch p450_experiment p450_vio_onboard.launch
 ```bash
 roslaunch p450_experiment p450_vio_control.launch
 ```
+-->
 
 ### 室内自主避障
 
-#### 
+#### Astar（实物）
 
 ```bash
 roslaunch p450_experiment astar_onboard.launch
 ```
 
-####
-
 ```bash
 roslaunch p450_experiment astar_ground.launch
 ```
 
+参考：
+
+- [进阶功能-室内自主避障](https://wiki.amovlab.com/public/prometheuswiki/P450%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C/%E8%BF%9B%E9%98%B6%E5%8A%9F%E8%83%BD-%E5%AE%A4%E5%86%85%E8%87%AA%E4%B8%BB%E9%81%BF%E9%9A%9C.html)
+
+#### EGOPlanner（仿真）
+
+In a terminal at the ego-planner/ folder, open the rviz for visuallization and interactions
+
+```bash
+source devel/setup.bash
+```
+
+```bash
+roslaunch ego_planner rviz.launch
+```
+
+In another terminal at the ego-planner/, run the planner in simulation by
+
+```bash
+source devel/setup.bash
+```
+
+```bash
+roslaunch ego_planner run_in_sim.launch
+```
+
+以下已弃用：
+
+```bash
+/home/amov/amovlab_ws/src/p450_experiment/ego_sh/ego.sh
+```
+
+## 参考
+
+- [ZJU-FAST-Lab/ego-planner](https://github.com/ZJU-FAST-Lab/ego-planner)
+- [课时2 EGO-Planner复现](https://bbs.amovlab.com/plugin.php?id=zhanmishu_video:video&mod=video&cid=63&vid=1154)
+- [EGO-Planner论文阅读笔记](https://zhuanlan.zhihu.com/p/366372048)
+
+<!--
 ### 室内自主降落
 
 #### 启动自主降落脚本
@@ -63,6 +102,7 @@ roslaunch p450_experiment p450_indoor_landing_static_target.launch
 ```bash
 rqt_image_view
 ```
+-->
 
 
 ## 谢辞
