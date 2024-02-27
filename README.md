@@ -26,10 +26,14 @@
 
 > Using both a RealSense D435i sensor and a RealSense T265 sensor can provide both the maps and the better quality visual odometry for developing a full SLAM system. The D435i used for the mapping, and the T265 for the tracking.
 
-NOTICE: Installation of rtabmap is required for using this launch file
+NOTICE: Installation of `rtabmap` is required for using this launch file
 
 ```bash
-amov@amov:~$ sudo apt-get install ros-melodic-rtabmap-ros
+sudo apt-get install ros-melodic-rtabmap-ros
+```
+
+```bash
+roslaunch realsense2_camera rs_rtabmap.launch
 ```
 
 
