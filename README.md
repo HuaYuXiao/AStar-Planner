@@ -146,3 +146,4 @@ roslaunch ego_planner run_in_sim.launch
 
 - 感谢[陈亮名老师](https://faculty.sustech.edu.cn/?tagid=chenlm6&iscss=1&snapid=1&orderby=date&go=1)提供的技术指导😊！
 - 感谢[哈工深MASLAB](https://github.com/HITSZ-MAS)提供的场地支持😊！
+- 感谢刘嘉雯、李奥兄、方尧等师兄师姐的支持😊！
