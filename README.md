@@ -26,7 +26,7 @@
 
 > Using both a RealSense D435i sensor and a RealSense T265 sensor can provide both the maps and the better quality visual odometry for developing a full SLAM system. The D435i used for the mapping, and the T265 for the tracking.
 
-NOTICE: Installation of `rtabmap` is required for using this launch file
+**NOTICE**: Installation of `rtabmap` is required for using this launch file
 
 ```bash
 sudo apt-get install ros-melodic-rtabmap-ros
@@ -36,6 +36,7 @@ sudo apt-get install ros-melodic-rtabmap-ros
 roslaunch realsense2_camera rs_rtabmap.launch
 ```
 
+**2024年2月28日更新**：`rtabmap`涉及到RGB-D，该机器不具备直接获取深度数据的能力，因此该方案废弃。
 
 参考：
 - [Introduction to Intel® RealSense™ Visual SLAM and the T265 Tracking Camera](https://dev.intelrealsense.com/docs/intel-realsensetm-visual-slam-and-the-t265-tracking-camera)
@@ -62,18 +63,16 @@ roslaunch p450_experiment astar_ground.launch
 
 
 
-<!--
-## 其他指令
 
 ### 室内指点飞行
 
-#### 启动基本vio脚本
+启动基本vio脚本
 
 ```bash
 roslaunch p450_experiment p450_vio_onboard.launch
 ```
 
-#### 启动控制脚本
+启动控制脚本
 
 ```bash
 roslaunch p450_experiment p450_vio_control.launch
@@ -81,13 +80,13 @@ roslaunch p450_experiment p450_vio_control.launch
 
 ### 室内自主降落
 
-#### 启动自主降落脚本
+启动自主降落脚本
 
 ```bash
 roslaunch p450_experiment p450_indoor_landing_static_target.launch
 ```
 
-#### 将图像检测显示出来
+将图像检测显示出来
 
 ```bash
 rqt_image_view
@@ -133,7 +132,7 @@ roslaunch ego_planner run_in_sim.launch
 /home/amov/amovlab_ws/src/p450_experiment/ego_sh/ego.sh
 ```
 
-2024年2月26日更新：板载计算机性能不够，无法完成编译。
+**2024年2月26日更新**：板载计算机性能不够，无法完成编译。
 
 参考：
 - [ZJU-FAST-Lab/ego-planner](https://github.com/ZJU-FAST-Lab/ego-planner)
