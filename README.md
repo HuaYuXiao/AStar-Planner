@@ -52,7 +52,8 @@ roslaunch realsense2_camera rs_rtabmap.launch
 
 参考：
 - ⭐[【无人机自主导航5 SLAM】Intel Realsense T265C双目相机实现ORB-SLAM3](https://dgzc.ganahe.top/ganahe/2021/wrjzzdhsjirtsmxj.html)
-
+- ⭐[ubuntu18.04 从0开始运行ORB_SLAM2](https://www.bilibili.com/video/BV1hQ4y127xJ)
+- Carlos Campos, Richard Elvira, Juan J. Gómez Rodríguez, José M. M. Montiel and Juan D. Tardós, ORB-SLAM3: An Accurate Open-Source Library for Visual, Visual-Inertial and Multi-Map SLAM, IEEE Transactions on Robotics 37(6):1874-1890, Dec. 2021.
 
 ### 导航
 
