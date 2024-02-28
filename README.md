@@ -26,6 +26,9 @@
 
 > Using both a RealSense D435i sensor and a RealSense T265 sensor can provide both the maps and the better quality visual odometry for developing a full SLAM system. The D435i used for the mapping, and the T265 for the tracking.
 
+
+#### 方案一：rtabmap
+
 **NOTICE**: Installation of `rtabmap` is required for using this launch file
 
 ```bash
@@ -43,8 +46,17 @@ roslaunch realsense2_camera rs_rtabmap.launch
 - [Intel RealSense 3D Camera for Robotics & SLAM (with code)](https://www.robotsforroboticists.com/realsense-usage-robotics-slam/)
 - [SLAM模块(Prometheus/Modules/slam)](https://docs.amovlab.com/prometheuswiki/#/src/P450%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C/%E8%BD%AF%E4%BB%B6%E4%BB%8B%E7%BB%8D?id=slam%e6%a8%a1%e5%9d%97prometheusmodulesslam-)
 
+#### 方案二：ORB_SLAM3
 
-### Astar
+
+
+参考：
+- ⭐[【无人机自主导航5 SLAM】Intel Realsense T265C双目相机实现ORB-SLAM3](https://dgzc.ganahe.top/ganahe/2021/wrjzzdhsjirtsmxj.html)
+
+
+### 导航
+
+#### 方案一：Astar
 
 ```bash
 roslaunch p450_experiment astar_onboard.launch
@@ -55,11 +67,11 @@ roslaunch p450_experiment astar_ground.launch
 ```
 
 参考：
-- [进阶功能-室内自主避障](https://wiki.amovlab.com/public/prometheuswiki/P450%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C/%E8%BF%9B%E9%98%B6%E5%8A%9F%E8%83%BD-%E5%AE%A4%E5%86%85%E8%87%AA%E4%B8%BB%E9%81%BF%E9%9A%9C.html)
+- ⭐[进阶功能-室内自主避障](https://wiki.amovlab.com/public/prometheuswiki/P450%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C/%E8%BF%9B%E9%98%B6%E5%8A%9F%E8%83%BD-%E5%AE%A4%E5%86%85%E8%87%AA%E4%B8%BB%E9%81%BF%E9%9A%9C.html)
 
 
 
-### [APF](https://zh.wikipedia.org/zh-cn/%E4%BA%BA%E5%B7%A5%E5%8A%BF%E5%9C%BA%E6%B3%95)
+#### 方案二：[APF](https://zh.wikipedia.org/zh-cn/%E4%BA%BA%E5%B7%A5%E5%8A%BF%E5%9C%BA%E6%B3%95)
 
 
 
@@ -136,7 +148,7 @@ roslaunch ego_planner run_in_sim.launch
 
 参考：
 - [ZJU-FAST-Lab/ego-planner](https://github.com/ZJU-FAST-Lab/ego-planner)
-- [课时2 EGO-Planner复现](https://bbs.amovlab.com/plugin.php?id=zhanmishu_video:video&mod=video&cid=63&vid=1154)
+- ⭐[课时2 EGO-Planner复现](https://bbs.amovlab.com/plugin.php?id=zhanmishu_video:video&mod=video&cid=63&vid=1154)
 - [EGO-Planner论文阅读笔记](https://zhuanlan.zhihu.com/p/366372048)
 
 
