@@ -26,14 +26,49 @@
 
 > Using both a RealSense D435i sensor and a RealSense T265 sensor can provide both the maps and the better quality visual odometry for developing a full SLAM system. The D435i used for the mapping, and the T265 for the tracking.
 
+#### 方案1：Cartographer
 
-#### 方案一：rtabmap
+> Cartographer is a system that provides real-time simultaneous localization and mapping (SLAM) in 2D and 3D across multiple platforms and sensor configurations.
+
+开始建图
+
+```bash
+roslaunch cartographer_ros ~/cartographer_ws/src/cartographer_ros/cartographer_ros/launch/demo_backpack_3d.launch
+```
+
+结束建图
+
+```bash
+rosservice call /finish_trajectory 0
+```
+
+```bash
+rosservice call /write_state "{filename: '~/map.pbstream'}"
+```
+
+参考：
+- ⭐[手把手教你编译cartographer](https://www.bilibili.com/video/BV19P4y1X7Hj)
+- [Cartographer](https://google-cartographer.readthedocs.io/en/latest/)
+
+#### 方案2：ORB_SLAM3
+
+
+
+参考：
+- ⭐[【无人机自主导航5 SLAM】Intel Realsense T265C双目相机实现ORB-SLAM3](https://dgzc.ganahe.top/ganahe/2021/wrjzzdhsjirtsmxj.html)
+- ⭐[ubuntu18.04 从0开始运行ORB_SLAM2](https://www.bilibili.com/video/BV1hQ4y127xJ)
+- Carlos Campos, Richard Elvira, Juan J. Gómez Rodríguez, José M. M. Montiel and Juan D. Tardós, ORB-SLAM3: An Accurate Open-Source Library for Visual, Visual-Inertial and Multi-Map SLAM, IEEE Transactions on Robotics 37(6):1874-1890, Dec. 2021.
+
+
+#### 方案3：rtabmap
 
 **NOTICE**: Installation of `rtabmap` is required for using this launch file
 
+<!--
 ```bash
 sudo apt-get install ros-melodic-rtabmap-ros
 ```
+-->
 
 ```bash
 roslaunch realsense2_camera rs_rtabmap.launch
@@ -46,18 +81,11 @@ roslaunch realsense2_camera rs_rtabmap.launch
 - [Intel RealSense 3D Camera for Robotics & SLAM (with code)](https://www.robotsforroboticists.com/realsense-usage-robotics-slam/)
 - [SLAM模块(Prometheus/Modules/slam)](https://docs.amovlab.com/prometheuswiki/#/src/P450%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C/%E8%BD%AF%E4%BB%B6%E4%BB%8B%E7%BB%8D?id=slam%e6%a8%a1%e5%9d%97prometheusmodulesslam-)
 
-#### 方案二：ORB_SLAM3
 
-
-
-参考：
-- ⭐[【无人机自主导航5 SLAM】Intel Realsense T265C双目相机实现ORB-SLAM3](https://dgzc.ganahe.top/ganahe/2021/wrjzzdhsjirtsmxj.html)
-- ⭐[ubuntu18.04 从0开始运行ORB_SLAM2](https://www.bilibili.com/video/BV1hQ4y127xJ)
-- Carlos Campos, Richard Elvira, Juan J. Gómez Rodríguez, José M. M. Montiel and Juan D. Tardós, ORB-SLAM3: An Accurate Open-Source Library for Visual, Visual-Inertial and Multi-Map SLAM, IEEE Transactions on Robotics 37(6):1874-1890, Dec. 2021.
 
 ### 导航
 
-#### 方案一：Astar
+#### 方案1：Astar
 
 ```bash
 roslaunch p450_experiment astar_onboard.launch
@@ -72,7 +100,7 @@ roslaunch p450_experiment astar_ground.launch
 
 
 
-#### 方案二：[APF](https://zh.wikipedia.org/zh-cn/%E4%BA%BA%E5%B7%A5%E5%8A%BF%E5%9C%BA%E6%B3%95)
+#### 方案2：[APF](https://zh.wikipedia.org/zh-cn/%E4%BA%BA%E5%B7%A5%E5%8A%BF%E5%9C%BA%E6%B3%95)
 
 
 
@@ -121,9 +149,11 @@ C++或MATLAB，2D或3D。
 
 In a terminal at the ego-planner/ folder, open the rviz for visuallization and interactions
 
+<!--
 ```bash
 source devel/setup.bash
 ```
+-->
 
 ```bash
 roslaunch ego_planner rviz.launch
@@ -131,9 +161,11 @@ roslaunch ego_planner rviz.launch
 
 In another terminal at the ego-planner/, run the planner in simulation by
 
+<!--
 ```bash
 source devel/setup.bash
 ```
+-->
 
 ```bash
 roslaunch ego_planner run_in_sim.launch
@@ -153,6 +185,11 @@ roslaunch ego_planner run_in_sim.launch
 - [EGO-Planner论文阅读笔记](https://zhuanlan.zhihu.com/p/366372048)
 
 
+## 支线任务
+
+- 航模电池续航及充电问题
+- 在ARM64架构的Ubuntu18上安装运行Clash for Windows
+- 下载安装localsend，提高文件传输效率
 
 ## 谢辞
 
