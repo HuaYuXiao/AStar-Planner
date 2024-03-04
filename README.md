@@ -48,7 +48,8 @@ rosservice call /write_state "{filename: '~/map.pbstream'}"
 
 参考：
 - ⭐[手把手教你编译cartographer](https://www.bilibili.com/video/BV19P4y1X7Hj)
-- [Cartographer](https://google-cartographer.readthedocs.io/en/latest/)
+- [Cartographer ROS Integration](https://google-cartographer-ros.readthedocs.io/en/latest/)
+- [cartographer-project/cartographer_ros](https://github.com/cartographer-project/cartographer_ros)
 
 #### 方案2：ORB_SLAM3
 
@@ -137,15 +138,18 @@ rqt_image_view
 
 ## 仿真实验
 
-### Astar
+### SLAM（Cartographer）
+
+```bash
+roslaunch cartographer_ros demo_backpack_3d.launch bag_filename:=${HOME}/Downloads/b3-2016-04-05-14-14-00.bag
+```
+
+
+### 导航（APF）
 
 C++或MATLAB，2D或3D。
 
-### APF
-
-C++或MATLAB，2D或3D。
-
-### EGOPlanner
+### 导航（EGOPlanner）
 
 In a terminal at the ego-planner/ folder, open the rviz for visuallization and interactions
 
@@ -193,6 +197,6 @@ roslaunch ego_planner run_in_sim.launch
 
 ## 谢辞
 
-- 感谢[陈亮名老师](https://faculty.sustech.edu.cn/?tagid=chenlm6&iscss=1&snapid=1&orderby=date&go=1)提供的技术指导😊！
+- 感谢[陈亮名](https://faculty.sustech.edu.cn/?tagid=chenlm6&iscss=1&snapid=1&orderby=date&go=1)副教授提供的技术指导😊！
 - 感谢[哈工深MASLAB](https://github.com/HITSZ-MAS)提供的场地支持😊！
-- 感谢刘嘉雯、李奥兄、方尧等师兄师姐的支持😊！
+- 感谢刘嘉雯、[崔宝艺](https://hitsz-mas.github.io/mas-lab-website/members/phd-2023-baoyi-cui.html)、[李奥淇](https://hitsz-mas.github.io/mas-lab-website/members/grad-2022-aoqi-li.html)、[方尧](https://hitsz-mas.github.io/mas-lab-website/members/grad-2023-yao-fang.html)等师兄师姐的支持😊！
