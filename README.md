@@ -1,11 +1,10 @@
 # 四旋翼室内建图与动态避障 ![logo200x60](https://github.com/HuaYuXiao/UAV-Dynamic-Obstacle-Avoidance/assets/117464811/88415d13-8c7c-4d5c-a3e7-04f02d7b746d)
 
-
 ![HitCount](https://img.shields.io/endpoint?url=https%3A%2F%2Fhits.dwyl.com%2FHuaYuXiao%2FUAV-Dynamic-Obstacle-Avoidance.json%3Fcolor%3Dpink)
 ![Static Badge](https://img.shields.io/badge/ROS-melodic-22314E?logo=ros)
 ![Static Badge](https://img.shields.io/badge/Ubuntu-18.04.6-E95420?logo=ubuntu)
 ![Static Badge](https://img.shields.io/badge/C%2B%2B-11-00599C?logo=cplusplus)
-![Static Badge](https://img.shields.io/badge/Matlab-2023b-salmon)
+![Static Badge](https://img.shields.io/badge/MATLAB-2023b-salmon)
 ![Static Badge](https://img.shields.io/badge/NVIDIA-Jetson_Nano-76B900?LOGO=nvidia)
 <!--
 ![Static Badge](https://img.shields.io/badge/Python-2.7.17-3776AB?logo=python)
@@ -13,11 +12,9 @@
 -->
 
 
-## 简介
-
 从[Prometheus450无人机](https://wiki.amovlab.com/public/prometheuswiki/P450%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C.html)✈搭载的[T265双目相机](https://www.intel.cn/content/www/cn/zh/products/sku/192742/intel-realsense-tracking-camera-t265/specifications.html)和[LDS-50C-3激光雷达](https://www.pacecat.com/lds-50c.html)感知环境中的障碍物，并设计各种路径规划算法实时规划运动路径，控制无人机安全稳定地到达目的地。
 
-建图部分请前往另一个仓库：https://github.com/HuaYuXiao/octomapping
+**NOTICE**：建图部分请前往另一个仓库：https://github.com/HuaYuXiao/octomapping
 
 
 ## 实物实验
@@ -113,7 +110,7 @@ roslaunch ego_planner run_in_sim.launch
 /home/amov/amovlab_ws/src/p450_experiment/ego_sh/ego.sh
 ```
 
-**2024年2月26日更新**：板载计算机性能不够，无法完成编译。
+**NOTICE**：2024年2月26日更新，板载计算机性能不够，无法完成编译。
 
 参考：
 - [ZJU-FAST-Lab/ego-planner](https://github.com/ZJU-FAST-Lab/ego-planner)
