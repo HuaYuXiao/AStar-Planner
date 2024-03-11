@@ -1,8 +1,0 @@
-[
-{
-  "directory": "/Users/hyx020222/Documents/GitHub/Design-of-UAV-dynamic-obstacle-avoidance-algorithm/build",
-  "command": "/usr/bin/clang++ -DELPP_NO_DEFAULT_LOG_FILE -I/opt/homebrew/Cellar/opencv/4.8.1_4/include/opencv4/opencv2 -isystem /opt/homebrew/Cellar/opencv/4.8.1_4/include/opencv4 -isystem /opt/homebrew/include -g -std=gnu++14 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX14.0.sdk -o CMakeFiles/readT265.dir/source/readT265.cpp.o -c /Users/hyx020222/Documents/GitHub/Design-of-UAV-dynamic-obstacle-avoidance-algorithm/source/readT265.cpp",
-  "file": "/Users/hyx020222/Documents/GitHub/Design-of-UAV-dynamic-obstacle-avoidance-algorithm/source/readT265.cpp",
-  "output": "CMakeFiles/readT265.dir/source/readT265.cpp.o"
-}
-]
