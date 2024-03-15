@@ -14,6 +14,14 @@
     <include file="$(find uav_navigation)/launch/rs_t265.launch">
     </include>
 
+    <!-- run the ground_station.cpp -->
+    <node pkg="prometheus_station" type="ground_station" name="ground_station" output="screen" launch-prefix="gnome-terminal --tab --">
+    </node>
+
+    <!-- run the ground_station_msg.cpp -->
+    <node pkg="prometheus_station" type="ground_station_msg" name="ground_station_msg" output="screen" launch-prefix="gnome-terminal --tab --">
+    </node>
+
     <!-- 启动Prometheus代码 -->
     <group ns="prometheus_control">
         <!-- run the px4_pos_estimator.cpp -->
@@ -25,6 +33,11 @@
         <!-- run the px4_sender.cpp -->
         <node pkg="prometheus_control" type="px4_sender" name="px4_sender" output="screen">
             <rosparam command="load" file="$(find uav_navigation)/config/px4_sender.yaml"/>
+        </node>
+
+        <!-- run the terminal_control.cpp -->
+        <node pkg="prometheus_control" type="terminal_control" name="terminal_control" output="screen" launch-prefix="gnome-terminal --">
+            <rosparam command="load" file="$(find uav_navigation)/config/px4_sender.yaml" />
         </node>
     </group>
 
@@ -41,6 +54,8 @@
 
     <!-- 启动octomap建图 -->
     <node pkg="octomap_server" type="octomap_server_node" name="octomap_server">
+        <param name="latch" type="bool" value="true"/>
+        <param name="map_file" type="string" value="_map.bt"/>
         <param name="resolution" value="0.05" />
         <!-- 发布地图的坐标系 -->
         <param name="frame_id" type="string" value="world" />
@@ -48,20 +63,9 @@
         <param name="sensor_model/max_range" value="3.0" />
         <!-- 局部点云输入 -->
         <remap from="cloud_in" to="/prometheus/sensors/pcl2" />
+        <!-- TODO 有待商榷-->
+        <!--        <param name="input_cloud_topic" type="string" value="/prometheus/sensors/pcl2"/>-->
     </node>
-
-	<!-- run the ground_station.cpp -->
-	<node pkg="prometheus_station" type="ground_station" name="ground_station" output="screen" launch-prefix="gnome-terminal --tab --">	
-	</node>
-
-	<!-- run the ground_station_msg.cpp -->
-	<node pkg="prometheus_station" type="ground_station_msg" name="ground_station_msg" output="screen" launch-prefix="gnome-terminal --tab --">	
-	</node>
-
-	<!-- run the terminal_control.cpp -->
-	<node pkg="prometheus_control" type="terminal_control" name="terminal_control" output="screen" launch-prefix="gnome-terminal --">	
-		<rosparam command="load" file="$(find uav_navigation)/config/px4_sender.yaml" />
-	</node>	
     
 	<!-- 启动rviz,设为false可关闭 -->
 	<arg name="visualization" default="true"/>
