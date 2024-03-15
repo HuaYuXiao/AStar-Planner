@@ -55,7 +55,7 @@
     <!-- 启动octomap建图 -->
     <node pkg="octomap_server" type="octomap_server_node" name="octomap_server">
         <param name="latch" type="bool" value="true"/>
-        <param name="map_file" type="string" value="_map.bt"/>
+        <param name="map_file" type="string" value="map.bt"/>
         <param name="resolution" value="0.05" />
         <!-- 发布地图的坐标系 -->
         <param name="frame_id" type="string" value="world" />
