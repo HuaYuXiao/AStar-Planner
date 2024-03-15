@@ -14,7 +14,7 @@
 
 从[Prometheus450无人机](https://wiki.amovlab.com/public/prometheuswiki/P450%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C.html)✈搭载的[T265双目相机](https://www.intel.cn/content/www/cn/zh/products/sku/192742/intel-realsense-tracking-camera-t265/specifications.html)和[LDS-50C-3激光雷达](https://www.pacecat.com/lds-50c.html)感知环境中的障碍物，并设计各种路径规划算法实时规划运动路径，控制无人机安全稳定地到达目的地。
 
-**NOTICE**：建图部分请前往另一个仓库：https://github.com/HuaYuXiao/UAV_octomapping
+**NOTICE**：建图部分请前往另一个仓库：https://github.com/HuaYuXiao/uav_octomapping
 
 
 ## 1：Astar
@@ -113,10 +113,10 @@ rqt_image_view
 
 
 ## 支线任务
-
 - 航模电池续航及充电问题
 - 在ARM64架构的Ubuntu18上安装运行Clash for Windows
 - 下载安装localsend，提高文件传输效率
+- ROS自定义包
 
 ## 谢辞
 

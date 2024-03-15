@@ -1,35 +1,59 @@
-cmake_minimum_required(VERSION 3.26.4)
-project(UAV_dynamic_obstacle_avoidance)
+cmake_minimum_required(VERSION 2.8.3)
+project(uav_navigation)
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_BUILD_TYPE "Release")
+set(CMAKE_CXX_FLAGS "-std=c++11")
+set(CMAKE_CXX_FLAGS_RELEASE "-O3 -Wall -g")
+
+
+find_package(Eigen3 REQUIRED)
+find_package(PCL 1.7 REQUIRED)
+find_package(catkin REQUIRED COMPONENTS
+       roscpp
+       rospy
+       std_msgs
+	   sensor_msgs
+	   geometry_msgs
+	   nav_msgs
+	   pcl_ros
+       visualization_msgs
+	   prometheus_msgs
+	)
+
+
+catkin_package(
+	INCLUDE_DIRS include
+	LIBRARIES uav_navigation
+	#  DEPENDS system_lib
+)
+
 
 include_directories(
-        scripts/APF_2D_point_cpp
+		SYSTEM
+		include
+		${catkin_INCLUDE_DIRS}
+		${Eigen3_INCLUDE_DIRS}
+		${PCL_INCLUDE_DIRS}
+		${OCTOMAP_INCLUDE_DIRS}
+		${PROJECT_SOURCE_DIR}/include
+		~/Prometheus/Modules/common/include
 )
 
-add_executable(readT265
-        source/readT265.cpp
-)
-add_executable(APF_3D_point
-        scripts/APF_3D_point_cpp/APF_3D.cpp
-)
 
-find_package(OpenCV REQUIRED COMPONENTS core highgui viz)
-find_package(realsense2 REQUIRED)
+link_directories(${PCL_LIBRARY_DIRS})
 
 
-# 包含OpenCV头文件路径
-include_directories(
-        /opt/homebrew/Cellar/opencv/4.8.1_4/include/opencv4/opencv2
-)
+add_executable(uav_navigation
+	src/global_planner_node.cpp
+	src/global_planner.cpp
+	src/A_star.cpp
+	src/occupy_map.cpp
+	src/tools.cpp
+	)
 
-# 添加额外的库文件路径
-link_directories(
-        /opt/homebrew/Cellar/opencv/4.8.1_4/lib
-)
 
-target_link_libraries(readT265
-        ${OpenCV_LIBS}
-        ${realsense2_LIBRARY}
-)
-
+target_link_libraries(uav_navigation
+		${catkin_LIBRARIES}
+		${PCL_LIBRARIES}
+		${OCTOMAP_LIBRARIES}
+	)
