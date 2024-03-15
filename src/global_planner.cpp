@@ -16,10 +16,8 @@ namespace Global_Planning{
 
         // 订阅 目标点
         goal_sub = nh.subscribe<geometry_msgs::PoseStamped>("/prometheus/planning/goal", 1, &Global_Planner::goal_cb, this);
-
         // 订阅 无人机状态
         drone_state_sub = nh.subscribe<prometheus_msgs::DroneState>("/prometheus/drone_state", 10, &Global_Planner::drone_state_cb, this);
-
         // 根据map_input选择地图更新方式
         if(map_input == 0){
             Gpointcloud_sub = nh.subscribe<sensor_msgs::PointCloud2>("/prometheus/global_planning/global_pcl", 1, &Global_Planner::Gpointcloud_cb, this);
@@ -35,8 +33,7 @@ namespace Global_Planning{
         message_pub = nh.advertise<prometheus_msgs::Message>("/prometheus/message/global_planner", 10);
         // 发布路径用于显示
         path_cmd_pub   = nh.advertise<nav_msgs::Path>("/prometheus/global_planning/path_cmd",  10);
-        // 定时器 安全检测
-        // safety_timer = nh.createTimer(ros::Duration(2.0), &Global_Planner::safety_cb, this);
+
         // 定时器 规划器算法执行周期
         mainloop_timer = nh.createTimer(ros::Duration(1.5), &Global_Planner::mainloop_cb, this);
         // 路径追踪循环，快速移动场景应当适当提高执行频率
@@ -375,13 +372,6 @@ namespace Global_Planning{
         float currTimeSec = time_now.sec - begin_time.sec;
         float currTimenSec = time_now.nsec / 1e9 - begin_time.nsec / 1e9;
         return (currTimeSec + currTimenSec);
-    }
-
-
-    void Global_Planner::safety_cb(const ros::TimerEvent& e){
-        Eigen::Vector3d cur_pos(_DroneState.position[0], _DroneState.position[1], _DroneState.position[2]);
-
-        is_safety = Astar_ptr->check_safety(cur_pos, safe_distance);
     }
 
 

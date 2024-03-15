@@ -17,7 +17,6 @@ namespace Global_Planning{
 
     class Global_Planner{
     private:
-
         ros::NodeHandle global_planner_nh;
 
         // 参数
@@ -48,7 +47,8 @@ namespace Global_Planning{
 
         // 发布控制指令
         ros::Publisher command_pub,path_cmd_pub;
-        ros::Timer mainloop_timer, track_path_timer, safety_timer;
+
+        ros::Timer mainloop_timer, track_path_timer;
 
         // A星规划器
         Astar::Ptr Astar_ptr;
@@ -67,7 +67,6 @@ namespace Global_Planning{
         bool drone_ready;
         bool sensor_ready;
         bool goal_ready;
-        bool is_safety;
         bool is_new_path;
         bool path_ok;
         int start_point_index;
@@ -100,8 +99,6 @@ namespace Global_Planning{
         void Gpointcloud_cb(const sensor_msgs::PointCloud2ConstPtr &msg);
         void Lpointcloud_cb(const sensor_msgs::PointCloud2ConstPtr &msg);
         void laser_cb(const sensor_msgs::LaserScanConstPtr &msg);
-
-        void safety_cb(const ros::TimerEvent& e);
         void mainloop_cb(const ros::TimerEvent& e);
         void track_path_cb(const ros::TimerEvent& e);
 
