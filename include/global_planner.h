@@ -7,30 +7,20 @@
 
 using namespace std;
 
+
 #define NODE_NAME "Global_Planner"
 
-#define MIN_DIS 0.1
 
 namespace Global_Planning{
-
     extern ros::Publisher message_pub;
-
     class Global_Planner{
     private:
         ros::NodeHandle global_planner_nh;
 
-        // 参数
-        int algorithm_mode;
-
-        double safe_distance;
         double time_per_path;
         int map_input;
         double replan_time;
-        bool consider_neighbour;
-        bool map_groundtruth;
 
-        // 本机位置
-        // 邻机位置
         // 根据不同的输入（激光雷达输入、相机输入等）生成occupymap
         // 调用路径规划算法 生成路径
         // 调用轨迹优化算法 规划轨迹

@@ -4,15 +4,11 @@
 namespace Global_Planning{
     // 初始化函数
     void Global_Planner::init(ros::NodeHandle& nh){
-        // 安全距离，若膨胀距离设置已考虑安全距离，建议此处设为0
-        nh.param("global_planner/safe_distance", safe_distance, 0.05);
         nh.param("global_planner/time_per_path", time_per_path, 1.0);
         // 重规划频率
         nh.param("global_planner/replan_time", replan_time, 2.0);
         // 选择地图更新方式：　0代表全局点云，１代表局部点云，２代表激光雷达scan数据
         nh.param("global_planner/map_input", map_input, 0);
-
-        nh.param("global_planner/map_groundtruth", map_groundtruth, false);
 
         // 订阅 目标点
         goal_sub = nh.subscribe<geometry_msgs::PoseStamped>("/prometheus/planning/goal", 1, &Global_Planner::goal_cb, this);
@@ -37,7 +33,6 @@ namespace Global_Planning{
         // 定时器 规划器算法执行周期
         mainloop_timer = nh.createTimer(ros::Duration(1.5), &Global_Planner::mainloop_cb, this);
         // 路径追踪循环，快速移动场景应当适当提高执行频率
-        // time_per_path
         track_path_timer = nh.createTimer(ros::Duration(time_per_path), &Global_Planner::track_path_cb, this);
 
 
@@ -119,23 +114,16 @@ namespace Global_Planning{
 
         sensor_ready = true;
 
-        if(!map_groundtruth){
+        static int update_num=0;
+        update_num++;
+
+        // 此处改为根据循环时间计算的数值
+        if(update_num == 10){
             // 对Astar中的地图进行更新
             Astar_ptr->Occupy_map_ptr->map_update_gpcl(msg);
             // 并对地图进行膨胀
             Astar_ptr->Occupy_map_ptr->inflate_point_cloud();
-        }else{
-            static int update_num=0;
-            update_num++;
-
-            // 此处改为根据循环时间计算的数值
-            if(update_num == 10){
-                // 对Astar中的地图进行更新
-                Astar_ptr->Occupy_map_ptr->map_update_gpcl(msg);
-                // 并对地图进行膨胀
-                Astar_ptr->Occupy_map_ptr->inflate_point_cloud();
-                update_num = 0;
-            }
+            update_num = 0;
         }
     }
 
@@ -235,6 +223,7 @@ namespace Global_Planning{
 
     // 主循环
     void Global_Planner::mainloop_cb(const ros::TimerEvent& e){
+        // TODO exec_num有什么用？
         static int exec_num=0;
         exec_num++;
 
@@ -316,7 +305,6 @@ namespace Global_Planning{
                     exec_state = EXEC_STATE::PLANNING;
                     exec_num = 0;
                 }
-
                 break;
             }
         }

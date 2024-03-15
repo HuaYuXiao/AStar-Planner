@@ -3,7 +3,6 @@
 
 
 #include "tools.h"
-#include "message_utils.h"
 
 
 #define NODE_NAME "Global_Planner"
