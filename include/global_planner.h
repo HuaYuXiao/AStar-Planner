@@ -51,7 +51,6 @@ private:
     int map_input;
     double replan_time;
     bool consider_neighbour;
-    bool sim_mode;
     bool map_groundtruth;
 
     // 本机位置

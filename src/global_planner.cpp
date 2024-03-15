@@ -18,8 +18,6 @@ void Global_Planner::init(ros::NodeHandle& nh)
     nh.param("global_planner/replan_time", replan_time, 2.0); 
     // 选择地图更新方式：　0代表全局点云，１代表局部点云，２代表激光雷达scan数据
     nh.param("global_planner/map_input", map_input, 0); 
-    // 是否为仿真模式
-    nh.param("global_planner/sim_mode", sim_mode, false); 
 
     nh.param("global_planner/map_groundtruth", map_groundtruth, false); 
 
@@ -78,57 +76,6 @@ void Global_Planner::init(ros::NodeHandle& nh)
     Command_Now.Command_ID = 0;
     Command_Now.source = NODE_NAME;
     desired_yaw = 0.0;
-
-    //　仿真模式下直接发送切换模式与起飞指令
-    if(sim_mode == true)
-    {
-        // Waiting for input
-        int start_flag = 0;
-        while(start_flag == 0)
-        {
-            cout << ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Global Planner<<<<<<<<<<<<<<<<<<<<<<<<<<< "<< endl;
-            cout << "Please input 1 for start:"<<endl;
-            cin >> start_flag;
-        }
-        // 起飞
-        Command_Now.header.stamp = ros::Time::now();
-        Command_Now.Mode  = prometheus_msgs::ControlCommand::Idle;
-        Command_Now.Command_ID = Command_Now.Command_ID + 1;
-        Command_Now.source = NODE_NAME;
-        Command_Now.Reference_State.yaw_ref = 999;
-        command_pub.publish(Command_Now);   
-        cout << "Switch to OFFBOARD and arm ..."<<endl;
-        ros::Duration(3.0).sleep();
-        
-        Command_Now.header.stamp = ros::Time::now();
-        Command_Now.Mode = prometheus_msgs::ControlCommand::Takeoff;
-        Command_Now.Command_ID = Command_Now.Command_ID + 1;
-        Command_Now.source = NODE_NAME;
-        command_pub.publish(Command_Now);
-        cout << "Takeoff ..."<<endl;
-        ros::Duration(3.0).sleep();
-    }else
-    {
-        //　真实飞行情况：等待飞机状态变为offboard模式，然后发送起飞指令
-        // while(_DroneState.mode != "OFFBOARD")
-        // {
-        //     Command_Now.header.stamp = ros::Time::now();
-        //     Command_Now.Mode  = prometheus_msgs::ControlCommand::Idle;
-        //     Command_Now.Command_ID = 1 ;
-        //     Command_Now.source = NODE_NAME;
-        //     command_pub.publish(Command_Now);   
-        //     cout << "Waiting for the offboard mode"<<endl;
-        //     ros::Duration(1.0).sleep();
-        //     ros::spinOnce();
-        // }
-        // Command_Now.header.stamp = ros::Time::now();
-        // Command_Now.Mode = prometheus_msgs::ControlCommand::Takeoff;
-        // Command_Now.Command_ID = Command_Now.Command_ID + 1;
-        // Command_Now.source = NODE_NAME;
-        // command_pub.publish(Command_Now);
-        // cout << "Takeoff ..."<<endl;
-    }
-
 }
 
 void Global_Planner::goal_cb(const geometry_msgs::PoseStampedConstPtr& msg)
