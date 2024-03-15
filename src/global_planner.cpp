@@ -41,7 +41,6 @@ namespace Global_Planning{
         track_path_timer = nh.createTimer(ros::Duration(time_per_path), &Global_Planner::track_path_cb, this);
 
 
-
         // Astar algorithm
         Astar_ptr.reset(new Astar);
         Astar_ptr->init(nh);
@@ -103,17 +102,18 @@ namespace Global_Planning{
             drone_ready = false;
         }
 
-        Drone_odom.header = _DroneState.header;
-        Drone_odom.child_frame_id = "base_link";
-
-        Drone_odom.pose.pose.position.x = _DroneState.position[0];
-        Drone_odom.pose.pose.position.y = _DroneState.position[1];
-        Drone_odom.pose.pose.position.z = _DroneState.position[2];
-
-        Drone_odom.pose.pose.orientation = _DroneState.attitude_q;
-        Drone_odom.twist.twist.linear.x = _DroneState.velocity[0];
-        Drone_odom.twist.twist.linear.y = _DroneState.velocity[1];
-        Drone_odom.twist.twist.linear.z = _DroneState.velocity[2];
+        // Drone_odem is needed only when map_input != 0, speed up!
+        if(map_input != 0) {
+            Drone_odom.header = _DroneState.header;
+            Drone_odom.child_frame_id = "base_link";
+            Drone_odom.pose.pose.position.x = _DroneState.position[0];
+            Drone_odom.pose.pose.position.y = _DroneState.position[1];
+            Drone_odom.pose.pose.position.z = _DroneState.position[2];
+            Drone_odom.pose.pose.orientation = _DroneState.attitude_q;
+            Drone_odom.twist.twist.linear.x = _DroneState.velocity[0];
+            Drone_odom.twist.twist.linear.y = _DroneState.velocity[1];
+            Drone_odom.twist.twist.linear.z = _DroneState.velocity[2];
+        }
     }
 
 
@@ -137,8 +137,7 @@ namespace Global_Planning{
             update_num++;
 
             // 此处改为根据循环时间计算的数值
-            if(update_num == 10)
-            {
+            if(update_num == 10){
                 // 对Astar中的地图进行更新
                 Astar_ptr->Occupy_map_ptr->map_update_gpcl(msg);
                 // 并对地图进行膨胀
@@ -146,7 +145,6 @@ namespace Global_Planning{
                 update_num = 0;
             }
         }
-
     }
 
 
@@ -189,24 +187,6 @@ namespace Global_Planning{
             return;
         }
 
-        // if(!is_safety)
-        // {
-        //     // 若无人机与障碍物之间的距离小于安全距离，则停止执行路径
-        //     // 但如何脱离该点呢？
-        //     pub_message(message_pub, prometheus_msgs::Message::WARN, NODE_NAME, "Drone Position Dangerous! STOP HERE and wait for new goal.");
-
-        //     Command_Now.header.stamp = ros::Time::now();
-        //     Command_Now.Mode         = prometheus_msgs::ControlCommand::Hold;
-        //     Command_Now.Command_ID   = Command_Now.Command_ID + 1;
-        //     Command_Now.source = NODE_NAME;
-
-        //     command_pub.publish(Command_Now);
-
-        //     goal_ready = false;
-        //     exec_state = EXEC_STATE::WAIT_GOAL;
-
-        //     return;
-        // }
         is_new_path = false;
 
         // 抵达终点
@@ -220,7 +200,6 @@ namespace Global_Planning{
             Command_Now.Reference_State.position_ref[0]     = goal_pos[0];
             Command_Now.Reference_State.position_ref[1]     = goal_pos[1];
             Command_Now.Reference_State.position_ref[2]     = goal_pos[2];
-
             Command_Now.Reference_State.yaw_ref             = desired_yaw;
             command_pub.publish(Command_Now);
 
@@ -301,7 +280,7 @@ namespace Global_Planning{
                 if(!goal_ready){
                     if(exec_num == 10){
                         message = "Waiting for a new goal.";
-                        pub_message(message_pub, prometheus_msgs::Message::WARN, NODE_NAME,message);
+                        pub_message(message_pub, prometheus_msgs::Message::NORMAL, NODE_NAME,message);
                         exec_num=0;
                     }
                 }else{
@@ -309,11 +288,10 @@ namespace Global_Planning{
                     exec_state = EXEC_STATE::PLANNING;
                     goal_ready = false;
                 }
-
                 break;
             }
-            case PLANNING:{
 
+            case PLANNING:{
                 // 重置规划器
                 Astar_ptr->reset();
                 // 使用规划器执行搜索，返回搜索结果
@@ -353,7 +331,7 @@ namespace Global_Planning{
 
                 break;
             }
-            case  LANDING:{
+            case LANDING:{
                 Command_Now.header.stamp = ros::Time::now();
                 Command_Now.Mode         = prometheus_msgs::ControlCommand::Land;
                 Command_Now.Command_ID   = Command_Now.Command_ID + 1;
