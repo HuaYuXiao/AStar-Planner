@@ -1,36 +1,18 @@
 #ifndef _OCCUPY_MAP_H
 #define _OCCUPY_MAP_H
 
-#include <iostream>
-#include <algorithm>
-
-#include <ros/ros.h>
-#include <Eigen/Eigen>
-
-#include <pcl_ros/point_cloud.h>
-#include <pcl_ros/transforms.h>
-#include <pcl/point_cloud.h>
-#include <pcl/point_types.h>
-#include <pcl/kdtree/kdtree_flann.h>
-#include <pcl_conversions/pcl_conversions.h>
-#include <tf/transform_listener.h>
-#include <nav_msgs/OccupancyGrid.h>
-#include <nav_msgs/Odometry.h>
-#include <visualization_msgs/Marker.h>
-#include <sensor_msgs/LaserScan.h>
 
 #include "tools.h"
 #include "message_utils.h"
 
-#define NODE_NAME "Global_Planner [map]"
 
-namespace Global_Planning
-{
+#define NODE_NAME "Global_Planner"
+
+namespace Global_Planning{
 
 extern ros::Publisher message_pub;
 
-class Occupy_map
-{
+class Occupy_map{
     public:
         Occupy_map(){}
 
@@ -88,7 +70,5 @@ class Occupy_map
 };
 
 }
-
-
 
 #endif

@@ -1,43 +1,21 @@
 #ifndef GLOBAL_PLANNER
 #define GLOBAL_PLANNER
 
-#include <ros/ros.h>
-
-#include <Eigen/Eigen>
-#include <iostream>
-#include <algorithm>
-#include <iostream>
-
-#include <geometry_msgs/PoseStamped.h>
-#include <std_msgs/Bool.h>
-#include <sensor_msgs/PointCloud2.h>
-#include <sensor_msgs/LaserScan.h>
-#include <nav_msgs/Odometry.h>
-#include <nav_msgs/Path.h>
-
-#include "prometheus_msgs/PositionReference.h"
-#include "prometheus_msgs/Message.h"
-#include "prometheus_msgs/DroneState.h"
-#include "prometheus_msgs/ControlCommand.h"
 
 #include "A_star.h"
-#include "occupy_map.h"
-#include "tools.h"
-#include "message_utils.h"
+
 
 using namespace std;
 
-#define NODE_NAME "Global_Planner [main]"
+#define NODE_NAME "Global_Planner"
 
 #define MIN_DIS 0.1
 
-namespace Global_Planning
-{
+namespace Global_Planning{
 
 extern ros::Publisher message_pub;
 
-class Global_Planner
-{
+class Global_Planner{
 private:
 
     ros::NodeHandle global_planner_nh;
@@ -109,8 +87,7 @@ private:
     string message;
 
     // 五种状态机
-    enum EXEC_STATE
-    {
+    enum EXEC_STATE{
         WAIT_GOAL,
         PLANNING,
         TRACKING,
@@ -142,7 +119,6 @@ public:
 
     void init(ros::NodeHandle& nh);
 };
-
 }
 
 #endif
