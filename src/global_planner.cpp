@@ -31,7 +31,7 @@ namespace Global_Planning{
         path_cmd_pub   = nh.advertise<nav_msgs::Path>("/prometheus/global_planning/path_cmd",  10);
 
         // 定时器 规划器算法执行周期
-        mainloop_timer = nh.createTimer(ros::Duration(1.5), &Global_Planner::mainloop_cb, this);
+        mainloop_timer = nh.createTimer(ros::Duration(replan_time), &Global_Planner::mainloop_cb, this);
         // 路径追踪循环，快速移动场景应当适当提高执行频率
         track_path_timer = nh.createTimer(ros::Duration(time_per_path), &Global_Planner::track_path_cb, this);
 
@@ -39,11 +39,13 @@ namespace Global_Planning{
         // Astar algorithm
         Astar_ptr.reset(new Astar);
         Astar_ptr->init(nh);
-        pub_message(message_pub, prometheus_msgs::Message::NORMAL, NODE_NAME, "A_star init.");
+
+        message = "A_star init.";
+        pub_message(message_pub, prometheus_msgs::Message::NORMAL, NODE_NAME, message);
 
 
         // 规划器状态参数初始化
-        exec_state = EXEC_STATE::WAIT_GOAL;
+        exec_state = EXEC_STATE::IDLE;
         odom_ready = false;
         drone_ready = false;
         goal_ready = false;
@@ -62,21 +64,22 @@ namespace Global_Planning{
 
     void Global_Planner::goal_cb(const geometry_msgs::PoseStampedConstPtr& msg){
         goal_pos << msg->pose.position.x, msg->pose.position.y, msg->pose.position.z;
-
+        // TODO 中间节点结束速度设置为0是否合适？
         goal_vel.setZero();
 
         goal_ready = true;
 
         // 获得新目标点
-        pub_message(message_pub, prometheus_msgs::Message::NORMAL, NODE_NAME,"Get a new goal point");
-
-        cout << "Get a new goal point:"<< goal_pos(0) << " [m] "  << goal_pos(1) << " [m] "  << goal_pos(2)<< " [m] "   <<endl;
+        // TODO string类连接
+        message = "Get a new goal point: " + goal_pos;
+        pub_message(message_pub, prometheus_msgs::Message::NORMAL, NODE_NAME, message);
     }
 
 
     void Global_Planner::drone_state_cb(const prometheus_msgs::DroneStateConstPtr& msg){
         _DroneState = *msg;
 
+        // TODO 请改成指针！
         start_pos << msg->position[0], msg->position[1], msg->position[2];
         start_vel << msg->velocity[0], msg->velocity[1], msg->velocity[2];
         start_acc << 0.0, 0.0, 0.0;
@@ -183,12 +186,13 @@ namespace Global_Planning{
             Command_Now.Reference_State.yaw_ref             = desired_yaw;
             command_pub.publish(Command_Now);
 
-            pub_message(message_pub, prometheus_msgs::Message::NORMAL, NODE_NAME, "Reach the goal!");
+            message = "Reach the goal!";
+            pub_message(message_pub, prometheus_msgs::Message::NORMAL, NODE_NAME, message);
 
             // 停止执行
             path_ok = false;
             // 转换状态为等待目标
-            exec_state = EXEC_STATE::WAIT_GOAL;
+            exec_state = EXEC_STATE::IDLE;
             return;
         }
 
@@ -198,6 +202,7 @@ namespace Global_Planning{
         cout << "Moving to Waypoint:"   << path_cmd.poses[i].pose.position.x  << " [m] "
                                         << path_cmd.poses[i].pose.position.y  << " [m] "
                                         << path_cmd.poses[i].pose.position.z  << " [m] "<<endl;
+
         // 控制方式如果是走航点，则需要对无人机进行限速，保证无人机的平滑移动
         // 采用轨迹控制的方式进行追踪，期望速度 = （期望位置 - 当前位置）/预计时间；
 
@@ -243,7 +248,6 @@ namespace Global_Planning{
                 pub_message(message_pub, prometheus_msgs::Message::WARN, NODE_NAME, message);
                 exec_num=0;
             }
-
             return;
         }else{
             // 对检查的状态进行重置
@@ -253,12 +257,12 @@ namespace Global_Planning{
         }
 
         switch (exec_state){
-            case WAIT_GOAL:{
+            case IDLE:{
                 path_ok = false;
                 if(!goal_ready){
                     if(exec_num == 10){
                         message = "Waiting for a new goal.";
-                        pub_message(message_pub, prometheus_msgs::Message::NORMAL, NODE_NAME,message);
+                        pub_message(message_pub, prometheus_msgs::Message::NORMAL, NODE_NAME, message);
                         exec_num=0;
                     }
                 }else{
@@ -277,13 +281,15 @@ namespace Global_Planning{
                 int astar_state;
 
                 // Astar algorithm
+                // TODO 位姿输入请改成指针！
                 astar_state = Astar_ptr->search(start_pos, goal_pos);
 
                 // 未寻找到路径
                 if(astar_state==Astar::NO_PATH){
                     path_ok = false;
-                    exec_state = EXEC_STATE::WAIT_GOAL;
-                    pub_message(message_pub, prometheus_msgs::Message::WARN, NODE_NAME, "Planner can't find path!");
+                    exec_state = EXEC_STATE::IDLE;
+                    message = "Planner can't find path!";
+                    pub_message(message_pub, prometheus_msgs::Message::WARN, NODE_NAME, message);
                 }
                 else{
                     path_ok = true;

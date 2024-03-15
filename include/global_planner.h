@@ -71,9 +71,9 @@ namespace Global_Planning{
         // 打印的提示消息
         string message;
 
-        // 4种状态机
+        // 3种状态机
         enum EXEC_STATE{
-            WAIT_GOAL,
+            IDLE,
             PLANNING,
             TRACKING,
         };
