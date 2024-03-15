@@ -7,17 +7,17 @@ void Occupy_map::init(ros::NodeHandle& nh){
     // TRUE代表2D平面规划及搜索,FALSE代表3D 
     nh.param("global_planner/is_2D", is_2D, true); 
     // 2D规划时,定高高度
-    nh.param("global_planner/fly_height_2D", fly_height_2D, 1.0);
+    nh.param("global_planner/fly_height_2D", fly_height_2D, 0.4);
     // 地图原点
-    nh.param("map/origin_x", origin_(0), -5.0);
-    nh.param("map/origin_y", origin_(1), -5.0);
+    nh.param("map/origin_x", origin_(0), 0.0);
+    nh.param("map/origin_y", origin_(1), 0.0);
     nh.param("map/origin_z", origin_(2), 0.0);
     // 地图实际尺寸，单位：米
-    nh.param("map/map_size_x", map_size_3d_(0), 10.0);
-    nh.param("map/map_size_y", map_size_3d_(1), 10.0);
-    nh.param("map/map_size_z", map_size_3d_(2), 5.0);
+    nh.param("map/map_size_x", map_size_3d_(0), 8.0);
+    nh.param("map/map_size_y", map_size_3d_(1), 8.0);
+    nh.param("map/map_size_z", map_size_3d_(2), 4.0);
     // 地图分辨率，单位：米
-    nh.param("map/resolution", resolution_,  0.2);
+    nh.param("map/resolution", resolution,  0.05);
     // 地图膨胀距离，单位：米
     nh.param("map/inflate", inflate_,  0.3);
 
@@ -29,10 +29,9 @@ void Occupy_map::init(ros::NodeHandle& nh){
     // 发布二维占据图？
     // 发布膨胀后的二维占据图？
 
-    this->inv_resolution_ = 1.0 / resolution_;
     for (int i = 0; i < 3; ++i){
         // 占据图尺寸 = 地图尺寸 / 分辨率
-        grid_size_(i) = ceil(map_size_3d_(i) / resolution_);
+        grid_size_(i) = ceil(map_size_3d_(i) / resolution);
     }
         
     // 占据容器的大小 = 占据图尺寸 x*y*z
@@ -44,8 +43,8 @@ void Occupy_map::init(ros::NodeHandle& nh){
 
     // 对于二维情况，重新限制点云高度
     if(is_2D == true){
-        min_range_(2) = fly_height_2D - resolution_;
-        max_range_(2) = fly_height_2D + resolution_;
+        min_range_(2) = fly_height_2D - resolution;
+        max_range_(2) = fly_height_2D + resolution;
     }
 }
 
@@ -101,7 +100,7 @@ void Occupy_map::inflate_point_cloud(void){
 
     // 膨胀格子数 = 膨胀距离/分辨率
     // ceil返回大于或者等于指定表达式的最小整数
-    const int ifn = ceil(inflate_ * inv_resolution_);
+    const int ifn = ceil(inflate_ / resolution);
 
     pcl::PointXYZ pt_inf;
     Eigen::Vector3d p3d, p3d_inf;
@@ -123,9 +122,9 @@ void Occupy_map::inflate_point_cloud(void){
             for (int y = -ifn; y <= ifn; ++y)
                 for (int z = -ifn; z <= ifn; ++z){
                     // 为什么Z轴膨胀一半呢？ z 轴其实可以不膨胀
-                    p3d_inf(0) = pt_inf.x = p3d(0) + x * resolution_;
-                    p3d_inf(1) = pt_inf.y = p3d(1) + y * resolution_;
-                    p3d_inf(2) = pt_inf.z = p3d(2) + 0.5 * z * resolution_;
+                    p3d_inf(0) = pt_inf.x = p3d(0) + x * resolution;
+                    p3d_inf(1) = pt_inf.y = p3d(1) + y * resolution;
+                    p3d_inf(2) = pt_inf.z = p3d(2) + 0.5 * z * resolution;
 
                     // 若膨胀的点不在地图内（膨胀时只考虑地图范围内的点）
                     if(!isInMap(p3d_inf)){
@@ -208,7 +207,7 @@ bool Occupy_map::check_safety(Eigen::Vector3d& pos, double check_distance){
     Eigen::Vector3i id_occ;
     Eigen::Vector3d pos_occ;
 
-    int check_dist_xy = int(check_distance/resolution_);
+    int check_dist_xy = int(check_distance / resolution);
     int check_dist_z=0;
     int cnt=0;
     for(int ix=-check_dist_xy; ix<=check_dist_xy; ix++){
@@ -240,7 +239,7 @@ bool Occupy_map::check_safety(Eigen::Vector3d& pos, double check_distance){
 
 void Occupy_map::posToIndex(Eigen::Vector3d pos, Eigen::Vector3i &id){
     for (int i = 0; i < 3; ++i){
-        id(i) = floor((pos(i) - origin_(i)) * inv_resolution_);
+        id(i) = floor((pos(i) - origin_(i)) / resolution);
     }
        
 }
@@ -248,7 +247,7 @@ void Occupy_map::posToIndex(Eigen::Vector3d pos, Eigen::Vector3i &id){
 
 void Occupy_map::indexToPos(Eigen::Vector3i id, Eigen::Vector3d &pos){
     for (int i = 0; i < 3; ++i){
-        pos(i) = (id(i) + 0.5) * resolution_ + origin_(i);
+        pos(i) = (id(i) + 0.5) * resolution + origin_(i);
     }
 }
 
