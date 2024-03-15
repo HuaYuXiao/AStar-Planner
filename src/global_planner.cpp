@@ -64,6 +64,7 @@ namespace Global_Planning{
         desired_yaw = 0.0;
     }
 
+
     void Global_Planner::goal_cb(const geometry_msgs::PoseStampedConstPtr& msg){
         goal_pos << msg->pose.position.x, msg->pose.position.y, msg->pose.position.z;
 
@@ -83,7 +84,6 @@ namespace Global_Planning{
 
         start_pos << msg->position[0], msg->position[1], msg->position[2];
         start_vel << msg->velocity[0], msg->velocity[1], msg->velocity[2];
-
         start_acc << 0.0, 0.0, 0.0;
 
         odom_ready = true;
@@ -204,9 +204,6 @@ namespace Global_Planning{
             return;
         }
 
-        // 计算距离开始追踪轨迹时间
-        tra_running_time = get_time_in_sec(tra_start_time);
-
         int i = cur_id;
 
         cout << "Moving to Waypoint: [ " << cur_id << " / "<< Num_total_wp<< " ] "<<endl;
@@ -306,7 +303,6 @@ namespace Global_Planning{
                     Num_total_wp = path_cmd.poses.size();
                     start_point_index = get_start_point_id();
                     cur_id = start_point_index;
-                    tra_start_time = ros::Time::now();
                     exec_state = EXEC_STATE::TRACKING;
                     path_cmd_pub.publish(path_cmd);
                     pub_message(message_pub, prometheus_msgs::Message::NORMAL, NODE_NAME, "Get a new path!");
@@ -324,15 +320,6 @@ namespace Global_Planning{
                 break;
             }
         }
-    }
-
-
-    // 【获取当前时间函数】 单位：秒
-    float Global_Planner::get_time_in_sec(const ros::Time& begin_time){
-        ros::Time time_now = ros::Time::now();
-        float currTimeSec = time_now.sec - begin_time.sec;
-        float currTimenSec = time_now.nsec / 1e9 - begin_time.nsec / 1e9;
-        return (currTimeSec + currTimenSec);
     }
 
 
