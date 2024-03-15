@@ -84,12 +84,11 @@ namespace Global_Planning{
         // 打印的提示消息
         string message;
 
-        // 五种状态机
+        // 4种状态机
         enum EXEC_STATE{
             WAIT_GOAL,
             PLANNING,
             TRACKING,
-            LANDING,
         };
         EXEC_STATE exec_state;
 
