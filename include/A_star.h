@@ -17,7 +17,6 @@ namespace Global_Planning{
 
     class Node{
         public:
-            /* -------------------- */
             Eigen::Vector3i index;
             Eigen::Vector3d position;
             double g_score, f_score;

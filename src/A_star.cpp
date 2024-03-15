@@ -18,11 +18,9 @@ namespace Global_Planning{
       nh.param("astar/lambda_heu", lambda_heu_, 2.0);  // 加速引导参数
       nh.param("astar/allocate_num", max_search_num, 100000); //最大搜索节点数
       // 地图参数
-      nh.param("map/resolution", resolution_, 0.2);  // 地图分辨率
+      nh.param("map/resolution", resolution, 0.05);  // 地图分辨率
 
       tie_breaker_ = 1.0 + 1.0 / max_search_num;
-
-      this->inv_resolution_ = 1.0 / resolution_;
 
       has_global_point = false;
       path_node_pool_.resize(max_search_num);
@@ -71,9 +69,6 @@ namespace Global_Planning{
         return NO_PATH;
       }
 
-      // 计时
-      ros::Time time_astar_start = ros::Time::now();
-
       goal_pos = end_pt;
       Eigen::Vector3i end_index = posToIndex(end_pt);
 
@@ -110,9 +105,6 @@ namespace Global_Planning{
           terminate_node = cur_node;
           retrievePath(terminate_node);
 
-          // 时间一般很短，远远小于膨胀点云的时间
-          printf("Astar take time %f s. \n", (ros::Time::now()-time_astar_start).toSec());
-
           return REACH_END;
         }
 
@@ -131,9 +123,9 @@ namespace Global_Planning{
 
         /* ---------- expansion loop ---------- */
         // 扩展： 3*3*3 - 1 = 26种可能
-        for (double dx = -resolution_; dx <= resolution_ + 1e-3; dx += resolution_){
-          for (double dy = -resolution_; dy <= resolution_ + 1e-3; dy += resolution_){
-            for (double dz = -resolution_; dz <= resolution_ + 1e-3; dz += resolution_){
+        for (double dx = -resolution; dx <= resolution + 1e-3; dx += resolution){
+          for (double dy = -resolution; dy <= resolution + 1e-3; dy += resolution){
+            for (double dz = -resolution; dz <= resolution + 1e-3; dz += resolution){
 
               d_pos << dx, dy, dz;
 
@@ -152,7 +144,7 @@ namespace Global_Planning{
 
               // 计算扩展节点的index
               Eigen::Vector3i d_pos_id;
-              d_pos_id << int(dx/resolution_), int(dy/resolution_), int(dz/resolution_);
+              d_pos_id << int(dx/resolution), int(dy/resolution), int(dz/resolution);
               Eigen::Vector3i expand_node_id = d_pos_id + cur_node->index;
 
               //检查当前扩展的点是否在close set中，如果是则跳过
@@ -318,8 +310,8 @@ namespace Global_Planning{
 
     Eigen::Vector3i Astar::posToIndex(Eigen::Vector3d pt){
       Vector3i idx ;
-      idx << floor((pt(0) - origin_(0)) * inv_resolution_), floor((pt(1) - origin_(1)) * inv_resolution_),
-          floor((pt(2) - origin_(2)) * inv_resolution_);
+      idx << floor((pt(0) - origin_(0)) / resolution), floor((pt(1) - origin_(1)) / resolution),
+          floor((pt(2) - origin_(2)) / resolution);
 
       return idx;
     }
@@ -327,7 +319,7 @@ namespace Global_Planning{
 
     void Astar::indexToPos(Eigen::Vector3i id, Eigen::Vector3d &pos){
       for (int i = 0; i < 3; ++i)
-          pos(i) = (id(i) + 0.5) * resolution_ + origin_(i);
+          pos(i) = (id(i) + 0.5) * resolution + origin_(i);
     }
 
 
