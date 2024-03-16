@@ -28,7 +28,7 @@ namespace Global_Planning{
         // 发布提示消息
         message_pub = nh.advertise<prometheus_msgs::Message>("/prometheus/message/global_planner", 10);
         // 发布路径用于显示
-        path_cmd_pub   = nh.advertise<nav_msgs::Path>("/prometheus/global_planning/path_cmd",  10);
+        path_cmd_pub = nh.advertise<nav_msgs::Path>("/prometheus/global_planning/path_cmd",  10);
 
         // 定时器 规划器算法执行周期
         mainloop_timer = nh.createTimer(ros::Duration(replan_time), &Global_Planner::mainloop_cb, this);
@@ -46,10 +46,8 @@ namespace Global_Planning{
 
         // 规划器状态参数初始化
         exec_state = EXEC_STATE::IDLE;
-        odom_ready = false;
-        drone_ready = false;
+
         goal_ready = false;
-        sensor_ready = false;
         is_safety = true;
         is_new_path = false;
 
@@ -84,14 +82,6 @@ namespace Global_Planning{
         start_vel << msg->velocity[0], msg->velocity[1], msg->velocity[2];
         start_acc << 0.0, 0.0, 0.0;
 
-        odom_ready = true;
-
-        if (_DroneState.connected == true && _DroneState.armed == true ){
-            drone_ready = true;
-        }else{
-            drone_ready = false;
-        }
-
         // Drone_odem is needed only when map_input != 0, speed up!
         if(map_input != 0) {
             Drone_odom.header = _DroneState.header;
@@ -111,11 +101,6 @@ namespace Global_Planning{
     // 情况：已知全局点云的场景、由SLAM实时获取的全局点云
     void Global_Planner::Gpointcloud_cb(const sensor_msgs::PointCloud2ConstPtr &msg){
         /* need odom_ for center radius sensing */
-        if (!odom_ready){
-            return;
-        }
-
-        sensor_ready = true;
 
         static int update_num=0;
         update_num++;
@@ -135,11 +120,6 @@ namespace Global_Planning{
     // 情况：RGBD相机、三维激光雷达
     void Global_Planner::Lpointcloud_cb(const sensor_msgs::PointCloud2ConstPtr &msg){
         /* need odom_ for center radius sensing */
-        if (!odom_ready){
-            return;
-        }
-
-        sensor_ready = true;
 
         // 对Astar中的地图进行更新（局部地图+odom）
         Astar_ptr->Occupy_map_ptr->map_update_lpcl(msg, Drone_odom);
@@ -152,11 +132,6 @@ namespace Global_Planning{
     // 情况：2维激光雷达
     void Global_Planner::laser_cb(const sensor_msgs::LaserScanConstPtr &msg){
         /* need odom_ for center radius sensing */
-        if (!odom_ready){
-            return;
-        }
-
-        sensor_ready = true;
 
         // 对Astar中的地图进行更新（laser+odom）
         Astar_ptr->Occupy_map_ptr->map_update_laser(msg, Drone_odom);
@@ -198,7 +173,7 @@ namespace Global_Planning{
 
         int i = cur_id;
 
-        cout << "Moving to Waypoint: [ " << cur_id << " / "<< Num_total_wp<< " ] "<<endl;
+        cout << "Moving to Waypoint: [ " << cur_id << " / " << Num_total_wp << " ] "<<endl;
         cout << "Moving to Waypoint:"   << path_cmd.poses[i].pose.position.x  << " [m] "
                                         << path_cmd.poses[i].pose.position.y  << " [m] "
                                         << path_cmd.poses[i].pose.position.z  << " [m] "<<endl;
@@ -232,30 +207,6 @@ namespace Global_Planning{
         static int exec_num=0;
         exec_num++;
 
-        // 检查当前状态，不满足规划条件则直接退出主循环
-        // 此处打印消息与后面的冲突了，逻辑上存在问题
-        if(!odom_ready || !drone_ready || !sensor_ready){
-            // 此处改为根据循环时间计算的数值
-            if(exec_num == 10){
-                if(!odom_ready){
-                    message = "Need Odom.";
-                }else if(!drone_ready){
-                    message = "Drone is not ready.";
-                }else if(!sensor_ready){
-                    message = "Need sensor info.";
-                }
-
-                pub_message(message_pub, prometheus_msgs::Message::WARN, NODE_NAME, message);
-                exec_num=0;
-            }
-            return;
-        }else{
-            // 对检查的状态进行重置
-            odom_ready = false;
-            drone_ready = false;
-            sensor_ready = false;
-        }
-
         switch (exec_state){
             case IDLE:{
                 path_ok = false;
@@ -281,7 +232,7 @@ namespace Global_Planning{
                 int astar_state;
 
                 // Astar algorithm
-                // TODO 位姿输入请改成指针！
+                // TODO 位姿输入改成指针？
                 astar_state = Astar_ptr->search(start_pos, goal_pos);
 
                 // 未寻找到路径
@@ -317,6 +268,7 @@ namespace Global_Planning{
     }
 
 
+    // TODO 能不能改成指针？
     int Global_Planner::get_start_point_id(void){
         // 选择与当前无人机所在位置最近的点,并从该点开始追踪
         int id = 0;

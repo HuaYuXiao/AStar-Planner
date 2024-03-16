@@ -33,7 +33,6 @@ namespace Global_Planning{
         global_pcl_pub = nh.advertise<sensor_msgs::PointCloud2>("/prometheus/planning/global_pcl",  10);
         // 发布膨胀后的点云
         inflate_pcl_pub = nh.advertise<sensor_msgs::PointCloud2>("/prometheus/planning/global_inflate_pcl", 1);
-
     }
 
 

@@ -53,9 +53,6 @@ namespace Global_Planning{
         double distance_to_goal;
 
         // 规划器状态
-        bool odom_ready;
-        bool drone_ready;
-        bool sensor_ready;
         bool goal_ready;
         bool is_new_path;
         bool path_ok;
