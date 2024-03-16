@@ -5,9 +5,9 @@ namespace Global_Planning{
     // 初始化函数
     void Global_Planner::init(ros::NodeHandle& nh){
         nh.param("global_planner/time_per_path", time_per_path, 1.0);
-        // 重规划频率
+        // 重规划周期，环境变化越快，该数值越低
         nh.param("global_planner/replan_time", replan_time, 2.0);
-        // 选择地图更新方式：　0代表全局点云，１代表局部点云，２代表激光雷达scan数据
+        // 选择地图更新方式：　true代表全局点云，false代表激光雷达scan数据
         nh.param("global_planner/map_input", map_input, true);
 
         // 订阅 目标点
@@ -26,7 +26,7 @@ namespace Global_Planning{
         // 发布提示消息
         message_pub = nh.advertise<prometheus_msgs::Message>("/prometheus/message/global_planner", 10);
         // 发布路径用于显示
-        path_cmd_pub = nh.advertise<nav_msgs::Path>("/prometheus/global_planning/path_cmd",  10);
+        path_cmd_pub = nh.advertise<nav_msgs::Path>("/prometheus/global_planning/path_cmd", 10);
 
         // 定时器 规划器算法执行周期
         mainloop_timer = nh.createTimer(ros::Duration(replan_time), &Global_Planner::mainloop_cb, this);
@@ -78,7 +78,6 @@ namespace Global_Planning{
         // TODO 请改成指针！
         start_pos << msg->position[0], msg->position[1], msg->position[2];
         start_vel << msg->velocity[0], msg->velocity[1], msg->velocity[2];
-        start_acc << 0.0, 0.0, 0.0;
 
         // Drone_odem is needed only when map_input != 0, speed up!
         if(map_input != 0) {

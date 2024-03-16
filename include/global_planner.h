@@ -31,7 +31,6 @@ namespace Global_Planning{
         // 支持2维激光雷达、3维激光雷达、D435i等实体传感器
         // 支持直接输入全局已知点云
         ros::Subscriber Gpointcloud_sub;
-        ros::Subscriber Lpointcloud_sub;
         ros::Subscriber laserscan_sub;
         // ？
 
@@ -62,7 +61,10 @@ namespace Global_Planning{
         int cur_id;
 
         // 规划初始状态及终端状态
-        Eigen::Vector3d start_pos, start_vel, start_acc, goal_pos, goal_vel;
+        Eigen::Vector3d start_pos;
+        Eigen::Vector3d start_vel;
+        Eigen::Vector3d goal_pos;
+        Eigen::Vector3d goal_vel;
 
         float desired_yaw;
 
