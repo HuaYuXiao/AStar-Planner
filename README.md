@@ -14,10 +14,16 @@
 
 从[Prometheus450无人机](https://wiki.amovlab.com/public/prometheuswiki/P450%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C.html)✈搭载的[T265双目相机](https://www.intel.cn/content/www/cn/zh/products/sku/192742/intel-realsense-tracking-camera-t265/specifications.html)和[LDS-50C-3激光雷达](https://www.pacecat.com/lds-50c.html)感知环境中的障碍物，并设计各种路径规划算法实时规划运动路径，控制无人机安全稳定地到达目的地。
 
-**NOTICE**：导航之前的建图请前往另一个仓库：https://github.com/HuaYuXiao/uav_octomapping
+**NOTICE**：建图请前往另一个仓库：https://github.com/HuaYuXiao/uav_octomapping
 
 
 ## 方案1：Astar
+
+```bash
+roslaunch uav_navigation navigation.launch
+```
+
+**2024-03-15更新**：以下指令已弃用：（可以用，但是不推荐）
 
 ```bash
 roslaunch p450_experiment astar_onboard.launch
