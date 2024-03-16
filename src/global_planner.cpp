@@ -21,14 +21,14 @@ namespace Global_Planning{
             laserscan_sub = nh.subscribe<sensor_msgs::LaserScan>("/prometheus/global_planning/laser_scan", 1, &Global_Planner::laser_cb, this);
         }
 
-        // 发布 路径指令
+        // 发布路径指令
         command_pub = nh.advertise<prometheus_msgs::ControlCommand>("/prometheus/control_command", 10);
-        // TODO 发布提示消息一定要发布在该节点下？
+        // 发布提示消息
         message_pub = nh.advertise<prometheus_msgs::Message>("/prometheus/message/global_planner", 10);
         // 发布路径用于显示
         path_cmd_pub = nh.advertise<nav_msgs::Path>("/prometheus/global_planning/path_cmd", 10);
 
-        // 定时器 规划器算法执行周期
+        // 定时器规划器算法执行
         mainloop_timer = nh.createTimer(ros::Duration(replan_time), &Global_Planner::mainloop_cb, this);
         // 路径追踪循环，快速移动场景应当适当提高执行频率
         track_path_timer = nh.createTimer(ros::Duration(time_per_path), &Global_Planner::track_path_cb, this);
@@ -58,44 +58,41 @@ namespace Global_Planning{
     }
 
 
+    // 获得新目标点
     void Global_Planner::goal_cb(const geometry_msgs::PoseStampedConstPtr& msg){
         goal_pos << msg->pose.position.x, msg->pose.position.y, msg->pose.position.z;
-        // TODO 中间节点结束速度设置为0是否合适？
+        // set final velocity to zero
         goal_vel.setZero();
 
         goal_ready = true;
 
-        // 获得新目标点
-        // TODO string类连接
-        message = "Get a new goal point: " + goal_pos;
+        message = "Goal set! (" + std::to_string(vec(0)) + ", " + std::to_string(vec(1)) + ", " + std::to_string(vec(2)) + ")";
         pub_message(message_pub, prometheus_msgs::Message::NORMAL, NODE_NAME, message);
     }
 
 
     void Global_Planner::drone_state_cb(const prometheus_msgs::DroneStateConstPtr& msg){
-        _DroneState = *msg;
-
-        // TODO 请改成指针！
         start_pos << msg->position[0], msg->position[1], msg->position[2];
         start_vel << msg->velocity[0], msg->velocity[1], msg->velocity[2];
 
-        // Drone_odem is needed only when map_input != 0, speed up!
-        if(map_input != 0) {
-            Drone_odom.header = _DroneState.header;
+        // Drone_odem is needed only when map_input is false, speedup!
+        if(!map_input){
+            Drone_odom.header = msg->.header;
             Drone_odom.child_frame_id = "base_link";
-            Drone_odom.pose.pose.position.x = _DroneState.position[0];
-            Drone_odom.pose.pose.position.y = _DroneState.position[1];
-            Drone_odom.pose.pose.position.z = _DroneState.position[2];
-            Drone_odom.pose.pose.orientation = _DroneState.attitude_q;
-            Drone_odom.twist.twist.linear.x = _DroneState.velocity[0];
-            Drone_odom.twist.twist.linear.y = _DroneState.velocity[1];
-            Drone_odom.twist.twist.linear.z = _DroneState.velocity[2];
+            Drone_odom.pose.pose.position.x = msg->.position[0];
+            Drone_odom.pose.pose.position.y = msg->.position[1];
+            Drone_odom.pose.pose.position.z = msg->.position[2];
+            Drone_odom.pose.pose.orientation = msg->.attitude_q;
+            Drone_odom.twist.twist.linear.x = msg->.velocity[0];
+            Drone_odom.twist.twist.linear.y = msg->.velocity[1];
+            Drone_odom.twist.twist.linear.z = msg->.velocity[2];
         }
+
+        _DroneState = *msg;
     }
 
 
-    // 根据全局点云更新地图
-    // 情况：已知全局点云的场景、由SLAM实时获取的全局点云
+    // 根据全局点云更新地图：已知全局点云的场景、由SLAM实时获取的全局点云
     void Global_Planner::Gpointcloud_cb(const sensor_msgs::PointCloud2ConstPtr &msg){
         /* need odom_ for center radius sensing */
 
@@ -113,8 +110,7 @@ namespace Global_Planning{
     }
 
 
-    // 根据2维雷达数据更新地图
-    // 情况：2维激光雷达
+    // 根据2维雷达数据更新地图：2维激光雷达
     void Global_Planner::laser_cb(const sensor_msgs::LaserScanConstPtr &msg){
         /* need odom_ for center radius sensing */
 
@@ -213,7 +209,6 @@ namespace Global_Planning{
                 int astar_state;
 
                 // Astar algorithm
-                // TODO 位姿输入改成指针？
                 astar_state = Astar_ptr->search(start_pos, goal_pos);
 
                 // 未寻找到路径

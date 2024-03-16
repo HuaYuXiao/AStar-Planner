@@ -29,6 +29,8 @@ namespace Global_Planning{
         min_range_ = origin_;
         max_range_ = origin_ + map_size_3d_;
 
+        // TODO ESSENTIAL！缺少初始化
+
         // 发布 地图rviz显示
         global_pcl_pub = nh.advertise<sensor_msgs::PointCloud2>("/prometheus/planning/global_pcl",  10);
         // 发布膨胀后的点云
@@ -38,18 +40,7 @@ namespace Global_Planning{
 
     // 地图更新函数 - 输入：全局点云
     void Occupy_map::map_update_gpcl(const sensor_msgs::PointCloud2ConstPtr & global_point){
-        has_global_point = true;
         global_env_ = global_point;
-
-        // 发布未膨胀点云
-        global_pcl_pub.publish(*global_env_);
-    }
-
-
-    // 地图更新函数 - 输入：局部点云
-    void Occupy_map::map_update_lpcl(const sensor_msgs::PointCloud2ConstPtr & local_point, const nav_msgs::Odometry & odom){
-        has_global_point = true;
-        // TODO 将传递过来的局部点云转为全局点云
 
         // 发布未膨胀点云
         global_pcl_pub.publish(*global_env_);
@@ -58,7 +49,6 @@ namespace Global_Planning{
 
     // 地图更新函数 - 输入：laser
     void Occupy_map::map_update_laser(const sensor_msgs::LaserScanConstPtr & local_point, const nav_msgs::Odometry & odom){
-        has_global_point = true;
         // TODO 将传递过来的数据转为全局点云
 
         // 发布未膨胀点云
@@ -69,17 +59,13 @@ namespace Global_Planning{
     // 当global_planning节点接收到点云消息更新时，进行设置点云指针并膨胀
     // Astar规划路径时，采用的是此处膨胀后的点云（setOccupancy只在本函数中使用）
     void Occupy_map::inflate_point_cloud(void){
-        if(!has_global_point){
-            pub_message(message_pub, prometheus_msgs::Message::WARN, NODE_NAME, "Occupy_map [inflate point cloud]: don't have global point, can't inflate!\n");
-            return;
-        }
-
         // 转化为PCL的格式进行处理
         pcl::PointCloud<pcl::PointXYZ> latest_global_cloud_;
         pcl::fromROSMsg(*global_env_, latest_global_cloud_);
 
-        if ((int)latest_global_cloud_.points.size() == 0)
-        {return;}
+        if ((int)latest_global_cloud_.points.size() == 0){
+            return;
+        }
 
         pcl::PointCloud<pcl::PointXYZ> cloud_inflate_vis_;
         cloud_inflate_vis_.clear();
@@ -107,7 +93,7 @@ namespace Global_Planning{
             for (int x = -ifn; x <= ifn; ++x)
                 for (int y = -ifn; y <= ifn; ++y)
                     for (int z = -ifn; z <= ifn; ++z){
-                        // 为什么Z轴膨胀一半呢？ z 轴其实可以不膨胀
+                        // TODO 为什么Z轴膨胀一半呢？ z 轴其实可以不膨胀
                         p3d_inf(0) = pt_inf.x = p3d(0) + x * resolution;
                         p3d_inf(1) = pt_inf.y = p3d(1) + y * resolution;
                         p3d_inf(2) = pt_inf.z = p3d(2) + 0.5 * z * resolution;

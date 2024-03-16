@@ -31,22 +31,21 @@ namespace Global_Planning{
             // 占据图尺寸 = 地图尺寸 / 分辨率
             Eigen::Vector3i grid_size_;
 
-            bool has_global_point;
+            // 发布点云用于rviz显示
+            ros::Publisher global_pcl_pub;
+            ros::Publisher inflate_pcl_pub;
+
+            //初始化
+            void init(ros::NodeHandle& nh);
 
             // 显示相关
             void show_gpcl_marker(visualization_msgs::Marker &m, int id, Eigen::Vector4d color);
 
-            // 发布点云用于rviz显示
-            ros::Publisher global_pcl_pub, inflate_pcl_pub;
-
-            //初始化
-            void init(ros::NodeHandle& nh);
             // 地图更新函数 - 输入：全局点云
             void map_update_gpcl(const sensor_msgs::PointCloud2ConstPtr & global_point);
-            // 地图更新函数 - 输入：局部点云
-            void map_update_lpcl(const sensor_msgs::PointCloud2ConstPtr & local_point, const nav_msgs::Odometry & odom);
             // 地图更新函数 - 输入：二维激光雷达
             void map_update_laser(const sensor_msgs::LaserScanConstPtr & local_point, const nav_msgs::Odometry & odom);
+
             // 地图膨胀
             void inflate_point_cloud(void);
             // 判断当前点是否在地图内

@@ -62,7 +62,9 @@ namespace Global_Planning{
 
       public:
           NodeHashTable0(/* args */){}
+
           ~NodeHashTable0(){}
+
           void insert(Eigen::Vector3i idx, NodePtr node){
             data_3d_.insert(std::make_pair(idx, node));
           }
@@ -98,8 +100,6 @@ namespace Global_Planning{
             int max_search_num;
             // tie breaker
             double tie_breaker_;
-            int is_2D;
-            double fly_height;
 
             /* ---------- record data ---------- */
             // 目标点
@@ -107,7 +107,7 @@ namespace Global_Planning{
 
             // 地图相关
             std::vector<int> occupancy_buffer_;
-            double resolution_, inv_resolution_;
+            double resolution;
             Eigen::Vector3d origin_, map_size_3d_;
             bool has_global_point;
 
@@ -124,6 +124,8 @@ namespace Global_Planning{
         public:
             Astar(){}
             ~Astar();
+
+            typedef std::shared_ptr<Astar> Ptr;
 
             enum{
               REACH_END = 1,
@@ -148,7 +150,6 @@ namespace Global_Planning{
             // 返回访问过的节点
             std::vector<NodePtr> getVisitedNodes();
 
-            typedef std::shared_ptr<Astar> Ptr;
 
     };
 }

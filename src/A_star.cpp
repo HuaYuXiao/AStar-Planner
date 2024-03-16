@@ -65,7 +65,8 @@ namespace Global_Planning{
     int Astar::search(Eigen::Vector3d start_pt, Eigen::Vector3d end_pt){
       // 首先检查目标点是否可到达
       if(Occupy_map_ptr->getOccupancy(end_pt)){
-        pub_message(message_pub, prometheus_msgs::Message::WARN, NODE_NAME, "Astar can't find path: goal point is occupied.");
+          message = "Astar can't find path: goal point is occupied.";
+        pub_message(message_pub, prometheus_msgs::Message::WARN, NODE_NAME, message);
         return NO_PATH;
       }
 
