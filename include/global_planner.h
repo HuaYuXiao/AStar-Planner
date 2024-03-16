@@ -18,10 +18,10 @@ namespace Global_Planning{
         ros::NodeHandle global_planner_nh;
 
         double time_per_path;
-        int map_input;
+        // 根据不同的输入（激光雷达输入、相机输入等）生成occupymap
+        bool map_input;
         double replan_time;
 
-        // 根据不同的输入（激光雷达输入、相机输入等）生成occupymap
         // 调用路径规划算法 生成路径
         // 调用轨迹优化算法 规划轨迹
 
@@ -36,20 +36,21 @@ namespace Global_Planning{
         // ？
 
         // 发布控制指令
-        ros::Publisher command_pub,path_cmd_pub;
+        ros::Publisher command_pub;
+        ros::Publisher path_cmd_pub;
 
-        ros::Timer mainloop_timer, track_path_timer;
+        ros::Timer mainloop_timer;
+        ros::Timertrack_path_timer;
 
         // A星规划器
         Astar::Ptr Astar_ptr;
 
         prometheus_msgs::DroneState _DroneState;
         nav_msgs::Odometry Drone_odom;
-
         nav_msgs::Path path_cmd;
-        double distance_walked;
         prometheus_msgs::ControlCommand Command_Now;
 
+        double distance_walked;
         double distance_to_goal;
 
         // 规划器状态

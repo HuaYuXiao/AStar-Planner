@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package format="2">
     <name>uav_navigation</name>
-    <version>0.1.7</version>
+    <version>0.2.0</version>
     <description>A ROS package for dynamic navigation in 3D octomap with 2D lidar on Premetheus P450 (Nano)</description>
     <author email="fatmoonqyp@126.com">Yuhua Qi</author>
     <author email="hyx020222@gmail.com">Eason Hua</author>

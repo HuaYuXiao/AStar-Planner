@@ -8,18 +8,16 @@ namespace Global_Planning{
         // 重规划频率
         nh.param("global_planner/replan_time", replan_time, 2.0);
         // 选择地图更新方式：　0代表全局点云，１代表局部点云，２代表激光雷达scan数据
-        nh.param("global_planner/map_input", map_input, 0);
+        nh.param("global_planner/map_input", map_input, true);
 
         // 订阅 目标点
         goal_sub = nh.subscribe<geometry_msgs::PoseStamped>("/prometheus/planning/goal", 1, &Global_Planner::goal_cb, this);
         // 订阅 无人机状态
         drone_state_sub = nh.subscribe<prometheus_msgs::DroneState>("/prometheus/drone_state", 10, &Global_Planner::drone_state_cb, this);
         // 根据map_input选择地图更新方式
-        if(map_input == 0){
+        if(map_input){
             Gpointcloud_sub = nh.subscribe<sensor_msgs::PointCloud2>("/prometheus/global_planning/global_pcl", 1, &Global_Planner::Gpointcloud_cb, this);
-        }else if(map_input == 1){
-            Lpointcloud_sub = nh.subscribe<sensor_msgs::PointCloud2>("/prometheus/global_planning/local_pcl", 1, &Global_Planner::Lpointcloud_cb, this);
-        }else if(map_input == 2){
+        }else{
             laserscan_sub = nh.subscribe<sensor_msgs::LaserScan>("/prometheus/global_planning/laser_scan", 1, &Global_Planner::laser_cb, this);
         }
 
@@ -116,18 +114,6 @@ namespace Global_Planning{
     }
 
 
-    // 根据局部点云更新地图
-    // 情况：RGBD相机、三维激光雷达
-    void Global_Planner::Lpointcloud_cb(const sensor_msgs::PointCloud2ConstPtr &msg){
-        /* need odom_ for center radius sensing */
-
-        // 对Astar中的地图进行更新（局部地图+odom）
-        Astar_ptr->Occupy_map_ptr->map_update_lpcl(msg, Drone_odom);
-        // 并对地图进行膨胀
-        Astar_ptr->Occupy_map_ptr->inflate_point_cloud();
-    }
-
-
     // 根据2维雷达数据更新地图
     // 情况：2维激光雷达
     void Global_Planner::laser_cb(const sensor_msgs::LaserScanConstPtr &msg){
@@ -190,6 +176,7 @@ namespace Global_Planning{
         Command_Now.Reference_State.position_ref[0]     = path_cmd.poses[i].pose.position.x;
         Command_Now.Reference_State.position_ref[1]     = path_cmd.poses[i].pose.position.y;
         Command_Now.Reference_State.position_ref[2]     = path_cmd.poses[i].pose.position.z;
+        // TODO 速度这样设置是否合理？
         Command_Now.Reference_State.velocity_ref[0]     = (path_cmd.poses[i].pose.position.x - _DroneState.position[0])/time_per_path;
         Command_Now.Reference_State.velocity_ref[1]     = (path_cmd.poses[i].pose.position.y - _DroneState.position[1])/time_per_path;
         Command_Now.Reference_State.velocity_ref[2]     = (path_cmd.poses[i].pose.position.z - _DroneState.position[2])/time_per_path;
