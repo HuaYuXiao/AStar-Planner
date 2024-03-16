@@ -23,7 +23,7 @@ namespace Global_Planning{
 
         // 发布 路径指令
         command_pub = nh.advertise<prometheus_msgs::ControlCommand>("/prometheus/control_command", 10);
-        // 发布提示消息
+        // TODO 发布提示消息一定要发布在该节点下？
         message_pub = nh.advertise<prometheus_msgs::Message>("/prometheus/message/global_planner", 10);
         // 发布路径用于显示
         path_cmd_pub = nh.advertise<nav_msgs::Path>("/prometheus/global_planning/path_cmd", 10);
@@ -46,15 +46,15 @@ namespace Global_Planning{
         exec_state = EXEC_STATE::IDLE;
 
         goal_ready = false;
-        is_safety = true;
         is_new_path = false;
 
         // 初始化发布的指令
-        Command_Now.header.stamp = ros::Time::now();
-        Command_Now.Mode  = prometheus_msgs::ControlCommand::Idle;
-        Command_Now.Command_ID = 0;
-        Command_Now.source = NODE_NAME;
-        desired_yaw = 0.0;
+        ControlCommand.header.stamp = ros::Time::now();
+        ControlCommand.Mode  = prometheus_msgs::ControlCommand::Idle;
+        ControlCommand.Command_ID = 0;
+        ControlCommand.source = NODE_NAME;
+        ControlCommand.Reference_State.Move_frame = prometheus_msgs::PositionReference::ENU_FRAME;
+        ControlCommand.Reference_State.yaw_ref = 0.0;
     }
 
 
@@ -134,17 +134,15 @@ namespace Global_Planning{
 
         // 抵达终点
         if(cur_id == Num_total_wp - 1){
-            Command_Now.header.stamp = ros::Time::now();
-            Command_Now.Mode                                = prometheus_msgs::ControlCommand::Move;
-            Command_Now.Command_ID                          = Command_Now.Command_ID + 1;
-            Command_Now.source = NODE_NAME;
-            Command_Now.Reference_State.Move_mode           = prometheus_msgs::PositionReference::XYZ_POS;
-            Command_Now.Reference_State.Move_frame          = prometheus_msgs::PositionReference::ENU_FRAME;
-            Command_Now.Reference_State.position_ref[0]     = goal_pos[0];
-            Command_Now.Reference_State.position_ref[1]     = goal_pos[1];
-            Command_Now.Reference_State.position_ref[2]     = goal_pos[2];
-            Command_Now.Reference_State.yaw_ref             = desired_yaw;
-            command_pub.publish(Command_Now);
+            ControlCommand.header.stamp = ros::Time::now();
+            ControlCommand.Mode                                = prometheus_msgs::ControlCommand::Move;
+            ControlCommand.Command_ID                          = ControlCommand.Command_ID + 1;
+            ControlCommand.Reference_State.Move_mode           = prometheus_msgs::PositionReference::XYZ_POS;
+            ControlCommand.Reference_State.position_ref[0]     = goal_pos[0];
+            ControlCommand.Reference_State.position_ref[1]     = goal_pos[1];
+            ControlCommand.Reference_State.position_ref[2]     = goal_pos[2];
+
+            command_pub.publish(ControlCommand);
 
             message = "Reach the goal!";
             pub_message(message_pub, prometheus_msgs::Message::NORMAL, NODE_NAME, message);
@@ -166,22 +164,19 @@ namespace Global_Planning{
         // 控制方式如果是走航点，则需要对无人机进行限速，保证无人机的平滑移动
         // 采用轨迹控制的方式进行追踪，期望速度 = （期望位置 - 当前位置）/预计时间；
 
-        Command_Now.header.stamp = ros::Time::now();
-        Command_Now.Mode                                = prometheus_msgs::ControlCommand::Move;
-        Command_Now.Command_ID                          = Command_Now.Command_ID + 1;
-        Command_Now.source = NODE_NAME;
-        Command_Now.Reference_State.Move_mode           = prometheus_msgs::PositionReference::TRAJECTORY;
-        Command_Now.Reference_State.Move_frame          = prometheus_msgs::PositionReference::ENU_FRAME;
-        Command_Now.Reference_State.position_ref[0]     = path_cmd.poses[i].pose.position.x;
-        Command_Now.Reference_State.position_ref[1]     = path_cmd.poses[i].pose.position.y;
-        Command_Now.Reference_State.position_ref[2]     = path_cmd.poses[i].pose.position.z;
+        ControlCommand.header.stamp = ros::Time::now();
+        ControlCommand.Mode                                = prometheus_msgs::ControlCommand::Move;
+        ControlCommand.Command_ID                          = ControlCommand.Command_ID + 1;
+        ControlCommand.Reference_State.Move_mode           = prometheus_msgs::PositionReference::TRAJECTORY;
+        ControlCommand.Reference_State.position_ref[0]     = path_cmd.poses[i].pose.position.x;
+        ControlCommand.Reference_State.position_ref[1]     = path_cmd.poses[i].pose.position.y;
+        ControlCommand.Reference_State.position_ref[2]     = path_cmd.poses[i].pose.position.z;
         // TODO 速度这样设置是否合理？
-        Command_Now.Reference_State.velocity_ref[0]     = (path_cmd.poses[i].pose.position.x - _DroneState.position[0])/time_per_path;
-        Command_Now.Reference_State.velocity_ref[1]     = (path_cmd.poses[i].pose.position.y - _DroneState.position[1])/time_per_path;
-        Command_Now.Reference_State.velocity_ref[2]     = (path_cmd.poses[i].pose.position.z - _DroneState.position[2])/time_per_path;
-        Command_Now.Reference_State.yaw_ref             = desired_yaw;
+        ControlCommand.Reference_State.velocity_ref[0]     = (path_cmd.poses[i].pose.position.x - _DroneState.position[0])/time_per_path;
+        ControlCommand.Reference_State.velocity_ref[1]     = (path_cmd.poses[i].pose.position.y - _DroneState.position[1])/time_per_path;
+        ControlCommand.Reference_State.velocity_ref[2]     = (path_cmd.poses[i].pose.position.z - _DroneState.position[2])/time_per_path;
 
-        command_pub.publish(Command_Now);
+        command_pub.publish(ControlCommand);
 
         cur_id = cur_id + 1;
     }

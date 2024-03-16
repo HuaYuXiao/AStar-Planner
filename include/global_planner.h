@@ -39,7 +39,7 @@ namespace Global_Planning{
         ros::Publisher path_cmd_pub;
 
         ros::Timer mainloop_timer;
-        ros::Timertrack_path_timer;
+        ros::Timer track_path_timer;
 
         // A星规划器
         Astar::Ptr Astar_ptr;
@@ -47,7 +47,7 @@ namespace Global_Planning{
         prometheus_msgs::DroneState _DroneState;
         nav_msgs::Odometry Drone_odom;
         nav_msgs::Path path_cmd;
-        prometheus_msgs::ControlCommand Command_Now;
+        prometheus_msgs::ControlCommand ControlCommand;
 
         double distance_walked;
         double distance_to_goal;
