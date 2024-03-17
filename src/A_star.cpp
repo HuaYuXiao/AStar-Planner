@@ -66,8 +66,8 @@ namespace Global_Planning{
       // 首先检查目标点是否可到达
       if(Occupy_map_ptr->getOccupancy(end_pt)){
           message = "Astar can't find path: goal point is occupied.";
-        pub_message(message_pub, prometheus_msgs::Message::WARN, NODE_NAME, message);
-        return NO_PATH;
+          pub_message(message_pub, prometheus_msgs::Message::WARN, NODE_NAME, message);
+          return NO_PATH;
       }
 
       goal_pos = end_pt;

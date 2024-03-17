@@ -93,7 +93,6 @@ namespace Global_Planning{
             // 最终路径点容器
             std::vector<NodePtr> path_nodes_;
 
-            // 参数
             // 启发式参数
             double lambda_heu_;
             // 最大搜索次数
@@ -101,15 +100,18 @@ namespace Global_Planning{
             // tie breaker
             double tie_breaker_;
 
-            /* ---------- record data ---------- */
             // 目标点
             Eigen::Vector3d goal_pos;
+            Eigen::Vector3d origin_;
+            Eigen::Vector3d map_size_3d_;
 
             // 地图相关
             std::vector<int> occupancy_buffer_;
             double resolution;
-            Eigen::Vector3d origin_, map_size_3d_;
+
             bool has_global_point;
+            // 打印的提示消息
+            string message;
 
             // 辅助函数
             Eigen::Vector3i posToIndex(Eigen::Vector3d pt);

@@ -66,7 +66,7 @@ namespace Global_Planning{
 
         goal_ready = true;
 
-        message = "Goal set! (" + std::to_string(vec(0)) + ", " + std::to_string(vec(1)) + ", " + std::to_string(vec(2)) + ")";
+        message = "Goal set! (" + goal_pos(0) + ", " + goal_pos(1) + ", " + goal_pos(2) + ")";
         pub_message(message_pub, prometheus_msgs::Message::NORMAL, NODE_NAME, message);
     }
 
@@ -77,15 +77,15 @@ namespace Global_Planning{
 
         // Drone_odem is needed only when map_input is false, speedup!
         if(!map_input){
-            Drone_odom.header = msg->.header;
+            Drone_odom.header = msg->header;
             Drone_odom.child_frame_id = "base_link";
-            Drone_odom.pose.pose.position.x = msg->.position[0];
-            Drone_odom.pose.pose.position.y = msg->.position[1];
-            Drone_odom.pose.pose.position.z = msg->.position[2];
-            Drone_odom.pose.pose.orientation = msg->.attitude_q;
-            Drone_odom.twist.twist.linear.x = msg->.velocity[0];
-            Drone_odom.twist.twist.linear.y = msg->.velocity[1];
-            Drone_odom.twist.twist.linear.z = msg->.velocity[2];
+            Drone_odom.pose.pose.position.x = msg->position[0];
+            Drone_odom.pose.pose.position.y = msg->position[1];
+            Drone_odom.pose.pose.position.z = msg->position[2];
+            Drone_odom.pose.pose.orientation = msg->attitude_q;
+            Drone_odom.twist.twist.linear.x = msg->velocity[0];
+            Drone_odom.twist.twist.linear.y = msg->velocity[1];
+            Drone_odom.twist.twist.linear.z = msg->velocity[2];
         }
 
         _DroneState = *msg;
@@ -215,7 +215,8 @@ namespace Global_Planning{
                 if(astar_state==Astar::NO_PATH){
                     path_ok = false;
                     exec_state = EXEC_STATE::IDLE;
-                    message = "Planner can't find path!";
+
+                    message = "Astar can't find path: goal point is occupied OR reach the max_search_num.";
                     pub_message(message_pub, prometheus_msgs::Message::WARN, NODE_NAME, message);
                 }
                 else{
@@ -226,8 +227,10 @@ namespace Global_Planning{
                     start_point_index = get_start_point_id();
                     cur_id = start_point_index;
                     exec_state = EXEC_STATE::TRACKING;
+
                     path_cmd_pub.publish(path_cmd);
-                    pub_message(message_pub, prometheus_msgs::Message::NORMAL, NODE_NAME, "Get a new path!");
+                    message = "Get a new path!";
+                    pub_message(message_pub, prometheus_msgs::Message::NORMAL, NODE_NAME, message);
                 }
 
                 break;
