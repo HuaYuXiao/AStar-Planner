@@ -1,11 +1,10 @@
 #ifndef _ASTAR_H
 #define _ASTAR_H
+#define NODE_NAME "Global_Planner"
 
 
 #include "occupy_map.h"
 
-
-#define NODE_NAME "Global_Planner"
 
 namespace Global_Planning{
     #define IN_CLOSE_SET 'a'

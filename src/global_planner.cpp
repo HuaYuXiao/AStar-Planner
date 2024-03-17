@@ -66,7 +66,7 @@ namespace Global_Planning{
 
         goal_ready = true;
 
-        message = "Goal set! (" + goal_pos(0) + ", " + goal_pos(1) + ", " + goal_pos(2) + ")";
+        message = "Goal set! (" + std::to_string(goal_pos(0)) + ", " + std::to_string(goal_pos(1)) + ", " + std::to_string(goal_pos(2)) + ")";
         pub_message(message_pub, prometheus_msgs::Message::NORMAL, NODE_NAME, message);
     }
 
@@ -128,7 +128,7 @@ namespace Global_Planning{
 
         is_new_path = false;
 
-        // 抵达终点
+        // TODO 这样判断是否到达终点是否合理？为什么还要再发送一条控制指令？
         if(cur_id == Num_total_wp - 1){
             ControlCommand.header.stamp = ros::Time::now();
             ControlCommand.Mode                                = prometheus_msgs::ControlCommand::Move;

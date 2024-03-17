@@ -1,14 +1,12 @@
 #ifndef GLOBAL_PLANNER
 #define GLOBAL_PLANNER
+#define NODE_NAME "Global_Planner"
 
 
 #include "A_star.h"
 
 
 using namespace std;
-
-
-#define NODE_NAME "Global_Planner"
 
 
 namespace Global_Planning{

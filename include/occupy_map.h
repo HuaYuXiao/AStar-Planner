@@ -1,11 +1,9 @@
 #ifndef _OCCUPY_MAP_H
 #define _OCCUPY_MAP_H
+#define NODE_NAME "Global_Planner"
 
 
 #include "tools.h"
-
-
-#define NODE_NAME "Global_Planner"
 
 
 namespace Global_Planning{

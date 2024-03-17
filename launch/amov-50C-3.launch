@@ -23,5 +23,3 @@
     <remap from="/scan" to="/prometheus/sensors/2Dlidar_scan" />
   </node>
 </launch>
-
-

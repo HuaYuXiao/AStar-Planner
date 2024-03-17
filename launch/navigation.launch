@@ -10,7 +10,14 @@
 		<rosparam command="load" file="$(find uav_navigation)/config/px4_config.yaml" />
 	</node>
 
+    <!-- TF transform -->
+    <include file="$(find uav_navigation)/launch/tf_transform.launch">
+    </include>
+
     <include file="$(find uav_navigation)/launch/rs_t265.launch">
+    </include>
+
+    <include file="$(find uav_navigation)/launch/amov-50C-3.launch">
     </include>
 
     <!-- run the ground_station.cpp -->
@@ -39,13 +46,6 @@
             <rosparam command="load" file="$(find uav_navigation)/config/px4_sender.yaml" />
         </node>
     </group>
-
-    <include file="$(find uav_navigation)/launch/amov-50C-3.launch">
-    </include>
-
-	<!-- TF transform -->
-	<include file="$(find uav_navigation)/launch/tf_transform.launch">
-    </include>
 
 	<!-- run the laser_to_pointcloud -->
     <node pkg="prometheus_gazebo" type="laser_to_pointcloud.py" name="laser_to_pointcloud" >
