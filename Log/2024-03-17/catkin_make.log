@@ -1,0 +1,23 @@
+[  9%] Building CXX object uav_navigation/CMakeFiles/uav_navigation.dir/src/global_planner.cpp.o
+[ 18%] Building CXX object uav_navigation/CMakeFiles/uav_navigation.dir/src/global_planner_node.cpp.o
+[ 27%] Building CXX object uav_navigation/CMakeFiles/uav_navigation.dir/src/A_star.cpp.o
+Scanning dependencies of target uav_octomapping
+[ 36%] Building CXX object uav_octomapping/CMakeFiles/uav_octomapping.dir/src/octomapping_node.cpp.o
+Base path: /home/amov/catkin_ws
+Source space: /home/amov/catkin_ws/src
+Build space: /home/amov/catkin_ws/build
+Devel space: /home/amov/catkin_ws/devel
+Install space: /home/amov/catkin_ws/install
+####
+#### Running command: "make cmake_check_build_system" in "/home/amov/catkin_ws/build"
+####
+####
+#### Running command: "make install -j4 -l4" in "/home/amov/catkin_ws/build"
+####
+uav_octomapping/CMakeFiles/uav_octomapping.dir/build.make:62: recipe for target 'uav_octomapping/CMakeFiles/uav_octomapping.dir/src/octomapping_node.cpp.o' failed
+uav_navigation/CMakeFiles/uav_navigation.dir/build.make:62: recipe for target 'uav_navigation/CMakeFiles/uav_navigation.dir/src/global_planner_node.cpp.o' failed
+uav_navigation/CMakeFiles/uav_navigation.dir/build.make:86: recipe for target 'uav_navigation/CMakeFiles/uav_navigation.dir/src/global_planner.cpp.o' failed
+uav_navigation/CMakeFiles/uav_navigation.dir/build.make:110: recipe for target 'uav_navigation/CMakeFiles/uav_navigation.dir/src/A_star.cpp.o' failed
+CMakeFiles/Makefile2:3554: recipe for target 'uav_octomapping/CMakeFiles/uav_octomapping.dir/all' failed
+CMakeFiles/Makefile2:523: recipe for target 'uav_navigation/CMakeFiles/uav_navigation.dir/all' failed
+Makefile:140: recipe for target 'all' failed
