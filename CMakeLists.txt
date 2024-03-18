@@ -24,7 +24,6 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
 	INCLUDE_DIRS include
 	LIBRARIES uav_navigation
-	#  DEPENDS system_lib
 )
 
 

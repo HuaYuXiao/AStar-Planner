@@ -17,7 +17,6 @@
 **NOTICE**：建图请前往另一个仓库：https://github.com/HuaYuXiao/uav_octomapping
 
 
-## 方案1：Astar
 
 ```bash
 roslaunch uav_navigation navigation.launch
@@ -41,91 +40,8 @@ roslaunch p450_experiment astar_ground.launch
 
 
 
-## 方案2：[APF](https://zh.wikipedia.org/zh-cn/%E4%BA%BA%E5%B7%A5%E5%8A%BF%E5%9C%BA%E6%B3%95)
-
-仿真实验，在MATLAB中实现3D静态避障导航。
-
-
-## 方案3：EGOPlanner
-
-In a terminal at the ego-planner/ folder, open the rviz for visuallization and interactions
-
-<!--
-```bash
-source devel/setup.bash
-```
--->
-
-```bash
-roslaunch ego_planner rviz.launch
-```
-
-In another terminal at the ego-planner/, run the planner in simulation by
-
-<!--
-```bash
-source devel/setup.bash
-```
--->
-
-```bash
-roslaunch ego_planner run_in_sim.launch
-```
-
-以下已弃用：
-
-```bash
-/home/amov/amovlab_ws/src/p450_experiment/ego_sh/ego.sh
-```
-
-**NOTICE**：2024年2月26日更新，板载计算机性能不够，无法完成编译。
-
-参考：
-- [ZJU-FAST-Lab/ego-planner](https://github.com/ZJU-FAST-Lab/ego-planner)
-- ⭐[课时2 EGO-Planner复现](https://bbs.amovlab.com/plugin.php?id=zhanmishu_video:video&mod=video&cid=63&vid=1154)
-- [EGO-Planner论文阅读笔记](https://zhuanlan.zhihu.com/p/366372048)
-
-
-
-
-## 室内指点飞行
-
-启动基本vio脚本
-
-```bash
-roslaunch p450_experiment p450_vio_onboard.launch
-```
-
-启动控制脚本
-
-```bash
-roslaunch p450_experiment p450_vio_control.launch
-```
-
-## 室内自主降落
-
-启动自主降落脚本
-
-```bash
-roslaunch p450_experiment p450_indoor_landing_static_target.launch
-```
-
-将图像检测显示出来
-
-```bash
-rqt_image_view
-```
-
-
-
-## 支线任务
-- 航模电池续航及充电问题
-- 在ARM64架构的Ubuntu18上安装运行Clash for Windows
-- 下载安装localsend，提高文件传输效率
-- ROS自定义包
-
 ## 谢辞
 
 - 感谢[陈亮名](https://faculty.sustech.edu.cn/?tagid=chenlm6&iscss=1&snapid=1&orderby=date&go=1)副教授提供的技术指导😊！
 - 感谢[哈工深MASLAB](https://github.com/HITSZ-MAS)提供的场地支持😊！
-- 感谢刘嘉雯、[崔宝艺](https://hitsz-mas.github.io/mas-lab-website/members/phd-2023-baoyi-cui.html)、[李奥淇](https://hitsz-mas.github.io/mas-lab-website/members/grad-2022-aoqi-li.html)、[方尧](https://hitsz-mas.github.io/mas-lab-website/members/grad-2023-yao-fang.html)等师兄师姐的支持😊！
+- 感谢刘嘉雯、[崔宝艺](https://hitsz-mas.github.io/mas-lab-website/members/phd-2023-baoyi-cui.html)、[李奥淇](https://hitsz-mas.github.io/mas-lab-website/members/grad-2022-aoqi-li.html)、[方尧](https://hitsz-mas.github.io/mas-lab-website/members/grad-2023-yao-fang.html)、苏硕、马健斌等师兄师姐的支持😊！
