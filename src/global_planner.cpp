@@ -39,6 +39,7 @@ void Global_Planner::init(ros::NodeHandle& nh){
         laserscan_sub = nh.subscribe<sensor_msgs::LaserScan>("/prometheus/global_planning/laser_scan", 1, &Global_Planner::laser_cb, this);
     }
 
+    initialpose_pub = node.advertise<geometry_msgs::PoseStamped>("initial_3d", 0);
     // 发布 路径指令
     command_pub = nh.advertise<prometheus_msgs::ControlCommand>("/prometheus/control_command", 10);
     // 发布提示消息
@@ -126,8 +127,25 @@ void Global_Planner::init(ros::NodeHandle& nh){
 }
 
 
-void Global_Planner::initialpose_cb(const geometry_msgs::PoseStampedConstPtr& msg){
-    initial_pos << msg->pose.position.x, msg->pose.position.y, msg->pose.position.z;
+// Take initialpose as input and publish initial
+void Global_Planner::initialpose_cb(const geometry_msgs::PoseStampedConstPtr& msg) {
+    // 从 initialpose 消息中提取位姿信息
+    geometry_msgs::PoseStamped pose;
+    pose.header = msg->header;
+    pose.pose = msg->pose.pose;
+
+    // 将位姿信息转换到 odom 坐标系下
+    try {
+        geometry_msgs::PoseStamped transformed_pose;
+        tf_listener_.transformPose("odom", pose, transformed_pose);
+
+        // 发布 odem 到 map 的 TF
+        tf::Transform transform;
+        tf::poseMsgToTF(transformed_pose.pose, transform);
+        tf_broadcaster_.sendTransform(tf::StampedTransform(transform, transformed_pose.header.stamp, "odom", "map"));
+    } catch(tf::TransformException& ex) {
+        ROS_ERROR("Failed to transform initial pose: %s", ex.what());
+    }
 }
 
 
@@ -156,7 +174,7 @@ void Global_Planner::goal_cb(const geometry_msgs::PoseStampedConstPtr& msg){
 }
 
 
-void Global_Planner::drone_state_cb(const prometheus_msgs::DroneStateConstPtr& msg){
+void Global_Planner::drone_state_cb(const prometheus_msgs::DroneStateConstPtr &msg){
     _DroneState = *msg;
 
     if (is_2D == true){

@@ -6,7 +6,9 @@
 #include <Eigen/Eigen>
 #include <iostream>
 #include <algorithm>
+#include <tf/transform_broadcaster.h>
 
+#include <geometry_msgs/PoseWithCovarianceStamped.h>
 #include <geometry_msgs/PoseStamped.h>
 #include <std_msgs/Bool.h>
 #include <sensor_msgs/PointCloud2.h>

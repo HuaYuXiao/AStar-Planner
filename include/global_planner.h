@@ -45,11 +45,14 @@ private:
     ros::Subscriber Gpointcloud_sub;
     ros::Subscriber Lpointcloud_sub;
     ros::Subscriber laserscan_sub;
-    // ？
 
     // 发布控制指令
-    ros::Publisher command_pub,path_cmd_pub;
-    ros::Timer mainloop_timer, track_path_timer, safety_timer;
+    ros::Publisher command_pub;
+    ros::Publisher path_cmd_pub;
+
+    ros::Timer mainloop_timer;
+    ros::Timer track_path_timer;
+    ros::Timer safety_timer;
 
     // A星规划器
     Astar::Ptr Astar_ptr;
@@ -100,7 +103,7 @@ private:
     EXEC_STATE exec_state;
 
     // 回调函数
-    void initialpose_cb(const geometry_msgs::PoseStampedConstPtr& msg);
+    void initialpose_cb(const geometry_msgs::PoseWithCovarianceStampedConstPtr& msg);
     void goal_cb(const geometry_msgs::PoseStampedConstPtr& msg);
     void drone_state_cb(const prometheus_msgs::DroneStateConstPtr &msg);
     void Gpointcloud_cb(const sensor_msgs::PointCloud2ConstPtr &msg);
