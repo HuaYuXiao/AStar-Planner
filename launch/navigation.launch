@@ -40,16 +40,16 @@
     </node>
 
     <!-- 启动octomap建图 -->
-    <node pkg="octomap_server" type="octomap_server_node" name="octomap_server" args="map.bt">
+    <node pkg="octomap_server" type="octomap_server_node" name="octomap_server" args="$(find uav_navigation)/map.bt">
         <param name="resolution" value="0.05" />
-        <!-- TODO 发布地图的坐标系 -->
-        <param name="frame_id" type="string" value="world" />
+        <!-- 发布地图的坐标系 -->
+        <param name="frame_id" type="string" value="map" />
         <!-- 传感器最大感知范围 (speedup!) -->
-        <param name="sensor_model/max_range" value="5.0" />
+        <param name="sensor_model/max_range" value="3.0" />
         <!-- 局部点云输入 -->
         <remap from="cloud_in" to="/prometheus/sensors/pcl2" />
-        <!-- TODO waiting to be confirmed -->
-        <remap from="tf_static" to="/tf" />
+        <!-- map frame is static -->
+<!--        <remap from="tf_static" to="/tf" />-->
     </node>
 
 	<!-- run the ground_station.cpp -->

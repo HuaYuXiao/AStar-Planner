@@ -26,11 +26,14 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: 激光雷达数据
+    SyncSource: LaserScan
+
 Preferences:
   PromptSaveOnExit: false
+
 Toolbars:
   toolButtonStyle: 2
+
 Visualization Manager:
   Class: ""
   Displays:
@@ -50,27 +53,28 @@ Visualization Manager:
         Z: 0
       Plane: XY
       Plane Cell Count: 20
-      Reference Frame: <Fixed Frame>
+      Reference Frame: map
       Value: true
+
     - Class: rviz/TF
       Enabled: true
       Frame Timeout: 15
       Frames:
         All Enabled: false
         base_link:
-          Value: false
-        base_link_frd:
           Value: true
+        base_link_frd:
+          Value: false
         lidar_link:
           Value: false
         map:
-          Value: false
-        map_ned:
           Value: true
+        map_ned:
+          Value: false
         odom:
           Value: true
         odom_ned:
-          Value: true
+          Value: false
         t265_accel_frame:
           Value: false
         t265_accel_optical_frame:
@@ -80,13 +84,13 @@ Visualization Manager:
         t265_gyro_optical_frame:
           Value: false
         t265_link:
-          Value: false
+          Value: true
         t265_odom_frame:
           Value: false
         t265_pose_frame:
           Value: false
         world:
-          Value: false
+          Value: true
       Marker Scale: 1
       Name: TF
       Show Arrows: true
@@ -94,6 +98,9 @@ Visualization Manager:
       Show Names: true
       Tree:
         world:
+          map:
+            map_ned:
+              {}
           base_link:
             base_link_frd:
               {}
@@ -106,11 +113,9 @@ Visualization Manager:
               t265_gyro_frame:
                 t265_gyro_optical_frame:
                   {}
-          map:
-            map_ned:
-              {}
       Update Interval: 0
       Value: true
+
     - Class: rviz/Group
       Displays:
         - Alpha: 1
@@ -128,6 +133,7 @@ Visualization Manager:
           Topic: /mavros/local_position/pose
           Unreliable: false
           Value: true
+
         - Alpha: 1
           Buffer Length: 30
           Class: rviz/Path
@@ -151,6 +157,7 @@ Visualization Manager:
           Topic: /prometheus/drone_trajectory
           Unreliable: false
           Value: true
+          
         - Alpha: 1
           Axes Length: 0.5
           Axes Radius: 0.15000000596046448
@@ -167,7 +174,8 @@ Visualization Manager:
           Unreliable: false
           Value: true
       Enabled: true
-      Name: 无人机状态
+      Name: Drone_state
+
     - Alpha: 1
       Autocompute Intensity Bounds: true
       Autocompute Value Bounds:
@@ -184,7 +192,7 @@ Visualization Manager:
       Invert Rainbow: false
       Max Color: 255; 255; 255
       Min Color: 0; 0; 0
-      Name: 激光雷达数据
+      Name: LaserScan
       Position Transformer: XYZ
       Queue Size: 10
       Selectable: true
@@ -196,6 +204,7 @@ Visualization Manager:
       Use Fixed Frame: true
       Use rainbow: true
       Value: true
+
     - Class: rviz/Group
       Displays:
         - Class: octomap_rviz_plugin/OccupancyGrid
@@ -204,12 +213,13 @@ Visualization Manager:
           Max. Octree Depth: 16
           Min. Height Display: -3.4028234663852886e+38
           Name: OccupancyGrid
-          Octomap Topic: /octomap_full
+          Octomap Topic: /octomap_binary
           Queue Size: 5
           Value: true
           Voxel Alpha: 1
           Voxel Coloring: Z-Axis
           Voxel Rendering: Occupied Voxels
+
         - Alpha: 1
           Autocompute Intensity Bounds: true
           Autocompute Value Bounds:
@@ -239,7 +249,8 @@ Visualization Manager:
           Use rainbow: true
           Value: true
       Enabled: true
-      Name: Octomap建图结果
+      Name: Octomap
+
     - Alpha: 1
       Autocompute Intensity Bounds: true
       Autocompute Value Bounds:
@@ -256,7 +267,7 @@ Visualization Manager:
       Invert Rainbow: false
       Max Color: 255; 255; 255
       Min Color: 0; 0; 0
-      Name: 全局点云
+      Name: Global_PointCloud
       Position Transformer: XYZ
       Queue Size: 10
       Selectable: true
@@ -268,6 +279,7 @@ Visualization Manager:
       Use Fixed Frame: true
       Use rainbow: true
       Value: false
+
     - Alpha: 1
       Autocompute Intensity Bounds: true
       Autocompute Value Bounds:
@@ -296,6 +308,7 @@ Visualization Manager:
       Use Fixed Frame: true
       Use rainbow: true
       Value: true
+
     - Alpha: 1
       Buffer Length: 1
       Class: rviz/Path
@@ -306,7 +319,7 @@ Visualization Manager:
       Length: 0.30000001192092896
       Line Style: Billboards
       Line Width: 0.07999999821186066
-      Name: 规划路径
+      Name: Path_cmd
       Offset:
         X: 0
         Y: 0
@@ -319,34 +332,7 @@ Visualization Manager:
       Topic: /prometheus/global_planning/path_cmd
       Unreliable: false
       Value: true
-    - Alpha: 1
-      Autocompute Intensity Bounds: true
-      Autocompute Value Bounds:
-        Max Value: 10
-        Min Value: -10
-        Value: true
-      Axis: Z
-      Channel Name: intensity
-      Class: rviz/PointCloud2
-      Color: 255; 255; 255
-      Color Transformer: Intensity
-      Decay Time: 0
-      Enabled: false
-      Invert Rainbow: false
-      Max Color: 255; 255; 255
-      Min Color: 0; 0; 0
-      Name: 全局点云-真值
-      Position Transformer: XYZ
-      Queue Size: 10
-      Selectable: true
-      Size (Pixels): 3
-      Size (m): 0.009999999776482582
-      Style: Flat Squares
-      Topic: /prometheus/pcl_groundtruth
-      Unreliable: false
-      Use Fixed Frame: true
-      Use rainbow: true
-      Value: false
+
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -382,10 +368,11 @@ Visualization Manager:
       Name: Current View
       Near Clip Distance: 0.009999999776482582
       Pitch: 1.5547962188720703
-      Target Frame: <Fixed Frame>
+      Target Frame: map
       Value: Orbit (rviz)
       Yaw: 3.098813533782959
     Saved: ~
+    
 Window Geometry:
   Displays:
     collapsed: true
