@@ -14,6 +14,9 @@
     <include file="$(find uav_navigation)/launch/rs_t265.launch">
     </include>
 
+    <include file="$(find uav_navigation)/launch/amov-50C-3.launch">
+    </include>
+
     <!-- 启动Prometheus代码 -->
     <group ns="prometheus_control">
         <!-- run the px4_pos_estimator.cpp -->
@@ -26,10 +29,22 @@
         <node pkg="prometheus_control" type="px4_sender" name="px4_sender" output="screen">
             <rosparam command="load" file="$(find uav_navigation)/config/px4_sender.yaml"/>
         </node>
+
+        <!-- run the terminal_control.cpp -->
+        <node pkg="prometheus_control" type="terminal_control" name="terminal_control" output="screen" launch-prefix="gnome-terminal --">
+            <rosparam command="load" file="$(find uav_navigation)/config/px4_sender.yaml" />
+        </node>
     </group>
 
-    <include file="$(find uav_navigation)/launch/amov-50C-3.launch">
-    </include>
+    <group ns="prometheus_station">
+        <!-- run the ground_station.cpp -->
+        <node pkg="prometheus_station" type="ground_station" name="ground_station" output="screen" launch-prefix="gnome-terminal --tab --">
+        </node>
+
+        <!-- run the ground_station_msg.cpp -->
+        <node pkg="prometheus_station" type="ground_station_msg" name="ground_station_msg" output="screen" launch-prefix="gnome-terminal --tab --">
+        </node>
+    </group>
 
 	<!-- TF transform -->
 	<include file="$(find uav_navigation)/launch/tf_transform.launch">
@@ -52,19 +67,6 @@
 <!--        <remap from="tf_static" to="/tf" />-->
     </node>
 
-	<!-- run the ground_station.cpp -->
-	<node pkg="prometheus_station" type="ground_station" name="ground_station" output="screen" launch-prefix="gnome-terminal --tab --">	
-	</node>
-
-	<!-- run the ground_station_msg.cpp -->
-	<node pkg="prometheus_station" type="ground_station_msg" name="ground_station_msg" output="screen" launch-prefix="gnome-terminal --tab --">	
-	</node>
-
-	<!-- run the terminal_control.cpp -->
-	<node pkg="prometheus_control" type="terminal_control" name="terminal_control" output="screen" launch-prefix="gnome-terminal --">	
-		<rosparam command="load" file="$(find uav_navigation)/config/px4_sender.yaml" />
-	</node>	
-    
 	<!-- 启动rviz,设为false可关闭 -->
 	<arg name="visualization" default="true"/>
 	<group if="$(arg visualization)">

@@ -1,45 +1,19 @@
 #ifndef GLOBAL_PLANNER
 #define GLOBAL_PLANNER
+#define NODE_NAME "Global_Planner [main]"
 
-#include <ros/ros.h>
-
-#include <Eigen/Eigen>
-#include <iostream>
-#include <algorithm>
-#include <iostream>
-
-#include <geometry_msgs/PoseStamped.h>
-#include <std_msgs/Bool.h>
-#include <sensor_msgs/PointCloud2.h>
-#include <sensor_msgs/LaserScan.h>
-#include <nav_msgs/Odometry.h>
-#include <nav_msgs/Path.h>
-
-#include "prometheus_msgs/PositionReference.h"
-#include "prometheus_msgs/Message.h"
-#include "prometheus_msgs/DroneState.h"
-#include "prometheus_msgs/ControlCommand.h"
 
 #include "A_star.h"
-#include "occupy_map.h"
-#include "tools.h"
-#include "message_utils.h"
+
 
 using namespace std;
 
-#define NODE_NAME "Global_Planner [main]"
 
-#define MIN_DIS 0.1
-
-namespace Global_Planning
-{
-
+namespace Global_Planning{
 extern ros::Publisher message_pub;
 
-class Global_Planner
-{
+class Global_Planner{
 private:
-
     ros::NodeHandle global_planner_nh;
 
     // 参数
@@ -60,11 +34,14 @@ private:
     // 调用路径规划算法 生成路径
     // 调用轨迹优化算法 规划轨迹
 
-    // 订阅无人机状态、目标点、传感器数据（生成地图）
+    // subcribe目标点
+    ros::Subscriber initialpose_sub;
     ros::Subscriber goal_sub;
+    // 订阅无人机状态
     ros::Subscriber drone_state_sub;
     // 支持2维激光雷达、3维激光雷达、D435i等实体传感器
     // 支持直接输入全局已知点云
+    //    传感器数据（生成地图）
     ros::Subscriber Gpointcloud_sub;
     ros::Subscriber Lpointcloud_sub;
     ros::Subscriber laserscan_sub;
@@ -79,11 +56,10 @@ private:
 
     prometheus_msgs::DroneState _DroneState;
     nav_msgs::Odometry Drone_odom;
-
     nav_msgs::Path path_cmd;
-    double distance_walked;
-    prometheus_msgs::ControlCommand Command_Now;   
+    prometheus_msgs::ControlCommand Command_Now;
 
+    double distance_walked;
     double distance_to_goal;
 
     // 规划器状态
@@ -99,7 +75,12 @@ private:
     int cur_id;
 
     // 规划初始状态及终端状态
-    Eigen::Vector3d start_pos, start_vel, start_acc, goal_pos, goal_vel;
+    Eigen::Vector3d initial_pos;
+    Eigen::Vector3d start_pos;
+    Eigen::Vector3d start_vel;
+    Eigen::Vector3d start_acc;
+    Eigen::Vector3d goal_pos;
+    Eigen::Vector3d goal_vel;
 
     float desired_yaw;
 
@@ -110,8 +91,7 @@ private:
     string message;
 
     // 五种状态机
-    enum EXEC_STATE
-    {
+    enum EXEC_STATE{
         WAIT_GOAL,
         PLANNING,
         TRACKING,
@@ -120,16 +100,15 @@ private:
     EXEC_STATE exec_state;
 
     // 回调函数
+    void initialpose_cb(const geometry_msgs::PoseStampedConstPtr& msg);
     void goal_cb(const geometry_msgs::PoseStampedConstPtr& msg);
     void drone_state_cb(const prometheus_msgs::DroneStateConstPtr &msg);
     void Gpointcloud_cb(const sensor_msgs::PointCloud2ConstPtr &msg);
     void Lpointcloud_cb(const sensor_msgs::PointCloud2ConstPtr &msg);
     void laser_cb(const sensor_msgs::LaserScanConstPtr &msg);
-
     void safety_cb(const ros::TimerEvent& e);
     void mainloop_cb(const ros::TimerEvent& e);
     void track_path_cb(const ros::TimerEvent& e);
-   
 
     // 【获取当前时间函数】 单位：秒
     float get_time_in_sec(const ros::Time& begin_time);
@@ -143,7 +122,6 @@ public:
 
     void init(ros::NodeHandle& nh);
 };
-
 }
 
 #endif
