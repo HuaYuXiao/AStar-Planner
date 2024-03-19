@@ -1,0 +1,18 @@
+amov@amov:~$ rostopic echo /prometheus/planning/goal
+header: 
+  seq: 1
+  stamp: 
+    secs: 1710851323
+    nsecs: 851531211
+  frame_id: "map"
+pose: 
+  position: 
+    x: 0.770142018795
+    y: 3.43323707581
+    z: 3.30539592142e-07
+  orientation: 
+    x: 0.0
+    y: 0.0
+    z: 0.584917492637
+    w: 0.811092797902
+---
