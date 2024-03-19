@@ -62,11 +62,19 @@ roslaunch p450_experiment astar_onboard.launch
 roslaunch p450_experiment astar_ground.launch
 ```
 
-参考：
-
-- ⭐[进阶功能-室内自主避障](https://wiki.amovlab.com/public/prometheuswiki/P450%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C/%E8%BF%9B%E9%98%B6%E5%8A%9F%E8%83%BD-%E5%AE%A4%E5%86%85%E8%87%AA%E4%B8%BB%E9%81%BF%E9%9A%9C.html)
+Reference:
+- ⭐ [进阶功能-室内自主避障](https://wiki.amovlab.com/public/prometheuswiki/P450%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C/%E8%BF%9B%E9%98%B6%E5%8A%9F%E8%83%BD-%E5%AE%A4%E5%86%85%E8%87%AA%E4%B8%BB%E9%81%BF%E9%9A%9C.html)
 - [技术分享 | Prometheus避障—A_star算法代码阅读](https://mp.weixin.qq.com/s/TR9KgxV2lFZX_4VJ_I6kAQ)
 - [技术分享 | Prometheus（P450）-室内外避障](https://mp.weixin.qq.com/s/j4-Z_OIIW9ReXpfisAh37Q)
+
+
+## 4. 确定起点
+
+
+
+Reference:
+- ⭐ [How to Create an Initial Pose and Goal Publisher in ROS](https://automaticaddison.com/how-to-create-an-initial-pose-and-goal-publisher-in-ros/)
+
 
 
 
@@ -74,4 +82,4 @@ roslaunch p450_experiment astar_ground.launch
 
 - 感谢[陈亮名](https://faculty.sustech.edu.cn/?tagid=chenlm6&iscss=1&snapid=1&orderby=date&go=1)副教授提供的技术指导😊！
 - 感谢[哈工深MASLAB](https://github.com/HITSZ-MAS)提供的场地支持😊！
-- 感谢刘嘉雯、[崔宝艺](https://hitsz-mas.github.io/mas-lab-website/members/phd-2023-baoyi-cui.html)、[李奥淇](https://hitsz-mas.github.io/mas-lab-website/members/grad-2022-aoqi-li.html)、[方尧](https://hitsz-mas.github.io/mas-lab-website/members/grad-2023-yao-fang.html)、苏硕、马健斌等师兄师姐的支持😊！
+- 感谢[李奥淇](https://hitsz-mas.github.io/mas-lab-website/members/grad-2022-aoqi-li.html)、马健斌、[崔宝艺](https://hitsz-mas.github.io/mas-lab-website/members/phd-2023-baoyi-cui.html)、[方尧](https://hitsz-mas.github.io/mas-lab-website/members/grad-2023-yao-fang.html)、刘嘉雯、苏硕等师兄师姐的支持😊！
