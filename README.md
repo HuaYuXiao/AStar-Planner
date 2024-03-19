@@ -18,6 +18,36 @@
 
 
 
+## 实物实验
+
+### 1. 下载源码
+
+```bash
+cd ~/catkin_ws
+```
+
+```bash
+git clone https://github.com/HuaYuXiao/uav_navigation.git
+```
+
+
+### 2. 编译安装
+
+```bash
+catkin_make -j2 -l2 install --pkg=uav_navigation
+```
+
+NOTICE：由于板载计算机性能表现不佳，此处仅使用2个线程进行编译和链接。
+
+编译安装完成后，在.bashrc末尾加上：`source ~/catkin_ws/devel/setup.bash`（已经添加过的跳过），
+
+```bash
+gedit ~/.bashrc
+```
+
+
+### 3. 开始导航
+
 ```bash
 roslaunch uav_navigation navigation.launch
 ```
