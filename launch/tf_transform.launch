@@ -7,17 +7,17 @@
         <!-- 注意，当无人机起飞点不在 0,0,0时, gazebo中的坐标系并非与map系的原点重合 -->
 
 	<!-- TF for world and map-->
-	<node pkg="tf" type="static_transform_publisher" name="tf_world_map"
-          	args="0 0 0 0 0 0 world map 100"/>
+	<node pkg="tf2_ros" type="static_transform_publisher" name="tf_world_map"
+          	args="0 0 0 0 0 0 world map"/>
 
 	<!-- TF for base_link-->
-	<node pkg="tf" type="static_transform_publisher" name="tf_t265"
-          	args="0.1 0 0 0 0 0 base_link t265_link 100"/>
+	<node pkg="tf2_ros" type="static_transform_publisher" name="tf_t265"
+          	args="0.1 0 0 0 0 0 base_link t265_link"/>
 
         <!-- TF for 2D lidar-->
         <!-- lidar_link是2D激光雷达坐标系 -->
         <!-- 机体系与2Dlidar_link的坐标转换关系见 P300_2Dlidar.sdf -->
-  	<node pkg="tf" type="static_transform_publisher" name="tf_2Dlidar"
-          	args="0 0 0.05 0 0 0 base_link lidar_link 100"/>
+  	<node pkg="tf2_ros" type="static_transform_publisher" name="tf_2Dlidar"
+          	args="0 0 0.05 0 0 0 base_link lidar_link"/>
 </launch>
 
