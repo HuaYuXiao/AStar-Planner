@@ -1,25 +1,13 @@
 #ifndef _ASTAR_H
 #define _ASTAR_H
 
-#include <ros/ros.h>
-#include <Eigen/Eigen>
-#include <iostream>
-#include <queue>
-#include <string>
-#include <unordered_map>
-#include <sstream>
 
-#include <sensor_msgs/PointCloud2.h>
-#include <nav_msgs/Path.h>
-
-#include "occupy_map.h"
 #include "tools.h"
 #include "message_utils.h"
 
 #define NODE_NAME "Global_Planner [Astar]"
 
-namespace Global_Planning
-{
+namespace Global_Planning{
 
 #define IN_CLOSE_SET 'a'
 #define IN_OPEN_SET 'b'
@@ -28,8 +16,7 @@ namespace Global_Planning
 
 extern ros::Publisher message_pub;
 
-class Node
-{
+class Node{
     public:
         /* -------------------- */
         Eigen::Vector3i index;

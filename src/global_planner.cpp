@@ -1,9 +1,7 @@
 #include "global_planner.h"
 
 
-namespace Global_Planning{
-
-
+namespace Global_Planning {
 // 初始化函数
 void Global_Planner::init(ros::NodeHandle& nh){
     // 读取参数
@@ -24,7 +22,7 @@ void Global_Planner::init(ros::NodeHandle& nh){
     nh.param("global_planner/map_groundtruth", map_groundtruth, false);
 
     // subscribe /initialpose
-    initialpose_sub = nh.subscribe<geometry_msgs::PoseStamped>("/initialpose", 1, &Global_Planner::initialpose_cb, this);
+    initialpose_sub = nh.subscribe<geometry_msgs::PoseWithCovarianceStamped>("/initialpose", 1, &Global_Planner::initialpose_cb, this);
     // 订阅 目标点
     goal_sub = nh.subscribe<geometry_msgs::PoseStamped>("/prometheus/planning/goal", 1, &Global_Planner::goal_cb, this);
     // 订阅 无人机状态
@@ -39,7 +37,6 @@ void Global_Planner::init(ros::NodeHandle& nh){
         laserscan_sub = nh.subscribe<sensor_msgs::LaserScan>("/prometheus/global_planning/laser_scan", 1, &Global_Planner::laser_cb, this);
     }
 
-    initialpose_pub = node.advertise<geometry_msgs::PoseStamped>("initial_3d", 0);
     // 发布 路径指令
     command_pub = nh.advertise<prometheus_msgs::ControlCommand>("/prometheus/control_command", 10);
     // 发布提示消息
@@ -61,7 +58,6 @@ void Global_Planner::init(ros::NodeHandle& nh){
     Astar_ptr->init(nh);
 
     pub_message(message_pub, prometheus_msgs::Message::NORMAL, NODE_NAME, "A_star init.");
-
 
     // 规划器状态参数初始化
     exec_state = EXEC_STATE::WAIT_GOAL;
@@ -128,24 +124,31 @@ void Global_Planner::init(ros::NodeHandle& nh){
 
 
 // Take initialpose as input and publish initial
-void Global_Planner::initialpose_cb(const geometry_msgs::PoseStampedConstPtr& msg) {
-    // 从 initialpose 消息中提取位姿信息
-    geometry_msgs::PoseStamped pose;
-    pose.header = msg->header;
-    pose.pose = msg->pose.pose;
+void Global_Planner::initialpose_cb(const geometry_msgs::PoseWithCovarianceStampedConstPtr& msg) {
+    // TEST 从 initialpose 消息中提取位姿信息
+    initialpose.header = msg->header;
+    initialpose.pose = msg->pose.pose;
+
+    cout << initialpose << endl;
 
     // 将位姿信息转换到 odom 坐标系下
-    try {
-        geometry_msgs::PoseStamped transformed_pose;
-        tf_listener_.transformPose("odom", pose, transformed_pose);
+    static_transformStamped.header.stamp = ros::Time::now();
+    static_transformStamped.header.frame_id = "map";  // 地图坐标系
+    static_transformStamped.child_frame_id = "odom";  // 里程计坐标系
 
-        // 发布 odem 到 map 的 TF
-        tf::Transform transform;
-        tf::poseMsgToTF(transformed_pose.pose, transform);
-        tf_broadcaster_.sendTransform(tf::StampedTransform(transform, transformed_pose.header.stamp, "odom", "map"));
-    } catch(tf::TransformException& ex) {
-        ROS_ERROR("Failed to transform initial pose: %s", ex.what());
-    }
+    // 发布 odem 到 map 的 TF
+    static_transformStamped.transform.translation.x = msg->pose.pose.position.x;
+    static_transformStamped.transform.translation.y = msg->pose.pose.position.y;
+    static_transformStamped.transform.translation.z = msg->pose.pose.position.z;
+    static_transformStamped.transform.rotation.x = 0.0;
+    static_transformStamped.transform.rotation.y = 0.0;
+    static_transformStamped.transform.rotation.z = msg->pose.pose.orientation.z;
+    static_transformStamped.transform.rotation.w = msg->pose.pose.orientation.w;
+
+    // 发布静态tf变换
+    static_broadcaster.sendTransform(static_transformStamped);
+
+    ROS_INFO("Inintial Pose set!");
 }
 
 
@@ -162,19 +165,11 @@ void Global_Planner::goal_cb(const geometry_msgs::PoseStampedConstPtr& msg){
 
     // 获得新目标点
     pub_message(message_pub, prometheus_msgs::Message::NORMAL, NODE_NAME,"Get a new goal point");
-
-    cout << "Get a new goal point:"<< goal_pos(0) << " m "  << goal_pos(1) << " m "  << goal_pos(2)<< " m "   <<endl;
-
-    if(goal_pos(0) == 99 && goal_pos(1) == 99 ){
-        path_ok = false;
-        goal_ready = false;
-        exec_state = EXEC_STATE::LANDING;
-        pub_message(message_pub, prometheus_msgs::Message::NORMAL, NODE_NAME,"Land");
-    }
+    ROS_INFO("Get a new goal point: (%f, %f, %f)", goal_pos(0), goal_pos(1), goal_pos(2));
 }
 
 
-void Global_Planner::drone_state_cb(const prometheus_msgs::DroneStateConstPtr &msg){
+void Global_Planner::drone_state_cb(const prometheus_msgs::DroneStateConstPtr& msg){
     _DroneState = *msg;
 
     if (is_2D == true){
@@ -215,7 +210,7 @@ void Global_Planner::drone_state_cb(const prometheus_msgs::DroneStateConstPtr &m
 
 // 根据全局点云更新地图
 // 情况：已知全局点云的场景、由SLAM实时获取的全局点云
-void Global_Planner::Gpointcloud_cb(const sensor_msgs::PointCloud2ConstPtr &msg){
+void Global_Planner::Gpointcloud_cb(const sensor_msgs::PointCloud2ConstPtr& msg){
     /* need odom_ for center radius sensing */
     if (!odom_ready){
         return;
@@ -247,7 +242,7 @@ void Global_Planner::Gpointcloud_cb(const sensor_msgs::PointCloud2ConstPtr &msg)
 // 根据局部点云更新地图
 // 情况：RGBD相机、三维激光雷达
 // useless. because this P450 is not equipped with D435i
-void Global_Planner::Lpointcloud_cb(const sensor_msgs::PointCloud2ConstPtr &msg){
+void Global_Planner::Lpointcloud_cb(const sensor_msgs::PointCloud2ConstPtr& msg){
     /* need odom_ for center radius sensing */
     if (!odom_ready){
         return;
@@ -264,7 +259,7 @@ void Global_Planner::Lpointcloud_cb(const sensor_msgs::PointCloud2ConstPtr &msg)
 
 // 根据2维雷达数据更新地图
 // 情况：2维激光雷达
-void Global_Planner::laser_cb(const sensor_msgs::LaserScanConstPtr &msg){
+void Global_Planner::laser_cb(const sensor_msgs::LaserScanConstPtr& msg){
     /* need odom_ for center radius sensing */
     if (!odom_ready){
         return;

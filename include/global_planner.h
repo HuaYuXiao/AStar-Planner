@@ -11,7 +11,6 @@ using namespace std;
 
 namespace Global_Planning{
 extern ros::Publisher message_pub;
-
 class Global_Planner{
 private:
     ros::NodeHandle global_planner_nh;
@@ -57,6 +56,10 @@ private:
     // A星规划器
     Astar::Ptr Astar_ptr;
 
+    tf2_ros::StaticTransformBroadcaster static_broadcaster;
+    // 创建一个TransformStamped消息并填充数据
+    geometry_msgs::TransformStamped static_transformStamped;
+    geometry_msgs::PoseStamped initialpose;
     prometheus_msgs::DroneState _DroneState;
     nav_msgs::Odometry Drone_odom;
     nav_msgs::Path path_cmd;
@@ -78,7 +81,6 @@ private:
     int cur_id;
 
     // 规划初始状态及终端状态
-    Eigen::Vector3d initial_pos;
     Eigen::Vector3d start_pos;
     Eigen::Vector3d start_vel;
     Eigen::Vector3d start_acc;
@@ -86,7 +88,6 @@ private:
     Eigen::Vector3d goal_vel;
 
     float desired_yaw;
-
     ros::Time tra_start_time;
     float tra_running_time;
     
@@ -105,10 +106,10 @@ private:
     // 回调函数
     void initialpose_cb(const geometry_msgs::PoseWithCovarianceStampedConstPtr& msg);
     void goal_cb(const geometry_msgs::PoseStampedConstPtr& msg);
-    void drone_state_cb(const prometheus_msgs::DroneStateConstPtr &msg);
-    void Gpointcloud_cb(const sensor_msgs::PointCloud2ConstPtr &msg);
-    void Lpointcloud_cb(const sensor_msgs::PointCloud2ConstPtr &msg);
-    void laser_cb(const sensor_msgs::LaserScanConstPtr &msg);
+    void drone_state_cb(const prometheus_msgs::DroneStateConstPtr& msg);
+    void Gpointcloud_cb(const sensor_msgs::PointCloud2ConstPtr& msg);
+    void Lpointcloud_cb(const sensor_msgs::PointCloud2ConstPtr& msg);
+    void laser_cb(const sensor_msgs::LaserScanConstPtr& msg);
     void safety_cb(const ros::TimerEvent& e);
     void mainloop_cb(const ros::TimerEvent& e);
     void track_path_cb(const ros::TimerEvent& e);
@@ -126,5 +127,4 @@ public:
     void init(ros::NodeHandle& nh);
 };
 }
-
 #endif
