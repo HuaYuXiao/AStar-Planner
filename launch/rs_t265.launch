@@ -5,8 +5,8 @@ ROS/realsense in upcoming releases. Currently, the API is available in the
 https://github.com/IntelRealSense/librealsense/blob/master/third-party/libtm/libtm/include/TrackingDevice.h#L508-L515.
 -->
 <launch>
-  <arg name="serial_no"           default=""/>
-  <arg name="usb_port_id"         default=""/>
+  <arg name="serial_no"           default="201222111361"/>
+  <arg name="usb_port_id"         default="2-1.3"/>
   <arg name="device_type"         default="t265"/>
   <arg name="json_file_path"      default=""/>
   <arg name="camera"              default="t265"/>
@@ -17,10 +17,10 @@ https://github.com/IntelRealSense/librealsense/blob/master/third-party/libtm/lib
   <arg name="enable_fisheye1"     default="false"/>
   <arg name="enable_fisheye2"     default="false"/>
 
-  <arg name="fisheye_fps"         default="30"/>
-
+  <arg name="fisheye_fps"         default="60"/>
   <arg name="gyro_fps"            default="200"/>
   <arg name="accel_fps"           default="62"/>
+
   <arg name="enable_gyro"         default="true"/>
   <arg name="enable_accel"        default="true"/>
   <arg name="enable_pose"         default="true"/>
@@ -51,6 +51,7 @@ https://github.com/IntelRealSense/librealsense/blob/master/third-party/libtm/lib
       <arg name="fisheye_fps"              value="$(arg fisheye_fps)"/>
       <arg name="gyro_fps"                 value="$(arg gyro_fps)"/>
       <arg name="accel_fps"                value="$(arg accel_fps)"/>
+
       <arg name="enable_gyro"              value="$(arg enable_gyro)"/>
       <arg name="enable_accel"             value="$(arg enable_accel)"/>
       <arg name="enable_pose"              value="$(arg enable_pose)"/>
