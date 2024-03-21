@@ -114,6 +114,26 @@ Visualization Manager:
                   t265_gyro_frame:
                     t265_gyro_optical_frame:
                       {}
+          vicon/cf1/cf1:
+            { }
+          vicon/cf10/cf10:
+            { }
+          vicon/cf2/cf2:
+            { }
+          vicon/cf3/cf3:
+            { }
+          vicon/cf4/cf4:
+            { }
+          vicon/cf5/cf5:
+            { }
+          vicon/cf6/cf6:
+            { }
+          vicon/cf7/cf7:
+            { }
+          vicon/cf8/cf8:
+            { }
+          vicon/cf9/cf9:
+            { }
       Update Interval: 0
       Value: true
 
@@ -356,25 +376,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 7.276445388793945
+      Distance: 8
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: -0.6879035830497742
-        Y: -0.159935861825943
-        Z: 1.8105119466781616
+        X: 0
+        Y: 1.5
+        Z: 1.5
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 1.5547962188720703
       Target Frame: map
       Value: Orbit (rviz)
-      Yaw: 3.098813533782959
+      Yaw: 3.14
+      Pitch: 1
     Saved: ~
     
 Window Geometry:
