@@ -125,11 +125,9 @@ void Global_Planner::init(ros::NodeHandle& nh){
 
 // Take initialpose as input and publish initial
 void Global_Planner::initialpose_cb(const geometry_msgs::PoseWithCovarianceStampedConstPtr& msg) {
+    ROS_INFO("initialpose_cb");
     // TEST 从 initialpose 消息中提取位姿信息
-    initialpose.header = msg->header;
-    initialpose.pose = msg->pose.pose;
-
-    cout << initialpose << endl;
+    cout << msg->pose << endl;
 
     // 将位姿信息转换到 odom 坐标系下
     static_transformStamped.header.stamp = ros::Time::now();
