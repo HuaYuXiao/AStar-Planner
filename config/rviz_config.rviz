@@ -61,12 +61,8 @@ Visualization Manager:
       Frame Timeout: 15
       Frames:
         All Enabled: false
-        base_link:
+        world:
           Value: true
-        base_link_frd:
-          Value: false
-        lidar_link:
-          Value: True
         map:
           Value: true
         map_ned:
@@ -74,6 +70,18 @@ Visualization Manager:
         odom:
           Value: true
         odom_ned:
+          Value: false
+        base_link:
+          Value: true
+        base_link_frd:
+          Value: false
+        lidar_link:
+          Value: true
+        t265_link:
+          Value: true
+        t265_odom_frame:
+          Value: false
+        t265_pose_frame:
           Value: false
         t265_accel_frame:
           Value: false
@@ -83,14 +91,6 @@ Visualization Manager:
           Value: false
         t265_gyro_optical_frame:
           Value: false
-        t265_link:
-          Value: true
-        t265_odom_frame:
-          Value: false
-        t265_pose_frame:
-          Value: false
-        world:
-          Value: true
       Marker Scale: 1
       Name: TF
       Show Arrows: true
@@ -101,18 +101,19 @@ Visualization Manager:
           map:
             map_ned:
               {}
-          base_link:
-            base_link_frd:
-              {}
-            lidar_link:
-              {}
-            t265_link:
-              t265_accel_frame:
-                t265_accel_optical_frame:
+            odem:
+              base_link:
+                base_link_frd:
                   {}
-              t265_gyro_frame:
-                t265_gyro_optical_frame:
+                lidar_link:
                   {}
+                t265_link:
+                  t265_accel_frame:
+                    t265_accel_optical_frame:
+                      {}
+                  t265_gyro_frame:
+                    t265_gyro_optical_frame:
+                      {}
       Update Interval: 0
       Value: true
 
