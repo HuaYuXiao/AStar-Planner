@@ -125,7 +125,6 @@ void Global_Planner::init(ros::NodeHandle& nh){
 
 // Take initialpose as input and publish initial
 void Global_Planner::initialpose_cb(const geometry_msgs::PoseWithCovarianceStampedConstPtr& msg) {
-    ROS_INFO("initialpose_cb");
     // TEST 从 initialpose 消息中提取位姿信息
     cout << msg->pose << endl;
 
@@ -175,14 +174,12 @@ void Global_Planner::drone_state_cb(const prometheus_msgs::DroneStateConstPtr& m
         start_vel << msg->velocity[0], msg->velocity[1], 0.0;
 
         if(abs(fly_height_2D - msg->position[2]) > 0.2){
-            pub_message(message_pub, prometheus_msgs::Message::WARN, NODE_NAME,"Drone is not in the desired height.");
+            ROS_ERROR("Drone is not in the desired height.");
         }
     }else{
         start_pos << msg->position[0], msg->position[1], msg->position[2];
         start_vel << msg->velocity[0], msg->velocity[1], msg->velocity[2];
     }
-
-    start_acc << 0.0, 0.0, 0.0;
 
     odom_ready = true;
 

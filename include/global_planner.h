@@ -83,7 +83,6 @@ private:
     // 规划初始状态及终端状态
     Eigen::Vector3d start_pos;
     Eigen::Vector3d start_vel;
-    Eigen::Vector3d start_acc;
     Eigen::Vector3d goal_pos;
     Eigen::Vector3d goal_vel;
 
