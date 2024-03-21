@@ -81,7 +81,6 @@ Reference:
 
 
 ## 谢辞
-
-- 感谢[陈亮名](https://faculty.sustech.edu.cn/?tagid=chenlm6&iscss=1&snapid=1&orderby=date&go=1)副教授提供的技术指导😊！
-- 感谢[哈工深MASLAB](https://github.com/HITSZ-MAS)提供的场地支持😊！
-- 感谢[李奥淇](https://hitsz-mas.github.io/mas-lab-website/members/grad-2022-aoqi-li.html)、马健斌、[崔宝艺](https://hitsz-mas.github.io/mas-lab-website/members/phd-2023-baoyi-cui.html)、[方尧](https://hitsz-mas.github.io/mas-lab-website/members/grad-2023-yao-fang.html)、刘嘉雯、苏硕等师兄师姐的支持😊！
+- 感谢**陈亮名**副教授提供的指导😊！
+- 感谢**哈工深MASLAB**提供的场地与设备支持😊！
+- 感谢**马健斌**、**岳江源**、**李奥淇**等师兄们的技术支持😊！
