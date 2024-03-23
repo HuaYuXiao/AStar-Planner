@@ -69,7 +69,7 @@ void Astar::reset(){
 int Astar::search(Eigen::Vector3d start_pt, Eigen::Vector3d end_pt){
   // 首先检查目标点是否可到达
   if(Occupy_map_ptr->getOccupancy(end_pt)){
-    pub_message(message_pub, prometheus_msgs::Message::WARN, NODE_NAME, "Astar can't find path: goal point is occupied.");
+    ROS_WARN("Astar can't find path: goal point is occupied.");
     return NO_PATH;
   }
 
@@ -113,7 +113,7 @@ int Astar::search(Eigen::Vector3d start_pt, Eigen::Vector3d end_pt){
       retrievePath(terminate_node);
 
       // 时间一般很短，远远小于膨胀点云的时间
-      printf("Astar take time %f s. \n", (ros::Time::now()-time_astar_start).toSec());
+      ROS_INFO("Astar take time %f s. \n", (ros::Time::now()-time_astar_start).toSec());
 
       return REACH_END;
     }
@@ -157,7 +157,7 @@ int Astar::search(Eigen::Vector3d start_pt, Eigen::Vector3d end_pt){
 
           // 计算扩展节点的index
           Eigen::Vector3i d_pos_id;
-          d_pos_id << int(dx/resolution_), int(dy/resolution_), int(dz/resolution_);
+          d_pos_id << int(dx / resolution_), int(dy / resolution_), int(dz / resolution_);
           Eigen::Vector3i expand_node_id = d_pos_id + cur_node->index;
 
           //检查当前扩展的点是否在close set中，如果是则跳过
@@ -193,7 +193,7 @@ int Astar::search(Eigen::Vector3d start_pt, Eigen::Vector3d end_pt){
             use_node_num_ += 1;
             // 超过最大搜索次数
             if (use_node_num_ == max_search_num){
-                pub_message(message_pub, prometheus_msgs::Message::WARN, NODE_NAME, "Astar can't find path: reach the max_search_num.\n");
+                ROS_WARN("Astar can't find path: reach the max_search_num.");
                 return NO_PATH;
             }
           }else if (expand_node->node_state == IN_OPEN_SET){
@@ -213,7 +213,7 @@ int Astar::search(Eigen::Vector3d start_pt, Eigen::Vector3d end_pt){
 
   // 搜索完所有可行点，即使没达到最大搜索次数，也没有找到路径
   // 这种一般是因为无人机周围被占据，或者无人机与目标点之间无可通行路径造成的
-  pub_message(message_pub, prometheus_msgs::Message::WARN, NODE_NAME, "max_search_num: open set empty.");
+  ROS_WARN("max_search_num: open set empty.");
   return NO_PATH;
 }
 
@@ -253,7 +253,7 @@ nav_msgs::Path Astar::get_ros_path(){
 
   geometry_msgs::PoseStamped path_i_pose;
   for (uint i=0; i<path_nodes_.size(); ++i){
-    path_i_pose .header.frame_id = "world";
+    path_i_pose.header.frame_id = "world";
     path_i_pose.pose.position.x = path_nodes_[i]->position[0];
     path_i_pose.pose.position.y = path_nodes_[i]->position[1];
     path_i_pose.pose.position.z = path_nodes_[i]->position[2];
@@ -268,6 +268,7 @@ nav_msgs::Path Astar::get_ros_path(){
 
   return path;
 }
+
 
 double Astar::getDiagHeu(Eigen::Vector3d x1, Eigen::Vector3d x2){
   double dx = fabs(x1(0) - x2(0));
