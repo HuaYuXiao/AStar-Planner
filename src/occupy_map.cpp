@@ -30,7 +30,6 @@ void Occupy_map::init(ros::NodeHandle& nh)
     // 发布二维占据图？
     // 发布膨胀后的二维占据图？
 
-    this->inv_resolution_ = 1.0 / resolution_;
     for (int i = 0; i < 3; ++i){
         // 占据图尺寸 = 地图尺寸 / 分辨率
         grid_size_(i) = ceil(map_size_3d_(i) / resolution_);
@@ -98,7 +97,7 @@ void Occupy_map::inflate_point_cloud(void){
 
     // 膨胀格子数 = 膨胀距离/分辨率
     // ceil返回大于或者等于指定表达式的最小整数
-    const int ifn = ceil(inflate_ * inv_resolution_);
+    const int ifn = ceil(inflate_ / resolution_);
 
     pcl::PointXYZ pt_inf;
     Eigen::Vector3d p3d, p3d_inf;
@@ -231,14 +230,12 @@ bool Occupy_map::check_safety(Eigen::Vector3d& pos, double check_distance){
         return 0;
     }
     return 1;
-
 }
 
 void Occupy_map::posToIndex(Eigen::Vector3d pos, Eigen::Vector3i &id){
     for (int i = 0; i < 3; ++i){
-        id(i) = floor((pos(i) - origin_(i)) * inv_resolution_);
+        id(i) = floor((pos(i) - origin_(i)) / resolution_);
     }
-       
 }
 
 void Occupy_map::indexToPos(Eigen::Vector3i id, Eigen::Vector3d &pos){

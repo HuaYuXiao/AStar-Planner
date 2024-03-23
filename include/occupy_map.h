@@ -17,7 +17,7 @@ class Occupy_map{
         // 地图是否占据容器， 从编程角度来讲，这就是地图变为单一序列化后的索引
         std::vector<int> occupancy_buffer_;  // 0 is free, 1 is occupied
         // 地图分辨率
-        double resolution_, inv_resolution_;
+        double resolution_;
         // 膨胀参数
         double inflate_;
         //是否2D规划

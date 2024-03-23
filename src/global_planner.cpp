@@ -354,14 +354,12 @@ void Global_Planner::mainloop_cb(const ros::TimerEvent& e){
         // 此处改为根据循环时间计算的数值
         if(exec_num == 10){
             if(!odom_ready){
-                message = "Need Odom.";
+                ROS_WARN("Need Odom.");
             }else if(!drone_ready){
-                message = "Drone is not ready.";
+                ROS_WARN("Drone is not ready.");
             }else if(!sensor_ready){
-                message = "Need sensor info.";
+                ROS_WARN("Need sensor info.");
             }
-
-            ROS_WARN(message);
             exec_num=0;
         }
 
@@ -404,7 +402,7 @@ void Global_Planner::mainloop_cb(const ros::TimerEvent& e){
             if(astar_state==Astar::NO_PATH){
                 path_ok = false;
                 exec_state = EXEC_STATE::WAIT_GOAL;
-                ROS_WORN("Planner can't find path!");
+                ROS_WARN("Planner can't find path!");
             }else{
                 path_ok = true;
                 is_new_path = true;

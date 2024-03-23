@@ -108,7 +108,7 @@ class Astar{
 
         // 地图相关
         std::vector<int> occupancy_buffer_;  
-        double resolution_, inv_resolution_;
+        double resolution_;
         Eigen::Vector3d origin_, map_size_3d_;
         bool has_global_point;
 

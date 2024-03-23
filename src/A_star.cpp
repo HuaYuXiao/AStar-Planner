@@ -12,6 +12,7 @@ Astar::~Astar(){
   }
 }
 
+
 void Astar::init(ros::NodeHandle& nh){
   // 2d参数
   nh.param("global_planner/is_2D", is_2D, true);  // 1代表2D平面规划及搜索,0代表3D
@@ -23,8 +24,6 @@ void Astar::init(ros::NodeHandle& nh){
   nh.param("map/resolution", resolution_, 0.05);  // 地图分辨率
 
   tie_breaker_ = 1.0 + 1.0 / max_search_num;
-
-  this->inv_resolution_ = 1.0 / resolution_;
 
   has_global_point = false;
   path_node_pool_.resize(max_search_num);
@@ -46,6 +45,7 @@ void Astar::init(ros::NodeHandle& nh){
   map_size_3d_ = Occupy_map_ptr->max_range_ - Occupy_map_ptr->min_range_;
 }
 
+
 void Astar::reset(){
   // 重置与搜索相关的变量
   expanded_nodes_.clear();
@@ -63,6 +63,7 @@ void Astar::reset(){
   use_node_num_ = 0;
   iter_num_ = 0;
 }
+
 
 // 搜索函数，输入为：起始点及终点
 // 将传输的数组通通变为指针！！！！ 以后改
@@ -113,7 +114,7 @@ int Astar::search(Eigen::Vector3d start_pt, Eigen::Vector3d end_pt){
       retrievePath(terminate_node);
 
       // 时间一般很短，远远小于膨胀点云的时间
-      ROS_INFO("Astar take time %f s. \n", (ros::Time::now()-time_astar_start).toSec());
+      ROS_INFO("Astar take time %f s.", (ros::Time::now()-time_astar_start).toSec());
 
       return REACH_END;
     }
@@ -217,6 +218,7 @@ int Astar::search(Eigen::Vector3d start_pt, Eigen::Vector3d end_pt){
   return NO_PATH;
 }
 
+
 // 由最终点往回生成路径
 void Astar::retrievePath(NodePtr end_node){
   NodePtr cur_node = end_node;
@@ -234,6 +236,7 @@ void Astar::retrievePath(NodePtr end_node){
   // 直接在这里生成路径？
 }
 
+
 std::vector<Eigen::Vector3d> Astar::getPath(){
   vector<Eigen::Vector3d> path;
   for (uint i = 0; i < path_nodes_.size(); ++i){
@@ -242,6 +245,7 @@ std::vector<Eigen::Vector3d> Astar::getPath(){
   path.push_back(goal_pos);
   return path;
 }
+
 
 nav_msgs::Path Astar::get_ros_path(){
   nav_msgs::Path path;
@@ -304,9 +308,11 @@ double Astar::getManhHeu(Eigen::Vector3d x1, Eigen::Vector3d x2){
   return tie_breaker_ * (dx + dy + dz);
 }
 
+
 double Astar::getEuclHeu(Eigen::Vector3d x1, Eigen::Vector3d x2){
   return tie_breaker_ * (x2 - x1).norm();
 }
+
 
 std::vector<NodePtr> Astar::getVisitedNodes(){
   vector<NodePtr> visited;
@@ -314,18 +320,21 @@ std::vector<NodePtr> Astar::getVisitedNodes(){
   return visited;
 }
 
+
 Eigen::Vector3i Astar::posToIndex(Eigen::Vector3d pt){
   Vector3i idx ;
-  idx << floor((pt(0) - origin_(0)) * inv_resolution_), floor((pt(1) - origin_(1)) * inv_resolution_),
-      floor((pt(2) - origin_(2)) * inv_resolution_);
+  idx << floor((pt(0) - origin_(0)) / resolution_), floor((pt(1) - origin_(1)) / resolution_),
+      floor((pt(2) - origin_(2)) / resolution_);
 
   return idx;
 }
+
 
 void Astar::indexToPos(Eigen::Vector3i id, Eigen::Vector3d &pos){
   for (int i = 0; i < 3; ++i)
       pos(i) = (id(i) + 0.5) * resolution_ + origin_(i);
 }
+
 
 // 检查cur_pos是否安全
 bool Astar::check_safety(Eigen::Vector3d &cur_pos, double safe_distance){
