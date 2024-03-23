@@ -2,12 +2,9 @@
 #define GLOBAL_PLANNER
 #define NODE_NAME "Global_Planner [main]"
 
-
 #include "A_star.h"
 
-
 using namespace std;
-
 
 namespace Global_Planning{
 extern ros::Publisher message_pub;
