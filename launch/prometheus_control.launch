@@ -5,7 +5,11 @@
         <!-- run the px4_pos_estimator.cpp -->
         <node pkg="prometheus_control" type="px4_pos_estimator" name="px4_pos_estimator" output="screen">
             <!-- 0 for vicon， 1 for 激光SLAM, 2 for gazebo ground truth(仿真用) -->
-            <param name="input_source" value="3" />
+<!--            <param name="input_source" value="3" />-->
+            <param name="input_source" value="0" />
+            <!-- 如果使用动作捕捉系统，则指定刚体名称，用于订阅vrpn节点发布的话题 -->
+            <param name="object_name" value="p450"/>
+            <param name="rate_hz" value="100.0"/>
         </node>
 
         <!-- run the px4_sender.cpp -->

@@ -187,6 +187,7 @@ void Global_Planner::drone_state_cb(const prometheus_msgs::DroneStateConstPtr& m
 
     Drone_odom.header = msg->header;
     Drone_odom.child_frame_id = "base_link";
+    // TODO modify pose according to tf from vicon
     Drone_odom.pose.pose.position.x = msg->position[0];
     Drone_odom.pose.pose.position.y = msg->position[1];
     Drone_odom.pose.pose.position.z = msg->position[2];
@@ -216,7 +217,7 @@ void Global_Planner::Gpointcloud_cb(const sensor_msgs::PointCloud2ConstPtr& msg)
         static int update_num=0;
         update_num++;
 
-        // 此处改为根据循环时间计算的数值
+        // TODO 此处改为根据循环时间计算的数值
         if(update_num == 10){
             // 对Astar中的地图进行更新
             Astar_ptr->Occupy_map_ptr->map_update_gpcl(msg);
