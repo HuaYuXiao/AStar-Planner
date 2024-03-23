@@ -51,7 +51,7 @@ gedit ~/.bashrc
 ### 3. 开始导航
 
 ```bash
-roslaunch uav_navigation navigation.launch
+roslaunch uav_navigation uav_navigation.launch
 ```
 
 **2024-03-15更新**：以下指令已弃用：（可以用，但是不推荐）

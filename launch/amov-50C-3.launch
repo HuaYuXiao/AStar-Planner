@@ -1,4 +1,10 @@
 <launch>
+  <!-- TF for 2D lidar-->
+  <!-- lidar_link是2D激光雷达坐标系 -->
+  <!-- 机体系与2Dlidar_link的坐标转换关系见 P300_2Dlidar.sdf -->
+  <node pkg="tf2_ros" type="static_transform_publisher" name="tf_2Dlidar"
+        args="0 0 0.05 0 0 0 base_link lidar_link"/>
+
   <node name="lidar01" pkg="bluesea2" type="bluesea2_node" output="screen" >
     <param name="type" value="uart" />
     <param name="platform" value="LDS-50C-2" />
@@ -20,7 +26,12 @@
     <param name="unit_is_mm" value="true"/>
     <param name="with_confidence" value="true"/>
     <param name="with_checksum" value="true"/>
+    <!-- TODO why is remap necessary? -->
     <remap from="/scan" to="/prometheus/sensors/2Dlidar_scan" />
+  </node>
+
+  <!-- run the laser_to_pointcloud -->
+  <node pkg="prometheus_gazebo" type="laser_to_pointcloud.py" name="laser_to_pointcloud" >
   </node>
 </launch>
 

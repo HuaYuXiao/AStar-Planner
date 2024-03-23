@@ -5,6 +5,10 @@ ROS/realsense in upcoming releases. Currently, the API is available in the
 https://github.com/IntelRealSense/librealsense/blob/master/third-party/libtm/libtm/include/TrackingDevice.h#L508-L515.
 -->
 <launch>
+  <!-- TF for base_link-->
+  <node pkg="tf2_ros" type="static_transform_publisher" name="tf_t265"
+        args="0.1 0 0 0 0 0 base_link t265_link"/>
+
   <arg name="serial_no"           default="201222111361"/>
   <arg name="usb_port_id"         default="2-1.3"/>
   <arg name="device_type"         default="t265"/>
@@ -31,7 +35,7 @@ https://github.com/IntelRealSense/librealsense/blob/master/third-party/libtm/lib
   <arg name="initial_reset"         default="false"/>
   <arg name="unite_imu_method"      default=""/>
 
-  <arg name="publish_odom_tf"     default="false"/>
+  <arg name="publish_odom_tf"     default="true"/>
   
   <group ns="$(arg camera)">
     <include file="$(find realsense2_camera)/launch/includes/nodelet.launch.xml">
