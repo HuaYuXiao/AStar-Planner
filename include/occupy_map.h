@@ -14,13 +14,7 @@ class Occupy_map{
         sensor_msgs::PointCloud2ConstPtr global_env_;
         // 地图是否占据容器， 从编程角度来讲，这就是地图变为单一序列化后的索引
         std::vector<int> occupancy_buffer_;  // 0 is free, 1 is occupied
-        // 地图分辨率
-        double resolution_;
-        // 膨胀参数
-        double inflate_;
-        //是否2D规划
-        bool is_2D;
-        double fly_height_2D;
+
         bool debug_mode;
         // 地图原点,地图尺寸
         Eigen::Vector3d origin_, map_size_3d_, min_range_, max_range_;
@@ -33,7 +27,8 @@ class Occupy_map{
         void show_gpcl_marker(visualization_msgs::Marker &m, int id, Eigen::Vector4d color);
 
         // 发布点云用于rviz显示
-        ros::Publisher global_pcl_pub, inflate_pcl_pub;
+        ros::Publisher global_pcl_pub;
+        ros::Publisher inflate_pcl_pub;
 
         //初始化
         void init(ros::NodeHandle& nh);
@@ -62,7 +57,6 @@ class Occupy_map{
         // 定义该类的指针
         typedef std::shared_ptr<Occupy_map> Ptr;
 };
-
 }
 
 #endif

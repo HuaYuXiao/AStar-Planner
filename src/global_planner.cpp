@@ -3,22 +3,6 @@
 namespace Global_Planning {
 // 初始化函数
 void Global_Planner::init(ros::NodeHandle& nh){
-    // 读取参数
-    // TRUE代表2D平面规划及搜索,FALSE代表3D
-    nh.param("global_planner/is_2D", is_2D, true);
-    // 2D规划时,定高高度
-    nh.param("global_planner/fly_height_2D", fly_height_2D, 0.4);
-    // 安全距离，若膨胀距离设置已考虑安全距离，建议此处设为0
-    nh.param("global_planner/safe_distance", safe_distance, 0.05);
-    nh.param("global_planner/time_per_path", time_per_path, 1.5);
-    // 重规划频率
-    nh.param("global_planner/replan_time", replan_time, 2.0);
-    // 选择地图更新方式：　0代表全局点云，１代表局部点云，２代表激光雷达scan数据
-    nh.param("global_planner/map_input", map_input, 0);
-    // 是否为仿真模式
-    nh.param("global_planner/sim_mode", sim_mode, false);
-    nh.param("global_planner/map_groundtruth", map_groundtruth, false);
-
     // subscribe /initialpose
     initialpose_sub = nh.subscribe<geometry_msgs::PoseWithCovarianceStamped>("/initialpose", 1, &Global_Planner::initialpose_cb, this);
     // 订阅 目标点

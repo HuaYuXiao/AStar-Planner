@@ -40,4 +40,24 @@
 
 #include "message_utils.h"
 
+
+// 是否2D规划
+extern bool is_2D;
+// 参数
+extern double fly_height_2D;
+extern double safe_distance;
+extern double time_per_path;
+extern int map_input;
+extern double replan_time;
+extern bool sim_mode;
+extern bool map_groundtruth;
+// 启发式参数
+extern double lambda_heu_;
+// 最大搜索次数
+extern int max_search_num;
+// 地图分辨率
+extern double resolution_;
+// 膨胀参数
+extern double inflate_;
+
 #endif
