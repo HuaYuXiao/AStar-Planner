@@ -1,7 +1,6 @@
 #ifndef _TOOLS_H
 #define _TOOLS_H
 
-
 #include <iostream>
 #include <algorithm>
 #include <queue>
@@ -39,8 +38,7 @@
 #include "prometheus_msgs/ControlCommand.h"
 #include <visualization_msgs/Marker.h>
 
-
-#include "occupy_map.h"
+#include "message_utils.h"
 
 namespace Global_Planning{
     extern ros::Publisher message_pub;

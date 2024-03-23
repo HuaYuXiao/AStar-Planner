@@ -1,6 +1,5 @@
 #include "global_planner.h"
 
-
 namespace Global_Planning {
 // 初始化函数
 void Global_Planner::init(ros::NodeHandle& nh){

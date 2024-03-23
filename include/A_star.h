@@ -1,9 +1,7 @@
 #ifndef _ASTAR_H
 #define _ASTAR_H
 
-
-#include "tools.h"
-#include "message_utils.h"
+#include "occupy_map.h"
 
 #define NODE_NAME "Global_Planner [Astar]"
 
@@ -28,8 +26,7 @@ class Node{
         double time;  // dyn
         int time_idx;
 
-        Node()
-        {
+        Node(){
           parent = NULL;
           node_state = NOT_EXPAND;
         }
@@ -37,24 +34,19 @@ class Node{
 };
 typedef Node* NodePtr;
 
-// 为什么这么麻烦，不能直接比较吗
-class NodeComparator0
-{
+// TODO 为什么这么麻烦，不能直接比较吗
+class NodeComparator0{
     public:
-        bool operator()(NodePtr node1, NodePtr node2)
-        {
+        bool operator()(NodePtr node1, NodePtr node2){
           return node1->f_score > node2->f_score;
         }
 };
 
 template <typename T>
-struct matrix_hash0 : std::unary_function<T, size_t>
-{
-    std::size_t operator()(T const& matrix) const
-    {
+struct matrix_hash0 : std::unary_function<T, size_t>{
+    std::size_t operator()(T const& matrix) const{
         size_t seed = 0;
-        for (size_t i = 0; i < matrix.size(); ++i)
-        {
+        for (size_t i = 0; i < matrix.size(); ++i){
             auto elem = *(matrix.data() + i);
             seed ^= std::hash<typename T::Scalar>()(elem) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
         }
@@ -62,39 +54,32 @@ struct matrix_hash0 : std::unary_function<T, size_t>
     }
 };
 
-class NodeHashTable0
-{
+class NodeHashTable0{
   private:
       /* data */
       std::unordered_map<Eigen::Vector3i, NodePtr, matrix_hash0<Eigen::Vector3i>> data_3d_;
 
   public:
-      NodeHashTable0(/* args */)
-      {
+      NodeHashTable0(/* args */){
       }
-      ~NodeHashTable0()
-      {
+      ~NodeHashTable0(){
       }
-      void insert(Eigen::Vector3i idx, NodePtr node)
-      {
+      void insert(Eigen::Vector3i idx, NodePtr node){
         data_3d_.insert(std::make_pair(idx, node));
       }
 
-      NodePtr find(Eigen::Vector3i idx)
-      {
+      NodePtr find(Eigen::Vector3i idx){
         auto iter = data_3d_.find(idx);
         return iter == data_3d_.end() ? NULL : iter->second;
       }
 
-      void clear()
-      {
+      void clear(){
         data_3d_.clear();
       }
 };
 
 
-class Astar
-{
+class Astar{
     private:
         // 备选路径点指针容器
         std::vector<NodePtr> path_node_pool_;
@@ -141,8 +126,7 @@ class Astar
         Astar(){}
         ~Astar();
 
-        enum
-        {
+        enum{
           REACH_END = 1,
           NO_PATH = 2
         };
@@ -168,8 +152,6 @@ class Astar
         typedef std::shared_ptr<Astar> Ptr;
 
 };
-
-
 }
 
 #endif

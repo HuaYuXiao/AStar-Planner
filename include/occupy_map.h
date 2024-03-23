@@ -1,13 +1,9 @@
 #ifndef _OCCUPY_MAP_H
 #define _OCCUPY_MAP_H
 
-
 #include "tools.h"
-#include "message_utils.h"
-
 
 #define NODE_NAME "Global_Planner [map]"
-
 
 namespace Global_Planning{
 extern ros::Publisher message_pub;
