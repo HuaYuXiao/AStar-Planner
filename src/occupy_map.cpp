@@ -1,10 +1,8 @@
 #include <occupy_map.h>
 
-namespace Global_Planning
-{
+namespace Global_Planning{
 // 初始化函数
-void Occupy_map::init(ros::NodeHandle& nh)
-{
+void Occupy_map::init(ros::NodeHandle& nh){
     // TRUE代表2D平面规划及搜索,FALSE代表3D 
     nh.param("global_planner/is_2D", is_2D, true); 
     // 2D规划时,定高高度
@@ -73,7 +71,7 @@ void Occupy_map::map_update_laser(const sensor_msgs::LaserScanConstPtr & local_p
 // Astar规划路径时，采用的是此处膨胀后的点云（setOccupancy只在本函数中使用）
 void Occupy_map::inflate_point_cloud(void){
     if(!has_global_point){
-        pub_message(message_pub, prometheus_msgs::Message::WARN, NODE_NAME, "Occupy_map [inflate point cloud]: don't have global point, can't inflate!\n");
+        ROS_WARN("Occupy_map [inflate point cloud]: don't have global point, can't inflate!");
         return;
     }
 
@@ -135,8 +133,8 @@ void Occupy_map::inflate_point_cloud(void){
                 }
     }
 
-    // TODO edit frame_id
-    cloud_inflate_vis_.header.frame_id = "world";
+    // TODO edit frame_id, original world
+    cloud_inflate_vis_.header.frame_id = "map";
 
     // 转化为ros msg发布
     sensor_msgs::PointCloud2 map_inflate_vis;
@@ -154,6 +152,7 @@ void Occupy_map::inflate_point_cloud(void){
         exec_num=0;
     }
 }
+
 
 void Occupy_map::setOccupancy(Eigen::Vector3d pos, int occ){
     // TODO to be simplified
@@ -193,18 +192,19 @@ bool Occupy_map::isInMap(Eigen::Vector3d pos){
     return true;
 }
 
+
 bool Occupy_map::check_safety(Eigen::Vector3d& pos, double check_distance){
     if(!isInMap(pos)){
         // 当前位置点不在地图内
         ROS_WARN("[check_safety]: the odom point is not in map");
-        return 0;
+        return false;
     }
     Eigen::Vector3i id;
     posToIndex(pos, id);
     Eigen::Vector3i id_occ;
     Eigen::Vector3d pos_occ;
 
-    int check_dist_xy = int(check_distance/resolution_);
+    int check_dist_xy = int(check_distance / resolution_);
     int check_dist_z=0;
     int cnt=0;
     for(int ix=-check_dist_xy; ix<=check_dist_xy; ix++){
@@ -215,21 +215,20 @@ bool Occupy_map::check_safety(Eigen::Vector3d& pos, double check_distance){
                 id_occ(2) = id(2)+iz;
                 indexToPos(id_occ, pos_occ);
                 if(!isInMap(pos_occ)){
-                    // printf("[check_safety]: current odom is near the boundary of the map\n");
-                    // pub_message(message_pub, prometheus_msgs::Message::WARN, NODE_NAME, "[check_safety]: current odom is near the boundary of the map\n");
-                    return 0;
+                    // ROS_WARN("[check_safety]: current odom is near the boundary of the map");
+                    return false;
                 }
                 if(getOccupancy(id_occ)){
-                    // printf("[check_safety]: current state is dagerous, the pos [%d, %d, %d], is occupied\n", ix, iy, iz);
+                    // ROS_WARN("[check_safety]: current state is dagerous, the pos [%d, %d, %d], is occupied", ix, iy, iz);
                     cnt++;             
                 }
             }
         }
     }
     if(cnt>5){
-        return 0;
+        return false;
     }
-    return 1;
+    return true;
 }
 
 void Occupy_map::posToIndex(Eigen::Vector3d pos, Eigen::Vector3i &id){

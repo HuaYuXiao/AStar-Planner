@@ -40,7 +40,4 @@
 
 #include "message_utils.h"
 
-namespace Global_Planning{
-    extern ros::Publisher message_pub;
-}
 #endif

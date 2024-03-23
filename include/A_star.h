@@ -12,7 +12,6 @@ namespace Global_Planning{
 #define NOT_EXPAND 'c'
 //#define inf 1 >> 30
 
-extern ros::Publisher message_pub;
 
 class Node{
     public:
@@ -22,9 +21,6 @@ class Node{
         double g_score, f_score;
         Node* parent;
         char node_state;
-
-        double time;  // dyn
-        int time_idx;
 
         Node(){
           parent = NULL;
@@ -54,16 +50,15 @@ struct matrix_hash0 : std::unary_function<T, size_t>{
     }
 };
 
+
 class NodeHashTable0{
   private:
       /* data */
       std::unordered_map<Eigen::Vector3i, NodePtr, matrix_hash0<Eigen::Vector3i>> data_3d_;
 
   public:
-      NodeHashTable0(/* args */){
-      }
-      ~NodeHashTable0(){
-      }
+      NodeHashTable0(/* args */){}
+      ~NodeHashTable0(){}
       void insert(Eigen::Vector3i idx, NodePtr node){
         data_3d_.insert(std::make_pair(idx, node));
       }

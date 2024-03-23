@@ -44,7 +44,6 @@ add_executable(uav_navigation
 	src/global_planner.cpp
 	src/A_star.cpp
 	src/occupy_map.cpp
-	src/tools.cpp
 )
 
 target_link_libraries(uav_navigation
