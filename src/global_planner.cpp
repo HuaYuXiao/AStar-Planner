@@ -38,8 +38,6 @@ void Global_Planner::init(ros::NodeHandle& nh){
 
     // 发布 路径指令
     command_pub = nh.advertise<prometheus_msgs::ControlCommand>("/prometheus/control_command", 10);
-    // 发布提示消息
-    message_pub = nh.advertise<prometheus_msgs::Message>("/prometheus/message/global_planner", 10);
     // 发布路径用于显示
     path_cmd_pub = nh.advertise<nav_msgs::Path>("/prometheus/global_planning/path_cmd", 10);
 

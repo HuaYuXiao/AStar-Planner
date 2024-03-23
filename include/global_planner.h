@@ -7,20 +7,17 @@
 using namespace std;
 
 namespace Global_Planning{
-extern ros::Publisher message_pub;
 class Global_Planner{
 private:
     ros::NodeHandle global_planner_nh;
 
     // 参数
-    int algorithm_mode;
     bool is_2D;
     double fly_height_2D;
     double safe_distance;
     double time_per_path;
     int map_input;
     double replan_time;
-    bool consider_neighbour;
     bool sim_mode;
     bool map_groundtruth;
 

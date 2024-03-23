@@ -6,8 +6,6 @@
 #define NODE_NAME "Global_Planner [map]"
 
 namespace Global_Planning{
-extern ros::Publisher message_pub;
-
 class Occupy_map{
     public:
         Occupy_map(){}
