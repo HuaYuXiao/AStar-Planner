@@ -41,7 +41,7 @@ void Global_Planner::init(ros::NodeHandle& nh){
     // 发布提示消息
     message_pub = nh.advertise<prometheus_msgs::Message>("/prometheus/message/global_planner", 10);
     // 发布路径用于显示
-    path_cmd_pub = nh.advertise<nav_msgs::Path>("/prometheus/global_planning/path_cmd",  10);
+    path_cmd_pub = nh.advertise<nav_msgs::Path>("/prometheus/global_planning/path_cmd", 10);
 
     // 定时器 安全检测
     // safety_timer = nh.createTimer(ros::Duration(2.0), &Global_Planner::safety_cb, this);
@@ -54,8 +54,7 @@ void Global_Planner::init(ros::NodeHandle& nh){
     // Astar algorithm
     Astar_ptr.reset(new Astar);
     Astar_ptr->init(nh);
-
-    pub_message(message_pub, prometheus_msgs::Message::NORMAL, NODE_NAME, "A_star init.");
+    ROS_INFO("A_star init.");
 
     // 规划器状态参数初始化
     exec_state = EXEC_STATE::WAIT_GOAL;
@@ -146,6 +145,7 @@ void Global_Planner::initialpose_cb(const geometry_msgs::PoseWithCovarianceStamp
 }
 
 
+// 获得新目标点
 void Global_Planner::goal_cb(const geometry_msgs::PoseStampedConstPtr& msg){
     if (is_2D){
         goal_pos << msg->pose.position.x, msg->pose.position.y, fly_height_2D;
@@ -154,10 +154,9 @@ void Global_Planner::goal_cb(const geometry_msgs::PoseStampedConstPtr& msg){
     }
     goal_vel.setZero();
 
+    // TODO is state machine really necessary?
     goal_ready = true;
 
-    // 获得新目标点
-    pub_message(message_pub, prometheus_msgs::Message::NORMAL, NODE_NAME,"Get a new goal point");
     ROS_INFO("Get a new goal point: (%f, %f, %f)", goal_pos(0), goal_pos(1), goal_pos(2));
 }
 
@@ -170,7 +169,7 @@ void Global_Planner::drone_state_cb(const prometheus_msgs::DroneStateConstPtr& m
         start_vel << msg->velocity[0], msg->velocity[1], 0.0;
 
         if(abs(fly_height_2D - msg->position[2]) > 0.2){
-            ROS_ERROR("Drone is not in the desired height.");
+            ROS_WARN("Drone is not in the desired height.");
         }
     }else{
         start_pos << msg->position[0], msg->position[1], msg->position[2];
@@ -187,6 +186,7 @@ void Global_Planner::drone_state_cb(const prometheus_msgs::DroneStateConstPtr& m
 
     Drone_odom.header = msg->header;
     Drone_odom.child_frame_id = "base_link";
+    // TODO modify pose according to tf from vicon
     Drone_odom.pose.pose.position.x = msg->position[0];
     Drone_odom.pose.pose.position.y = msg->position[1];
     Drone_odom.pose.pose.position.z = msg->position[2];
@@ -216,7 +216,7 @@ void Global_Planner::Gpointcloud_cb(const sensor_msgs::PointCloud2ConstPtr& msg)
         static int update_num=0;
         update_num++;
 
-        // 此处改为根据循环时间计算的数值
+        // TODO 此处改为根据循环时间计算的数值
         if(update_num == 10){
             // 对Astar中的地图进行更新
             Astar_ptr->Occupy_map_ptr->map_update_gpcl(msg);
@@ -271,7 +271,7 @@ void Global_Planner::track_path_cb(const ros::TimerEvent& e){
     // if(!is_safety){
     //     // 若无人机与障碍物之间的距离小于安全距离，则停止执行路径
     //     // 但如何脱离该点呢？
-    //     pub_message(message_pub, prometheus_msgs::Message::WARN, NODE_NAME, "Drone Position Dangerous! STOP HERE and wait for new goal.");
+    //     ROS_WARN("Drone Position Dangerous! STOP HERE and wait for new goal.");
 
     //     Command_Now.header.stamp = ros::Time::now();
     //     Command_Now.Mode         = prometheus_msgs::ControlCommand::Hold;
@@ -302,7 +302,7 @@ void Global_Planner::track_path_cb(const ros::TimerEvent& e){
 
         command_pub.publish(Command_Now);
 
-        pub_message(message_pub, prometheus_msgs::Message::NORMAL, NODE_NAME, "Reach the goal.");
+        ROS_INFO("Reach the goal.");
 
         // 停止执行
         path_ok = false;
@@ -354,14 +354,12 @@ void Global_Planner::mainloop_cb(const ros::TimerEvent& e){
         // 此处改为根据循环时间计算的数值
         if(exec_num == 10){
             if(!odom_ready){
-                message = "Need Odom.";
+                ROS_WARN("Need Odom.");
             }else if(!drone_ready){
-                message = "Drone is not ready.";
+                ROS_WARN("Drone is not ready.");
             }else if(!sensor_ready){
-                message = "Need sensor info.";
+                ROS_WARN("Need sensor info.");
             }
-
-            pub_message(message_pub, prometheus_msgs::Message::WARN, NODE_NAME, message);
             exec_num=0;
         }
 
@@ -378,8 +376,7 @@ void Global_Planner::mainloop_cb(const ros::TimerEvent& e){
             path_ok = false;
             if(!goal_ready){
                 if(exec_num == 10){
-                    message = "Waiting for a new goal.";
-                    pub_message(message_pub, prometheus_msgs::Message::WARN, NODE_NAME,message);
+                    ROS_INFO("Waiting for a new goal.");
                     exec_num=0;
                 }
             }else{
@@ -387,7 +384,6 @@ void Global_Planner::mainloop_cb(const ros::TimerEvent& e){
                 exec_state = EXEC_STATE::PLANNING;
                 goal_ready = false;
             }
-
             break;
         }
 
@@ -406,7 +402,7 @@ void Global_Planner::mainloop_cb(const ros::TimerEvent& e){
             if(astar_state==Astar::NO_PATH){
                 path_ok = false;
                 exec_state = EXEC_STATE::WAIT_GOAL;
-                pub_message(message_pub, prometheus_msgs::Message::WARN, NODE_NAME, "Planner can't find path!");
+                ROS_WARN("Planner can't find path!");
             }else{
                 path_ok = true;
                 is_new_path = true;
@@ -417,9 +413,8 @@ void Global_Planner::mainloop_cb(const ros::TimerEvent& e){
                 tra_start_time = ros::Time::now();
                 exec_state = EXEC_STATE::TRACKING;
                 path_cmd_pub.publish(path_cmd);
-                pub_message(message_pub, prometheus_msgs::Message::NORMAL, NODE_NAME, "Get a new path!");
+                ROS_INFO("Get a new path!");
             }
-
             break;
         }
 
@@ -429,17 +424,6 @@ void Global_Planner::mainloop_cb(const ros::TimerEvent& e){
                 exec_state = EXEC_STATE::PLANNING;
                 exec_num = 0;
             }
-
-            break;
-        }
-
-        case LANDING:{
-            Command_Now.header.stamp = ros::Time::now();
-            Command_Now.Mode         = prometheus_msgs::ControlCommand::Land;
-            Command_Now.Command_ID   = Command_Now.Command_ID + 1;
-            Command_Now.source = NODE_NAME;
-
-            command_pub.publish(Command_Now);
             break;
         }
     }
