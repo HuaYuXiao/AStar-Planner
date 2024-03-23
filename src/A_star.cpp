@@ -3,22 +3,18 @@
 using namespace std;
 using namespace Eigen;
 
-namespace Global_Planning
-{
+namespace Global_Planning{
 
-Astar::~Astar()
-{
-  for (int i = 0; i < max_search_num; i++)
-  {
+Astar::~Astar(){
+  for (int i = 0; i < max_search_num; i++){
     // delete表示释放堆内存
     delete path_node_pool_[i];
   }
 }
 
-void Astar::init(ros::NodeHandle& nh)
-{
+void Astar::init(ros::NodeHandle& nh){
   // 2d参数
-  nh.param("global_planner/is_2D", is_2D, 0);  // 1代表2D平面规划及搜索,0代表3D
+  nh.param("global_planner/is_2D", is_2D, true);  // 1代表2D平面规划及搜索,0代表3D
   nh.param("global_planner/2D_fly_height", fly_height, 0.4);  // 2D规划时,定高高度
   // 规划搜索相关参数
   nh.param("astar/lambda_heu", lambda_heu_, 2.0);  // 加速引导参数
@@ -34,8 +30,7 @@ void Astar::init(ros::NodeHandle& nh)
   path_node_pool_.resize(max_search_num);
 
   // 新建
-  for (int i = 0; i < max_search_num; i++)
-  {
+  for (int i = 0; i < max_search_num; i++){
     path_node_pool_[i] = new Node;
   }
 
@@ -51,8 +46,7 @@ void Astar::init(ros::NodeHandle& nh)
   map_size_3d_ = Occupy_map_ptr->max_range_ - Occupy_map_ptr->min_range_;
 }
 
-void Astar::reset()
-{
+void Astar::reset(){
   // 重置与搜索相关的变量
   expanded_nodes_.clear();
   path_nodes_.clear();
@@ -60,8 +54,7 @@ void Astar::reset()
   std::priority_queue<NodePtr, std::vector<NodePtr>, NodeComparator0> empty_queue;
   open_set_.swap(empty_queue);
 
-  for (int i = 0; i < use_node_num_; i++)
-  {
+  for (int i = 0; i < use_node_num_; i++){
     NodePtr node = path_node_pool_[i];
     node->parent = NULL;
     node->node_state = NOT_EXPAND;
@@ -73,11 +66,9 @@ void Astar::reset()
 
 // 搜索函数，输入为：起始点及终点
 // 将传输的数组通通变为指针！！！！ 以后改
-int Astar::search(Eigen::Vector3d start_pt, Eigen::Vector3d end_pt)
-{
+int Astar::search(Eigen::Vector3d start_pt, Eigen::Vector3d end_pt){
   // 首先检查目标点是否可到达
-  if(Occupy_map_ptr->getOccupancy(end_pt))
-  {
+  if(Occupy_map_ptr->getOccupancy(end_pt)){
     pub_message(message_pub, prometheus_msgs::Message::WARN, NODE_NAME, "Astar can't find path: goal point is occupied.");
     return NO_PATH;
   }
@@ -107,8 +98,7 @@ int Astar::search(Eigen::Vector3d start_pt, Eigen::Vector3d end_pt)
   NodePtr terminate_node = NULL;
 
   // 搜索主循环
-  while (!open_set_.empty())
-  {
+  while (!open_set_.empty()){
     // 获取f_score最低的点
     cur_node = open_set_.top();
 
@@ -117,8 +107,7 @@ int Astar::search(Eigen::Vector3d start_pt, Eigen::Vector3d end_pt)
                      abs(cur_node->index(1) - end_index(1)) <= 1 &&
                      abs(cur_node->index(2) - end_index(2)) <= 1;
 
-    if (reach_end)
-    {
+    if (reach_end){
       // 将当前点设为终止点，并往回形成路径
       terminate_node = cur_node;
       retrievePath(terminate_node);
@@ -144,23 +133,17 @@ int Astar::search(Eigen::Vector3d start_pt, Eigen::Vector3d end_pt)
 
     /* ---------- expansion loop ---------- */
     // 扩展： 3*3*3 - 1 = 26种可能
-    for (double dx = -resolution_; dx <= resolution_ + 1e-3; dx += resolution_)
-    {
-      for (double dy = -resolution_; dy <= resolution_ + 1e-3; dy += resolution_)
-      {
-        for (double dz = -resolution_; dz <= resolution_ + 1e-3; dz += resolution_)
-        {
-            
+    for (double dx = -resolution_; dx <= resolution_ + 1e-3; dx += resolution_){
+      for (double dy = -resolution_; dy <= resolution_ + 1e-3; dy += resolution_){
+        for (double dz = -resolution_; dz <= resolution_ + 1e-3; dz += resolution_){
           d_pos << dx, dy, dz;
           // 对于2d情况，不扩展z轴
-          if (is_2D == 1)
-          {
+          if (is_2D){
             d_pos(2) = 0.0;
           }
 
           // 跳过自己那个格子
-          if (d_pos.norm() < 1e-3)
-          {
+          if (d_pos.norm() < 1e-3){
             continue;
           }
           
@@ -168,8 +151,7 @@ int Astar::search(Eigen::Vector3d start_pt, Eigen::Vector3d end_pt)
           expand_node_pos = cur_pos + d_pos;
 
           // 确认该点在地图范围内
-          if(!Occupy_map_ptr->isInMap(expand_node_pos))
-          {
+          if(!Occupy_map_ptr->isInMap(expand_node_pos)){
             continue;
           }
 
@@ -180,15 +162,13 @@ int Astar::search(Eigen::Vector3d start_pt, Eigen::Vector3d end_pt)
 
           //检查当前扩展的点是否在close set中，如果是则跳过
           NodePtr expand_node = expanded_nodes_.find(expand_node_id);
-          if (expand_node != NULL && expand_node->node_state == IN_CLOSE_SET)
-          {
+          if (expand_node != NULL && expand_node->node_state == IN_CLOSE_SET){
             continue;
           }
 
           // 检查当前扩展点是否被占据,如果是则跳过
           bool is_occupy = Occupy_map_ptr->getOccupancy(expand_node_pos);
-          if (is_occupy)
-          {                  
+          if (is_occupy){
             continue;
           }
 
@@ -198,8 +178,7 @@ int Astar::search(Eigen::Vector3d start_pt, Eigen::Vector3d end_pt)
           tmp_f_score = tmp_g_score + lambda_heu_ * getEuclHeu(expand_node_pos, end_pt);
 
           // 如果扩展的当前节点为NULL，即未扩展过
-          if (expand_node == NULL)
-          {
+          if (expand_node == NULL){
             expand_node = path_node_pool_[use_node_num_];
             expand_node->index = expand_node_id;
             expand_node->position = expand_node_pos;
@@ -213,17 +192,13 @@ int Astar::search(Eigen::Vector3d start_pt, Eigen::Vector3d end_pt)
 
             use_node_num_ += 1;
             // 超过最大搜索次数
-            if (use_node_num_ == max_search_num)
-            {
+            if (use_node_num_ == max_search_num){
                 pub_message(message_pub, prometheus_msgs::Message::WARN, NODE_NAME, "Astar can't find path: reach the max_search_num.\n");
                 return NO_PATH;
             }
-          }
-          // 如果当前节点已被扩展过，则更新其状态
-          else if (expand_node->node_state == IN_OPEN_SET)
-          {
-            if (tmp_g_score < expand_node->g_score)
-            {
+          }else if (expand_node->node_state == IN_OPEN_SET){
+              // 如果当前节点已被扩展过，则更新其状态
+            if (tmp_g_score < expand_node->g_score){
                 // expand_node->index = expand_node_id;
                 expand_node->position = expand_node_pos;
                 expand_node->f_score = tmp_f_score;
@@ -233,8 +208,7 @@ int Astar::search(Eigen::Vector3d start_pt, Eigen::Vector3d end_pt)
           }
         }
       }
-    }       
-  
+    }
   }
 
   // 搜索完所有可行点，即使没达到最大搜索次数，也没有找到路径
@@ -244,13 +218,11 @@ int Astar::search(Eigen::Vector3d start_pt, Eigen::Vector3d end_pt)
 }
 
 // 由最终点往回生成路径
-void Astar::retrievePath(NodePtr end_node)
-{
+void Astar::retrievePath(NodePtr end_node){
   NodePtr cur_node = end_node;
   path_nodes_.push_back(cur_node);
 
-  while (cur_node->parent != NULL)
-  {
+  while (cur_node->parent != NULL){
     cur_node = cur_node->parent;
     path_nodes_.push_back(cur_node);
   }
@@ -262,28 +234,25 @@ void Astar::retrievePath(NodePtr end_node)
   // 直接在这里生成路径？
 }
 
-std::vector<Eigen::Vector3d> Astar::getPath()
-{
+std::vector<Eigen::Vector3d> Astar::getPath(){
   vector<Eigen::Vector3d> path;
-  for (uint i = 0; i < path_nodes_.size(); ++i)
-  {
+  for (uint i = 0; i < path_nodes_.size(); ++i){
     path.push_back(path_nodes_[i]->position);
   }
   path.push_back(goal_pos);
   return path;
 }
 
-nav_msgs::Path Astar::get_ros_path()
-{
+nav_msgs::Path Astar::get_ros_path(){
   nav_msgs::Path path;
 
+  // TODO edit frame_id
   path.header.frame_id = "world";
   path.header.stamp = ros::Time::now();
   path.poses.clear();
 
   geometry_msgs::PoseStamped path_i_pose;
-  for (uint i=0; i<path_nodes_.size(); ++i)
-  {   
+  for (uint i=0; i<path_nodes_.size(); ++i){
     path_i_pose .header.frame_id = "world";
     path_i_pose.pose.position.x = path_nodes_[i]->position[0];
     path_i_pose.pose.position.y = path_nodes_[i]->position[1];
@@ -300,8 +269,7 @@ nav_msgs::Path Astar::get_ros_path()
   return path;
 }
 
-double Astar::getDiagHeu(Eigen::Vector3d x1, Eigen::Vector3d x2)
-{
+double Astar::getDiagHeu(Eigen::Vector3d x1, Eigen::Vector3d x2){
   double dx = fabs(x1(0) - x2(0));
   double dy = fabs(x1(1) - x2(1));
   double dz = fabs(x1(2) - x2(2));
@@ -313,16 +281,13 @@ double Astar::getDiagHeu(Eigen::Vector3d x1, Eigen::Vector3d x2)
   dy -= diag;
   dz -= diag;
 
-  if (dx < 1e-4)
-  {
+  if (dx < 1e-4){
     h = 1.0 * sqrt(3.0) * diag + sqrt(2.0) * min(dy, dz) + 1.0 * abs(dy - dz);
   }
-  if (dy < 1e-4)
-  {
+  if (dy < 1e-4){
     h = 1.0 * sqrt(3.0) * diag + sqrt(2.0) * min(dx, dz) + 1.0 * abs(dx - dz);
   }
-  if (dz < 1e-4)
-  {
+  if (dz < 1e-4){
     h = 1.0 * sqrt(3.0) * diag + sqrt(2.0) * min(dx, dy) + 1.0 * abs(dx - dy);
   }
 
@@ -330,8 +295,7 @@ double Astar::getDiagHeu(Eigen::Vector3d x1, Eigen::Vector3d x2)
 }
 
 
-double Astar::getManhHeu(Eigen::Vector3d x1, Eigen::Vector3d x2)
-{
+double Astar::getManhHeu(Eigen::Vector3d x1, Eigen::Vector3d x2){
   double dx = fabs(x1(0) - x2(0));
   double dy = fabs(x1(1) - x2(1));
   double dz = fabs(x1(2) - x2(2));
@@ -339,20 +303,17 @@ double Astar::getManhHeu(Eigen::Vector3d x1, Eigen::Vector3d x2)
   return tie_breaker_ * (dx + dy + dz);
 }
 
-double Astar::getEuclHeu(Eigen::Vector3d x1, Eigen::Vector3d x2)
-{
+double Astar::getEuclHeu(Eigen::Vector3d x1, Eigen::Vector3d x2){
   return tie_breaker_ * (x2 - x1).norm();
 }
 
-std::vector<NodePtr> Astar::getVisitedNodes()
-{
+std::vector<NodePtr> Astar::getVisitedNodes(){
   vector<NodePtr> visited;
   visited.assign(path_node_pool_.begin(), path_node_pool_.begin() + use_node_num_ - 1);
   return visited;
 }
 
-Eigen::Vector3i Astar::posToIndex(Eigen::Vector3d pt)
-{
+Eigen::Vector3i Astar::posToIndex(Eigen::Vector3d pt){
   Vector3i idx ;
   idx << floor((pt(0) - origin_(0)) * inv_resolution_), floor((pt(1) - origin_(1)) * inv_resolution_),
       floor((pt(2) - origin_(2)) * inv_resolution_);
@@ -360,19 +321,15 @@ Eigen::Vector3i Astar::posToIndex(Eigen::Vector3d pt)
   return idx;
 }
 
-void Astar::indexToPos(Eigen::Vector3i id, Eigen::Vector3d &pos) 
-{
+void Astar::indexToPos(Eigen::Vector3i id, Eigen::Vector3d &pos){
   for (int i = 0; i < 3; ++i)
       pos(i) = (id(i) + 0.5) * resolution_ + origin_(i);
 }
 
 // 检查cur_pos是否安全
-bool Astar::check_safety(Eigen::Vector3d &cur_pos, double safe_distance)
-{
+bool Astar::check_safety(Eigen::Vector3d &cur_pos, double safe_distance){
   bool is_safety;
   is_safety = Occupy_map_ptr->check_safety(cur_pos, safe_distance);
   return is_safety;
 }
-
-
 }

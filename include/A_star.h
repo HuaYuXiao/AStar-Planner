@@ -10,7 +10,7 @@ namespace Global_Planning{
 #define IN_CLOSE_SET 'a'
 #define IN_OPEN_SET 'b'
 #define NOT_EXPAND 'c'
-#define inf 1 >> 30
+//#define inf 1 >> 30
 
 extern ros::Publisher message_pub;
 
@@ -84,7 +84,8 @@ class Astar{
         // 备选路径点指针容器
         std::vector<NodePtr> path_node_pool_;
         // 使用节点计数器、迭代次数计数器
-        int use_node_num_, iter_num_;
+        int use_node_num_;
+        int iter_num_;
         // 扩展的节点
         NodeHashTable0 expanded_nodes_;
         // open set （根据规则已排序好）
@@ -92,14 +93,13 @@ class Astar{
         // 最终路径点容器
         std::vector<NodePtr> path_nodes_;  
 
-        // 参数
         // 启发式参数
         double lambda_heu_;
         // 最大搜索次数
         int max_search_num;
         // tie breaker
         double tie_breaker_;
-        int is_2D;
+        bool is_2D;
         double fly_height;
 
         /* ---------- record data ---------- */

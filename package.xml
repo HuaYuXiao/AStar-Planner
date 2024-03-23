@@ -3,14 +3,13 @@
     <name>uav_navigation</name>
     <version>3.2.0</version>
     <description>
-        A ROS package for dynamic navigation in 3D octomap with 2D lidar on Premetheus P450 (Nano)
+        A ROS package for dynamic navigation in 3D octomap with 2D lidar on Prometheus P450 (Nano)
     </description>
     <maintainer email="hyx020222@gmail.com">Eason Hua</maintainer>
     <license>MIT</license>
 
     <url type="website">https://github.com/HuaYuXiao/uav_navigation</url>
     <author email="fatmoonqyp@126.com">Yuhua Qi</author>
-    <author email="hyx020222@gmail.com">Eason Hua</author>
 
     <buildtool_depend>catkin</buildtool_depend>
 

@@ -41,7 +41,7 @@ void Global_Planner::init(ros::NodeHandle& nh){
     // 发布提示消息
     message_pub = nh.advertise<prometheus_msgs::Message>("/prometheus/message/global_planner", 10);
     // 发布路径用于显示
-    path_cmd_pub = nh.advertise<nav_msgs::Path>("/prometheus/global_planning/path_cmd",  10);
+    path_cmd_pub = nh.advertise<nav_msgs::Path>("/prometheus/global_planning/path_cmd", 10);
 
     // 定时器 安全检测
     // safety_timer = nh.createTimer(ros::Duration(2.0), &Global_Planner::safety_cb, this);
@@ -154,6 +154,7 @@ void Global_Planner::goal_cb(const geometry_msgs::PoseStampedConstPtr& msg){
     }
     goal_vel.setZero();
 
+    // TODO is state machine really necessary?
     goal_ready = true;
 
     // 获得新目标点
