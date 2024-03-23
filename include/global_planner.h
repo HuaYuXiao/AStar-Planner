@@ -56,12 +56,14 @@ private:
     // A星规划器
     Astar::Ptr Astar_ptr;
 
-    tf2_ros::StaticTransformBroadcaster static_broadcaster;
+    geometry_msgs::PoseStamped initialpose;
     // 创建一个TransformStamped消息并填充数据
     geometry_msgs::TransformStamped static_transformStamped;
-    geometry_msgs::PoseStamped initialpose;
+    tf2_ros::StaticTransformBroadcaster static_broadcaster;
+
     prometheus_msgs::DroneState _DroneState;
     nav_msgs::Odometry Drone_odom;
+
     nav_msgs::Path path_cmd;
     prometheus_msgs::ControlCommand Command_Now;
 
@@ -106,9 +108,11 @@ private:
     void initialpose_cb(const geometry_msgs::PoseWithCovarianceStampedConstPtr& msg);
     void goal_cb(const geometry_msgs::PoseStampedConstPtr& msg);
     void drone_state_cb(const prometheus_msgs::DroneStateConstPtr& msg);
+
     void Gpointcloud_cb(const sensor_msgs::PointCloud2ConstPtr& msg);
     void Lpointcloud_cb(const sensor_msgs::PointCloud2ConstPtr& msg);
     void laser_cb(const sensor_msgs::LaserScanConstPtr& msg);
+
     void safety_cb(const ros::TimerEvent& e);
     void mainloop_cb(const ros::TimerEvent& e);
     void track_path_cb(const ros::TimerEvent& e);

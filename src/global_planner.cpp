@@ -18,7 +18,6 @@ void Global_Planner::init(ros::NodeHandle& nh){
     nh.param("global_planner/map_input", map_input, 0);
     // 是否为仿真模式
     nh.param("global_planner/sim_mode", sim_mode, false);
-
     nh.param("global_planner/map_groundtruth", map_groundtruth, false);
 
     // subscribe /initialpose
@@ -26,6 +25,7 @@ void Global_Planner::init(ros::NodeHandle& nh){
     // 订阅 目标点
     goal_sub = nh.subscribe<geometry_msgs::PoseStamped>("/prometheus/planning/goal", 1, &Global_Planner::goal_cb, this);
     // 订阅 无人机状态
+    // TODO where is drone_state published?
     drone_state_sub = nh.subscribe<prometheus_msgs::DroneState>("/prometheus/drone_state", 10, &Global_Planner::drone_state_cb, this);
 
     // 根据map_input选择地图更新方式
@@ -42,7 +42,7 @@ void Global_Planner::init(ros::NodeHandle& nh){
     // 发布提示消息
     message_pub = nh.advertise<prometheus_msgs::Message>("/prometheus/message/global_planner", 10);
     // 发布路径用于显示
-    path_cmd_pub   = nh.advertise<nav_msgs::Path>("/prometheus/global_planning/path_cmd",  10);
+    path_cmd_pub = nh.advertise<nav_msgs::Path>("/prometheus/global_planning/path_cmd",  10);
 
     // 定时器 安全检测
     // safety_timer = nh.createTimer(ros::Duration(2.0), &Global_Planner::safety_cb, this);
@@ -51,7 +51,6 @@ void Global_Planner::init(ros::NodeHandle& nh){
     // 路径追踪循环，快速移动场景应当适当提高执行频率
     // time_per_path
     track_path_timer = nh.createTimer(ros::Duration(time_per_path), &Global_Planner::track_path_cb, this);
-
 
     // Astar algorithm
     Astar_ptr.reset(new Astar);
@@ -76,7 +75,7 @@ void Global_Planner::init(ros::NodeHandle& nh){
     desired_yaw = 0.0;
 
     //　仿真模式下直接发送切换模式与起飞指令
-    if(sim_mode == true){
+    if(sim_mode){
         // Waiting for input
         int start_flag = 0;
         while(start_flag == 0){
@@ -132,7 +131,6 @@ void Global_Planner::initialpose_cb(const geometry_msgs::PoseWithCovarianceStamp
     static_transformStamped.header.stamp = ros::Time::now();
     static_transformStamped.header.frame_id = "map";  // 地图坐标系
     static_transformStamped.child_frame_id = "odom";  // 里程计坐标系
-
     // 发布 odem 到 map 的 TF
     static_transformStamped.transform.translation.x = msg->pose.pose.position.x;
     static_transformStamped.transform.translation.y = msg->pose.pose.position.y;
@@ -150,12 +148,11 @@ void Global_Planner::initialpose_cb(const geometry_msgs::PoseWithCovarianceStamp
 
 
 void Global_Planner::goal_cb(const geometry_msgs::PoseStampedConstPtr& msg){
-    if (is_2D == true){
+    if (is_2D){
         goal_pos << msg->pose.position.x, msg->pose.position.y, fly_height_2D;
     }else{
         goal_pos << msg->pose.position.x, msg->pose.position.y, msg->pose.position.z;
     }
-
     goal_vel.setZero();
 
     goal_ready = true;
@@ -169,7 +166,7 @@ void Global_Planner::goal_cb(const geometry_msgs::PoseStampedConstPtr& msg){
 void Global_Planner::drone_state_cb(const prometheus_msgs::DroneStateConstPtr& msg){
     _DroneState = *msg;
 
-    if (is_2D == true){
+    if (is_2D){
         start_pos << msg->position[0], msg->position[1], fly_height_2D;
         start_vel << msg->velocity[0], msg->velocity[1], 0.0;
 
@@ -183,23 +180,21 @@ void Global_Planner::drone_state_cb(const prometheus_msgs::DroneStateConstPtr& m
 
     odom_ready = true;
 
-    if (_DroneState.connected == true && _DroneState.armed == true ){
+    if (msg->connected && msg->armed){
         drone_ready = true;
     }else{
         drone_ready = false;
     }
 
-    Drone_odom.header = _DroneState.header;
+    Drone_odom.header = msg->header;
     Drone_odom.child_frame_id = "base_link";
-
-    Drone_odom.pose.pose.position.x = _DroneState.position[0];
-    Drone_odom.pose.pose.position.y = _DroneState.position[1];
-    Drone_odom.pose.pose.position.z = _DroneState.position[2];
-
-    Drone_odom.pose.pose.orientation = _DroneState.attitude_q;
-    Drone_odom.twist.twist.linear.x = _DroneState.velocity[0];
-    Drone_odom.twist.twist.linear.y = _DroneState.velocity[1];
-    Drone_odom.twist.twist.linear.z = _DroneState.velocity[2];
+    Drone_odom.pose.pose.position.x = msg->position[0];
+    Drone_odom.pose.pose.position.y = msg->position[1];
+    Drone_odom.pose.pose.position.z = msg->position[2];
+    Drone_odom.pose.pose.orientation = msg->attitude_q;
+    Drone_odom.twist.twist.linear.x = msg->velocity[0];
+    Drone_odom.twist.twist.linear.y = msg->velocity[1];
+    Drone_odom.twist.twist.linear.z = msg->velocity[2];
 }
 
 
@@ -304,11 +299,11 @@ void Global_Planner::track_path_cb(const ros::TimerEvent& e){
         Command_Now.Reference_State.position_ref[0]     = goal_pos[0];
         Command_Now.Reference_State.position_ref[1]     = goal_pos[1];
         Command_Now.Reference_State.position_ref[2]     = goal_pos[2];
-
         Command_Now.Reference_State.yaw_ref             = desired_yaw;
+
         command_pub.publish(Command_Now);
 
-        pub_message(message_pub, prometheus_msgs::Message::NORMAL, NODE_NAME, "Reach the goal!");
+        pub_message(message_pub, prometheus_msgs::Message::NORMAL, NODE_NAME, "Reach the goal.");
 
         // 停止执行
         path_ok = false;
@@ -372,7 +367,7 @@ void Global_Planner::mainloop_cb(const ros::TimerEvent& e){
         }
 
         return;
-    }else    {
+    }else{
         // 对检查的状态进行重置
         odom_ready = false;
         drone_ready = false;
@@ -405,6 +400,7 @@ void Global_Planner::mainloop_cb(const ros::TimerEvent& e){
             int astar_state;
 
             // Astar algorithm
+            // TODO directly use msg from drone_state?
             astar_state = Astar_ptr->search(start_pos, goal_pos);
 
             // 未寻找到路径
@@ -412,8 +408,7 @@ void Global_Planner::mainloop_cb(const ros::TimerEvent& e){
                 path_ok = false;
                 exec_state = EXEC_STATE::WAIT_GOAL;
                 pub_message(message_pub, prometheus_msgs::Message::WARN, NODE_NAME, "Planner can't find path!");
-            }
-            else{
+            }else{
                 path_ok = true;
                 is_new_path = true;
                 path_cmd = Astar_ptr->get_ros_path();
