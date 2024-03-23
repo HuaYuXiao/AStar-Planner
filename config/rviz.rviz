@@ -365,9 +365,6 @@ Visualization Manager:
   Tools:
     - Class: rviz/Interact
       Hide Inactive Objects: true
-#    - Class: rviz/MoveCamera
-#    - Class: rviz/Select
-#    - Class: rviz/FocusCamera
     - Class: rviz/SetInitialPose
     - Class: rviz_plugins/Goal3DTool
       Topic: /prometheus/planning/goal
@@ -415,4 +412,3 @@ Window Geometry:
   Width: 1215
   X: 65
   Y: 24
-
