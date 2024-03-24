@@ -42,7 +42,7 @@ link_directories(${PCL_LIBRARY_DIRS})
 add_executable(uav_navigation
 		src/global_planner_node.cpp
 		src/global_planner.cpp
-		src/A_star.cpp
+		src/Astar.cpp
 		src/occupy_map.cpp
 )
 

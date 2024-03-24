@@ -1,6 +1,21 @@
 #ifndef _TOOLS_H
 #define _TOOLS_H
 
+/*
+```#ifndef``` 是 C/C++ 中的预处理器指令，用于防止头文件的多重包含（multiple inclusion）。当一个头文件被包含到多个源文件中时，如果没有适当的保护，就可能会导致重复定义的问题。
+
+以下是 `#ifndef` 的工作原理：
+
+1. 当第一次包含头文件时，`TOOLS_H` 这个宏会被设置为未定义（undefined）状态。
+2. 随后的包含操作会检查 `TOOLS_H` 这个宏是否已经被定义。如果已经定义了，就意味着这个头文件已经被包含过了，就不需要再次包含了。
+3. 如果 `TOOLS_H` 这个宏没有被定义，就会执行 `#define TOOLS_H` 指令将其定义为一个非零值。
+4. 在文件的末尾，会有 `#endif` 指令，用于结束 `#ifndef` 块。
+
+这样做的好处是，在多个源文件中包含同一个头文件时，预处理器只会将头文件包含一次，从而避免了重复定义的问题，提高了编译效率。
+
+所以，`#ifndef TOOLS_H` 的作用是检查 `TOOLS_H` 这个宏是否已经被定义，如果没有被定义，则说明这是第一次包含 `tools.h`，可以执行相应的操作。
+ */
+
 #include <iostream>
 #include <algorithm>
 #include <queue>
@@ -37,7 +52,6 @@
 #include "prometheus_msgs/DroneState.h"
 #include "prometheus_msgs/ControlCommand.h"
 #include <visualization_msgs/Marker.h>
-
 #include "message_utils.h"
 
 

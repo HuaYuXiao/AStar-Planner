@@ -1,4 +1,4 @@
-#include "A_star.h"
+#include "Astar.h"
 
 using namespace std;
 using namespace Eigen;
@@ -26,7 +26,7 @@ namespace Global_Planning{
       use_node_num_ = 0;
       iter_num_ = 0;
 
-      // 初始化占据地图
+      // TODO: why initialize here? not outside of this class? 初始化占据地图
       Occupy_map_ptr.reset(new Occupy_map);
       Occupy_map_ptr->init(nh);
 
@@ -238,29 +238,31 @@ namespace Global_Planning{
 
 
     nav_msgs::Path Astar::get_ros_path(){
-      nav_msgs::Path path;
+        nav_msgs::Path path;
 
-      // TODO edit frame_id, original world
-      path.header.frame_id = "map";
-      path.header.stamp = ros::Time::now();
-      path.poses.clear();
+        path.poses.clear();
 
-      geometry_msgs::PoseStamped path_i_pose;
-      for (uint i=0; i<path_nodes_.size(); ++i){
+        path.header.stamp = ros::Time::now();
+        // TODO edit frame_id, original world
+        path.header.frame_id = "map";
+
+        geometry_msgs::PoseStamped path_i_pose;
+        for (uint i=0; i<path_nodes_.size(); ++i){
+            path_i_pose.header.frame_id = "map";
+            path_i_pose.pose.position.x = path_nodes_[i]->position[0];
+            path_i_pose.pose.position.y = path_nodes_[i]->position[1];
+            path_i_pose.pose.position.z = path_nodes_[i]->position[2];
+            // TODO: what is push_back?
+            path.poses.push_back(path_i_pose);
+        }
+
         path_i_pose.header.frame_id = "map";
-        path_i_pose.pose.position.x = path_nodes_[i]->position[0];
-        path_i_pose.pose.position.y = path_nodes_[i]->position[1];
-        path_i_pose.pose.position.z = path_nodes_[i]->position[2];
+        path_i_pose.pose.position.x = goal_pos[0];
+        path_i_pose.pose.position.y = goal_pos[1];
+        path_i_pose.pose.position.z = goal_pos[2];
         path.poses.push_back(path_i_pose);
-      }
 
-      path_i_pose .header.frame_id = "map";
-      path_i_pose.pose.position.x = goal_pos[0];
-      path_i_pose.pose.position.y = goal_pos[1];
-      path_i_pose.pose.position.z = goal_pos[2];
-      path.poses.push_back(path_i_pose);
-
-      return path;
+        return path;
     }
 
 

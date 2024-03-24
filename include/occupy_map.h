@@ -9,15 +9,21 @@ namespace Global_Planning{
 class Occupy_map{
     public:
         Occupy_map(){}
+        ~Occupy_map(){}
+
+        // 定义该类的指针
+        typedef std::shared_ptr<Occupy_map> Ptr;
 
         // 全局点云指针
         sensor_msgs::PointCloud2ConstPtr global_env_;
         // 地图是否占据容器， 从编程角度来讲，这就是地图变为单一序列化后的索引
         std::vector<int> occupancy_buffer_;  // 0 is free, 1 is occupied
 
-        bool debug_mode;
         // 地图原点,地图尺寸
-        Eigen::Vector3d origin_, map_size_3d_, min_range_, max_range_;
+        Eigen::Vector3d origin_;
+        Eigen::Vector3d map_size_3d_;
+        Eigen::Vector3d min_range_;
+        Eigen::Vector3d max_range_;
         // 占据图尺寸 = 地图尺寸 / 分辨率
         Eigen::Vector3i grid_size_;
 
@@ -32,12 +38,14 @@ class Occupy_map{
 
         //初始化
         void init(ros::NodeHandle& nh);
+
         // 地图更新函数 - 输入：全局点云
         void map_update_gpcl(const sensor_msgs::PointCloud2ConstPtr & global_point);
         // 地图更新函数 - 输入：局部点云
         void map_update_lpcl(const sensor_msgs::PointCloud2ConstPtr & local_point, const nav_msgs::Odometry & odom);
         // 地图更新函数 - 输入：二维激光雷达
         void map_update_laser(const sensor_msgs::LaserScanConstPtr & local_point, const nav_msgs::Odometry & odom);
+
         // 地图膨胀
         void inflate_point_cloud(void);
         // 判断当前点是否在地图内
@@ -54,8 +62,6 @@ class Occupy_map{
         int getOccupancy(Eigen::Vector3i id);
         // 检查安全
         bool check_safety(Eigen::Vector3d& pos, double check_distance/*, Eigen::Vector3d& map_point*/);
-        // 定义该类的指针
-        typedef std::shared_ptr<Occupy_map> Ptr;
 };
 }
 

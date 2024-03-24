@@ -43,20 +43,21 @@ namespace Global_Planning{
     void Occupy_map::map_update_gpcl(const sensor_msgs::PointCloud2ConstPtr & global_point){
         has_global_point = true;
         global_env_ = global_point;
+
+        // 发布未膨胀点云
+        global_pcl_pub.publish(*global_env_);
     }
 
     // 地图更新函数 - 输入：局部点云
     void Occupy_map::map_update_lpcl(const sensor_msgs::PointCloud2ConstPtr & local_point, const nav_msgs::Odometry & odom){
         has_global_point = true;
-    // 待江涛更新
-    // 将传递过来的局部点云转为全局点云
+        // TODO: 将传递过来的局部点云转为全局点云
     }
 
     // 地图更新函数 - 输入：laser
     void Occupy_map::map_update_laser(const sensor_msgs::LaserScanConstPtr & local_point, const nav_msgs::Odometry & odom){
         has_global_point = true;
-    // 待更新
-    // 将传递过来的数据转为全局点云
+        // TODO: 将传递过来的数据转为全局点云
     }
 
     // 当global_planning节点接收到点云消息更新时，进行设置点云指针并膨胀
@@ -66,9 +67,6 @@ namespace Global_Planning{
             ROS_WARN("Occupy_map [inflate point cloud]: don't have global point, can't inflate!");
             return;
         }
-
-        // 发布未膨胀点云
-        global_pcl_pub.publish(*global_env_);
 
         //记录开始时间
         ros::Time time_start = ros::Time::now();
@@ -86,19 +84,17 @@ namespace Global_Planning{
         pcl::PointCloud<pcl::PointXYZ> cloud_inflate_vis_;
         cloud_inflate_vis_.clear();
 
-        // 膨胀格子数 = 膨胀距离/分辨率
-        // ceil返回大于或者等于指定表达式的最小整数
+        // 膨胀格子数 = 膨胀距离/分辨率 ceil返回大于或者等于指定表达式的最小整数
         const int ifn = ceil(inflate_ / resolution_);
 
         pcl::PointXYZ pt_inf;
-        Eigen::Vector3d p3d, p3d_inf;
+        Eigen::Vector3d p3d;
+        Eigen::Vector3d p3d_inf;
 
         // 遍历全局点云中的所有点
         for (size_t i = 0; i < latest_global_cloud_.points.size(); ++i){
             // 取出第i个点
-            p3d(0) = latest_global_cloud_.points[i].x;
-            p3d(1) = latest_global_cloud_.points[i].y;
-            p3d(2) = latest_global_cloud_.points[i].z;
+            p3d << latest_global_cloud_.points[i].x, latest_global_cloud_.points[i].y, latest_global_cloud_.points[i].z;
 
             // 若取出的点不在地图内（膨胀时只考虑地图范围内的点）
             if(!isInMap(p3d)){
@@ -110,9 +106,7 @@ namespace Global_Planning{
                 for (int y = -ifn; y <= ifn; ++y)
                     for (int z = -ifn; z <= ifn; ++z){
                         // 为什么Z轴膨胀一半呢？ z 轴其实可以不膨胀
-                        p3d_inf(0) = pt_inf.x = p3d(0) + x * resolution_;
-                        p3d_inf(1) = pt_inf.y = p3d(1) + y * resolution_;
-                        p3d_inf(2) = pt_inf.z = p3d(2) + 0.5 * z * resolution_;
+                        p3d_inf << pt_inf.x = p3d(0) + x * resolution_, pt_inf.y = p3d(1) + y * resolution, pt_inf.z = p3d(2) + 0.5 * z * resolution_;
 
                         // 若膨胀的点不在地图内（膨胀时只考虑地图范围内的点）
                         if(!isInMap(p3d_inf)){
@@ -180,7 +174,6 @@ namespace Global_Planning{
             pos(2) > max_range_(2) - 1e-4){
             return false;
         }
-
         return true;
     }
 
@@ -199,9 +192,9 @@ namespace Global_Planning{
         int check_dist_xy = int(check_distance / resolution_);
         int check_dist_z=0;
         int cnt=0;
-        for(int ix=-check_dist_xy; ix<=check_dist_xy; ix++){
-            for(int iy=-check_dist_xy; iy<=check_dist_xy; iy++){
-                for(int iz=-check_dist_z; iz<=check_dist_z; iz++){
+        for(int ix=-check_dist_xy; ix <= check_dist_xy; ix++){
+            for(int iy=-check_dist_xy; iy <= check_dist_xy; iy++){
+                for(int iz=-check_dist_z; iz <= check_dist_z; iz++){
                     id_occ(0) = id(0)+ix;
                     id_occ(1) = id(1)+iy;
                     id_occ(2) = id(2)+iz;
@@ -217,6 +210,7 @@ namespace Global_Planning{
                 }
             }
         }
+        // TODO: what does 5 mean?
         if(cnt>5){
             return false;
         }

@@ -41,7 +41,7 @@ int main(int argc, char** argv){
     // 地图参数 地图分辨率，单位：米
     nh.param("map/resolution", resolution_, 0.05);
     // 地图膨胀距离，单位：米
-    nh.param("map/inflate", inflate_,  0.3);
+    nh.param("map/inflate", inflate_, 0.3);
 
     Global_Planner global_planner;
     global_planner.init(nh);

@@ -1,8 +1,9 @@
 #ifndef GLOBAL_PLANNER
 #define GLOBAL_PLANNER
+
 #define NODE_NAME "Global_Planner [main]"
 
-#include "A_star.h"
+#include "Astar.h"
 
 using namespace std;
 
@@ -74,9 +75,6 @@ private:
     float desired_yaw;
     ros::Time tra_start_time;
     float tra_running_time;
-    
-    // 打印的提示消息
-    string message;
 
     // 五种状态机
     enum EXEC_STATE{
@@ -107,11 +105,10 @@ private:
 public:
     Global_Planner(void):
         global_planner_nh("~")
-    {}~Global_Planner(){}
+    {}
+    ~Global_Planner(){}
 
     void init(ros::NodeHandle& nh);
-
-
 };
 }
 #endif

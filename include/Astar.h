@@ -98,6 +98,7 @@ class Astar{
         // 地图相关
         std::vector<int> occupancy_buffer_;  
 
+        // TODO defined twice!
         Eigen::Vector3d origin_;
         Eigen::Vector3d map_size_3d_;
         bool has_global_point;
@@ -130,6 +131,7 @@ class Astar{
         void reset();
         // 初始化
         void init(ros::NodeHandle& nh);
+
         // 检查安全性
         bool check_safety(Eigen::Vector3d &cur_pos, double safe_distance);
         // 搜索
