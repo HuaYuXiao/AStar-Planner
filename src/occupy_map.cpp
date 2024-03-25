@@ -106,7 +106,9 @@ namespace Global_Planning{
                 for (int y = -ifn; y <= ifn; ++y)
                     for (int z = -ifn; z <= ifn; ++z){
                         // 为什么Z轴膨胀一半呢？ z 轴其实可以不膨胀
-                        p3d_inf << pt_inf.x = p3d(0) + x * resolution_, pt_inf.y = p3d(1) + y * resolution, pt_inf.z = p3d(2) + 0.5 * z * resolution_;
+                        p3d_inf(0) = pt_inf.x = p3d(0) + x * resolution_;
+                        p3d_inf(1) = pt_inf.y = p3d(1) + y * resolution_;
+                        p3d_inf(2) = pt_inf.z = p3d(2) + 0.5 * z * resolution_;
 
                         // 若膨胀的点不在地图内（膨胀时只考虑地图范围内的点）
                         if(!isInMap(p3d_inf)){
