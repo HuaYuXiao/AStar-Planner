@@ -3,22 +3,6 @@
 namespace Global_Planning {
 // 初始化函数
 void Global_Planner::init(ros::NodeHandle& nh){
-    // 读取参数
-    // TRUE代表2D平面规划及搜索,FALSE代表3D
-    nh.param("global_planner/is_2D", is_2D, true);
-    // 2D规划时,定高高度
-    nh.param("global_planner/fly_height_2D", fly_height_2D, 0.4);
-    // 安全距离，若膨胀距离设置已考虑安全距离，建议此处设为0
-    nh.param("global_planner/safe_distance", safe_distance, 0.05);
-    nh.param("global_planner/time_per_path", time_per_path, 1.5);
-    // 重规划频率
-    nh.param("global_planner/replan_time", replan_time, 2.0);
-    // 选择地图更新方式：　0代表全局点云，１代表局部点云，２代表激光雷达scan数据
-    nh.param("global_planner/map_input", map_input, 0);
-    // 是否为仿真模式
-    nh.param("global_planner/sim_mode", sim_mode, false);
-    nh.param("global_planner/map_groundtruth", map_groundtruth, false);
-
     // subscribe /initialpose
     initialpose_sub = nh.subscribe<geometry_msgs::PoseWithCovarianceStamped>("/initialpose", 1, &Global_Planner::initialpose_cb, this);
     // 订阅 目标点
@@ -46,7 +30,6 @@ void Global_Planner::init(ros::NodeHandle& nh){
     // 定时器 规划器算法执行周期
     mainloop_timer = nh.createTimer(ros::Duration(1.5), &Global_Planner::mainloop_cb, this);
     // 路径追踪循环，快速移动场景应当适当提高执行频率
-    // time_per_path
     track_path_timer = nh.createTimer(ros::Duration(time_per_path), &Global_Planner::track_path_cb, this);
 
     // Astar algorithm
@@ -65,9 +48,9 @@ void Global_Planner::init(ros::NodeHandle& nh){
 
     // 初始化发布的指令
     Command_Now.header.stamp = ros::Time::now();
-    Command_Now.Mode  = prometheus_msgs::ControlCommand::Idle;
-    Command_Now.Command_ID = 0;
-    Command_Now.source = NODE_NAME;
+    Command_Now.Mode         = prometheus_msgs::ControlCommand::Idle;
+    Command_Now.Command_ID   = 0;
+    Command_Now.source       = NODE_NAME;
     desired_yaw = 0.0;
 
     //　仿真模式下直接发送切换模式与起飞指令
@@ -124,9 +107,9 @@ void Global_Planner::initialpose_cb(const geometry_msgs::PoseWithCovarianceStamp
     cout << msg->pose << endl;
 
     // 将位姿信息转换到 odom 坐标系下
-    static_transformStamped.header.stamp = ros::Time::now();
+    static_transformStamped.header.stamp    = ros::Time::now();
     static_transformStamped.header.frame_id = "map";  // 地图坐标系
-    static_transformStamped.child_frame_id = "odom";  // 里程计坐标系
+    static_transformStamped.child_frame_id  = "odom";  // 里程计坐标系
     // 发布 odem 到 map 的 TF
     static_transformStamped.transform.translation.x = msg->pose.pose.position.x;
     static_transformStamped.transform.translation.y = msg->pose.pose.position.y;
@@ -192,6 +175,10 @@ void Global_Planner::drone_state_cb(const prometheus_msgs::DroneStateConstPtr& m
     Drone_odom.twist.twist.linear.x = msg->velocity[0];
     Drone_odom.twist.twist.linear.y = msg->velocity[1];
     Drone_odom.twist.twist.linear.z = msg->velocity[2];
+
+    //TODO: check if drone is safe, if not, directly land
+
+
 }
 
 
@@ -266,27 +253,32 @@ void Global_Planner::track_path_cb(const ros::TimerEvent& e){
         return;
     }
 
-    // if(!is_safety){
-    //     // 若无人机与障碍物之间的距离小于安全距离，则停止执行路径
-    //     // 但如何脱离该点呢？
-    //     ROS_WARN("Drone Position Dangerous! STOP HERE and wait for new goal.");
+    /*
+     if(!is_safety){
+         // 若无人机与障碍物之间的距离小于安全距离，则停止执行路径
+         // 但如何脱离该点呢？
+         ROS_WARN("Drone Position Dangerous! STOP HERE and wait for new goal.");
 
-    //     Command_Now.header.stamp = ros::Time::now();
-    //     Command_Now.Mode         = prometheus_msgs::ControlCommand::Hold;
-    //     Command_Now.Command_ID   = Command_Now.Command_ID + 1;
-    //     Command_Now.source = NODE_NAME;
+         Command_Now.header.stamp = ros::Time::now();
+         Command_Now.Mode         = prometheus_msgs::ControlCommand::Hold;
+         Command_Now.Command_ID   = Command_Now.Command_ID + 1;
+         Command_Now.source = NODE_NAME;
 
-    //     command_pub.publish(Command_Now);
+         command_pub.publish(Command_Now);
 
-    //     goal_ready = false;
-    //     exec_state = EXEC_STATE::WAIT_GOAL;
+         goal_ready = false;
+         exec_state = EXEC_STATE::WAIT_GOAL;
 
-    //     return;
-    // }
+         return;
+     }
+    */
+
     is_new_path = false;
 
     // 抵达终点
-    if(cur_id == Num_total_wp - 1)    {
+    // TODO: convert to bool comparison
+    if(cur_id == Num_total_wp - 1) {
+        // the last part of waypoints, move_mode = xyz_pos
         Command_Now.header.stamp = ros::Time::now();
         Command_Now.Mode                                = prometheus_msgs::ControlCommand::Move;
         Command_Now.Command_ID                          = Command_Now.Command_ID + 1;
@@ -299,7 +291,6 @@ void Global_Planner::track_path_cb(const ros::TimerEvent& e){
         Command_Now.Reference_State.yaw_ref             = desired_yaw;
 
         command_pub.publish(Command_Now);
-
         ROS_INFO("Reach the goal.");
 
         // 停止执行
@@ -360,10 +351,9 @@ void Global_Planner::mainloop_cb(const ros::TimerEvent& e){
             }
             exec_num=0;
         }
-
         return;
     }else{
-        // 对检查的状态进行重置
+        // TODO: necessary? 对检查的状态进行重置
         odom_ready = false;
         drone_ready = false;
         sensor_ready = false;
@@ -443,9 +433,8 @@ void Global_Planner::safety_cb(const ros::TimerEvent& e){
     is_safety = Astar_ptr->check_safety(cur_pos, safe_distance);
 }
 
-
+// TODO: 选择与当前无人机所在位置最近的点,并从该点开始追踪
 int Global_Planner::get_start_point_id(void){
-    // 选择与当前无人机所在位置最近的点,并从该点开始追踪
     int id = 0;
     float distance_to_wp_min = abs(path_cmd.poses[0].pose.position.x - _DroneState.position[0])
                                 + abs(path_cmd.poses[0].pose.position.y - _DroneState.position[1])

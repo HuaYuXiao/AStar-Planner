@@ -88,14 +88,8 @@ class Astar{
         // 最终路径点容器
         std::vector<NodePtr> path_nodes_;  
 
-        // 启发式参数
-        double lambda_heu_;
-        // 最大搜索次数
-        int max_search_num;
         // tie breaker
         double tie_breaker_;
-        bool is_2D;
-        double fly_height;
 
         /* ---------- record data ---------- */
         // 目标点
@@ -103,8 +97,10 @@ class Astar{
 
         // 地图相关
         std::vector<int> occupancy_buffer_;  
-        double resolution_;
-        Eigen::Vector3d origin_, map_size_3d_;
+
+        // TODO defined twice!
+        Eigen::Vector3d origin_;
+        Eigen::Vector3d map_size_3d_;
         bool has_global_point;
 
         // 辅助函数
@@ -121,6 +117,8 @@ class Astar{
         Astar(){}
         ~Astar();
 
+        typedef std::shared_ptr<Astar> Ptr;
+
         enum{
           REACH_END = 1,
           NO_PATH = 2
@@ -133,6 +131,7 @@ class Astar{
         void reset();
         // 初始化
         void init(ros::NodeHandle& nh);
+
         // 检查安全性
         bool check_safety(Eigen::Vector3d &cur_pos, double safe_distance);
         // 搜索
@@ -143,9 +142,6 @@ class Astar{
         nav_msgs::Path get_ros_path();
         // 返回访问过的节点
         std::vector<NodePtr> getVisitedNodes();
-
-        typedef std::shared_ptr<Astar> Ptr;
-
 };
 }
 
