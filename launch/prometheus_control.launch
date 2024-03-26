@@ -5,7 +5,7 @@
         <!-- run the px4_pos_estimator.cpp -->
         <node pkg="prometheus_control" type="px4_pos_estimator" name="px4_pos_estimator" output="screen">
             <!-- 0 for vicon， 1 for 激光SLAM, 2 for gazebo ground truth(仿真用) -->
-            <!-- TODO 1. provide a choice for the user 2. mix source for odem -->
+            <!-- TODO 1. provide a choice for the user 2. mix source for odom -->
 <!--            <param name="input_source" value="3" />-->
             <param name="input_source" value="0" />
             <!-- 如果使用动作捕捉系统，则指定刚体名称，用于订阅vrpn节点发布的话题 -->

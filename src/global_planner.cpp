@@ -35,7 +35,7 @@ void Global_Planner::init(ros::NodeHandle& nh){
     // Astar algorithm
     Astar_ptr.reset(new Astar);
     Astar_ptr->init(nh);
-    ROS_INFO("A_star init.");
+    ROS_INFO("Astar init.");
 
     // 规划器状态参数初始化
     exec_state = EXEC_STATE::WAIT_GOAL;
@@ -110,7 +110,7 @@ void Global_Planner::initialpose_cb(const geometry_msgs::PoseWithCovarianceStamp
     static_transformStamped.header.stamp    = ros::Time::now();
     static_transformStamped.header.frame_id = "map";  // 地图坐标系
     static_transformStamped.child_frame_id  = "odom";  // 里程计坐标系
-    // 发布 odem 到 map 的 TF
+    // 发布 odom 到 map 的 TF
     static_transformStamped.transform.translation.x = msg->pose.pose.position.x;
     static_transformStamped.transform.translation.y = msg->pose.pose.position.y;
     static_transformStamped.transform.translation.z = msg->pose.pose.position.z;
