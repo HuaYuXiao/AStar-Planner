@@ -101,7 +101,7 @@ Visualization Manager:
           map:
             map_ned:
               {}
-            odem:
+            odom:
               base_link:
                 base_link_frd:
                   {}
@@ -115,24 +115,6 @@ Visualization Manager:
                     t265_gyro_optical_frame:
                       {}
           vicon/cf1/cf1:
-            { }
-          vicon/cf10/cf10:
-            { }
-          vicon/cf2/cf2:
-            { }
-          vicon/cf3/cf3:
-            { }
-          vicon/cf4/cf4:
-            { }
-          vicon/cf5/cf5:
-            { }
-          vicon/cf6/cf6:
-            { }
-          vicon/cf7/cf7:
-            { }
-          vicon/cf8/cf8:
-            { }
-          vicon/cf9/cf9:
             { }
       Update Interval: 0
       Value: true
