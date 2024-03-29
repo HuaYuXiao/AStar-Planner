@@ -53,7 +53,7 @@ Visualization Manager:
         Z: 0
       Plane: XY
       Plane Cell Count: 20
-      Reference Frame: map
+      Reference Frame: world
       Value: true
 
     - Class: rviz/TF
@@ -114,8 +114,8 @@ Visualization Manager:
                   t265_gyro_frame:
                     t265_gyro_optical_frame:
                       {}
-          vicon/cf1/cf1:
-            { }
+          vicon/p450/p450:
+            {}
       Update Interval: 0
       Value: true
 
@@ -340,7 +340,7 @@ Visualization Manager:
   Global Options:
     Background Color: 48; 48; 48
     Default Light: true
-    Fixed Frame: map
+    Fixed Frame: world
     Frame Rate: 60
   Name: root
 
