@@ -1,29 +1,33 @@
 <launch>
-	<!-- 启动MAVROS -->
+    <!-- VICON -->
+    <include file="$(find uav_navigation)/launch/mavros_vicon_bridge.launch">
+    </include>
+
+    <!-- MAVROS -->
     <include file="$(find uav_navigation)/launch/mavros.launch">
     </include>
 
-    <include file="$(find uav_navigation)/launch/rs_t265.launch">
-    </include>
+    <!-- T265 -->
+<!--    <include file="$(find uav_navigation)/launch/rs_t265.launch">-->
+<!--    </include>-->
 
+    <!-- LIDAR -->
     <include file="$(find uav_navigation)/launch/amov-50C-3.launch">
     </include>
 
+    <!-- PX4 -->
     <include file="$(find uav_navigation)/launch/prometheus_control.launch">
     </include>
 
+    <!-- STATION -->
     <include file="$(find uav_navigation)/launch/prometheus_station.launch">
     </include>
 
-    <include file="$(find uav_navigation)/launch/vicon.launch">
-    </include>
-
-    <!-- 启动octomap建图 -->
+    <!-- octomap -->
     <include file="$(find uav_navigation)/launch/octomapping.launch">
     </include>
 
-	<!-- 启动rviz -->
+	<!-- rviz -->
     <node type="rviz" name="rviz" pkg="rviz" args="-d $(find uav_navigation)/config/rviz.rviz" >
     </node>
-
 </launch>

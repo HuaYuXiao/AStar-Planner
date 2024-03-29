@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- IP and port on Vicon Windows PC -->
+    <arg name="datastream_hostport" default="192.168.1.52"/>
+  <!-- Fixed vicon world frame -->
+    <arg name="vicon_world_frame" default="world"/>
+    <arg name="subject_name" value="p450"/>
+    <arg name="segment_name" value="p450"/>
+
+	<node pkg="vicon_bridge" type="vicon_bridge" name="vicon" output="screen" >
+		<param name="stream_mode" value="ClientPull"/>
+    <param name="datastream_hostport" value="$(arg datastream_hostport)"/>
+		<param name="tf_ref_frame_id" value="$(arg vicon_world_frame)"/>
+	</node>
+
+    <node pkg="vicon_bridge" type="mavros_bridge" name="mavros_bridge" output="screen" >
+        <param name="subject_name" value="$(arg subject_name)"/>
+        <param name="segment_name" value="$(arg segment_name)"/>
+		<param name="child_frame_id" value="base_link"/>
+        <param name="frame_id" value="odom"/>
+	</node>
+</launch>
