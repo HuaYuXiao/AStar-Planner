@@ -35,7 +35,7 @@ git clone https://github.com/HuaYuXiao/uav_navigation.git
 ### 2. 编译安装
 
 ```bash
-catkin_make -j2 -l2 install --pkg=uav_navigation
+catkin_make -j1 -l1 install --pkg=uav_navigation
 ```
 
 NOTICE：由于板载计算机性能表现不佳，此处仅使用2个线程进行编译和链接。
