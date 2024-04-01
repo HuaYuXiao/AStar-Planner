@@ -16,7 +16,7 @@
     <node pkg="vicon_bridge" type="mavros_bridge" name="mavros_bridge" output="screen" >
         <param name="subject_name" value="$(arg subject_name)"/>
         <param name="segment_name" value="$(arg segment_name)"/>
-		<param name="child_frame_id" value="base_link"/>
+		    <param name="child_frame_id" value="base_link"/>
         <param name="frame_id" value="odom"/>
 	</node>
 </launch>

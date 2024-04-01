@@ -5,7 +5,7 @@
         <!-- 发布地图的坐标系 -->
         <param name="frame_id" type="string" value="world" />
         <!-- 传感器最大感知范围 (speedup!) -->
-        <param name="sensor_model/max_range" value="3.0" />
+        <param name="sensor_model/max_range" value="5.0" />
         <!-- 局部点云输入 -->
         <remap from="cloud_in" to="/prometheus/sensors/pcl2" />
     </node>

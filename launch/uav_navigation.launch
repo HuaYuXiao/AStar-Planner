@@ -8,8 +8,8 @@
     </include>
 
     <!-- T265 -->
-<!--    <include file="$(find uav_navigation)/launch/rs_t265.launch">-->
-<!--    </include>-->
+   <include file="$(find uav_navigation)/launch/rs_t265.launch">
+   </include>
 
     <!-- LIDAR -->
     <include file="$(find uav_navigation)/launch/amov-50C-3.launch">
