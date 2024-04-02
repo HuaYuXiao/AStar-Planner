@@ -24,7 +24,7 @@
     </include>
 
     <!-- octomap -->
-    <include file="uav_octomapping.launch">
+    <include file="$(find uav_navigation)/launch/uav_octomapping.launch">
     </include>
 
 	<!-- rviz -->
