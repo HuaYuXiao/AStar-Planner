@@ -1,12 +1,12 @@
 # ![logo200x60](https://github.com/HuaYuXiao/UAV-Dynamic-Obstacle-Avoidance/assets/117464811/88415d13-8c7c-4d5c-a3e7-04f02d7b746d) UAV navigation
 
-阿木P450(nano)导航包，基于[global_planning](https://github.com/amov-lab/Prometheus/tree/v1.1/Modules/planning/global_planning)开发而来。
+阿木P450(nano)Astar导航包，基于[global_planning](https://github.com/amov-lab/Prometheus/tree/v1.1/Modules/planning/global_planning)开发。
 
 ![HitCount](https://img.shields.io/endpoint?url=https%3A%2F%2Fhits.dwyl.com%2FHuaYuXiao%2Fuav_navigation.json%3Fcolor%3Dpink)
 ![Static Badge](https://img.shields.io/badge/ROS-melodic-22314E?logo=ros)
 ![Static Badge](https://img.shields.io/badge/C%2B%2B-11-00599C?logo=cplusplus)
 ![Static Badge](https://img.shields.io/badge/Python-2.7.17-3776AB?logo=python)
-![Static Badge](https://img.shields.io/badge/MATLAB-2023b-salmon)
+
 ![Static Badge](https://img.shields.io/badge/Ubuntu-18.04.6-E95420?logo=ubuntu)
 ![Static Badge](https://img.shields.io/badge/NVIDIA-Jetson_Nano-76B900?LOGO=nvidia)
 
@@ -33,15 +33,7 @@ git clone https://github.com/HuaYuXiao/uav_navigation.git
 ### 2. 编译安装
 
 ```bash
-catkin_make -j1 -l1 install --pkg=uav_navigation
-```
-
-NOTICE：由于板载计算机性能表现不佳，此处仅使用2个线程进行编译和链接。
-
-编译安装完成后，在.bashrc末尾加上：`source ~/catkin_ws/devel/setup.bash`（已经添加过的跳过），
-
-```bash
-gedit ~/.bashrc
+catkin_make install -j1 -l1 --pkg=uav_navigation
 ```
 
 
