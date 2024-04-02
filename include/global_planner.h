@@ -1,8 +1,9 @@
 #ifndef GLOBAL_PLANNER
 #define GLOBAL_PLANNER
+
 #define NODE_NAME "Global_Planner [main]"
 
-#include "A_star.h"
+#include "Astar.h"
 
 using namespace std;
 
@@ -11,18 +12,7 @@ class Global_Planner{
 private:
     ros::NodeHandle global_planner_nh;
 
-    // 参数
-    bool is_2D;
-    double fly_height_2D;
-    double safe_distance;
-    double time_per_path;
-    int map_input;
-    double replan_time;
-    bool sim_mode;
-    bool map_groundtruth;
-
     // 本机位置
-    // 邻机位置
     // 根据不同的输入（激光雷达输入、相机输入等）生成occupymap
     // 调用路径规划算法 生成路径
     // 调用轨迹优化算法 规划轨迹
@@ -85,9 +75,6 @@ private:
     float desired_yaw;
     ros::Time tra_start_time;
     float tra_running_time;
-    
-    // 打印的提示消息
-    string message;
 
     // 五种状态机
     enum EXEC_STATE{
@@ -118,7 +105,8 @@ private:
 public:
     Global_Planner(void):
         global_planner_nh("~")
-    {}~Global_Planner(){}
+    {}
+    ~Global_Planner(){}
 
     void init(ros::NodeHandle& nh);
 };
