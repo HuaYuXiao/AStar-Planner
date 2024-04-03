@@ -36,7 +36,7 @@ include_directories(
 		${PCL_INCLUDE_DIRS}
 		${OCTOMAP_INCLUDE_DIRS}
 		${PROJECT_SOURCE_DIR}/include
-		~/Prometheus/Modules/common/include
+		/home/hyx020222/Prometheus/Modules/common/include
 )
 
 link_directories(${PCL_LIBRARY_DIRS})
