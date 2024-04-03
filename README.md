@@ -12,17 +12,19 @@
 
 
 **NOTICE**：
+- **UAV控制**请前往此仓库👉https://github.com/HuaYuXiao/uav_control
 - **UAV定位**请前往此仓库👉https://github.com/HuaYuXiao/uav_localization
 - **UAV建图**请前往此仓库👉https://github.com/HuaYuXiao/uav_octomapping
+- **UAV导航**请前往此仓库👉https://github.com/HuaYuXiao/uav_navigation
 - **UAV仿真**请前往此仓库👉https://github.com/HuaYuXiao/uav_simulation
 
 
-## 实物实验
+## How to Use?
 
-### 1. 下载源码
+### 下载源码
 
 ```bash
-cd ~/catkin_ws
+cd ~/catkin_ws/src
 ```
 
 ```bash
@@ -30,14 +32,18 @@ git clone https://github.com/HuaYuXiao/uav_navigation.git
 ```
 
 
-### 2. 编译安装
+### 编译安装
+
+```bash
+cd ~/catkin_ws
+```
 
 ```bash
 catkin_make install -j1 -l1 --pkg=uav_navigation
 ```
 
 
-### 3. 开始导航
+### 开始导航
 
 ```bash
 roslaunch uav_navigation uav_navigation.launch
@@ -59,7 +65,7 @@ Reference:
 - [技术分享 | Prometheus（P450）-室内外避障](https://mp.weixin.qq.com/s/j4-Z_OIIW9ReXpfisAh37Q)
 
 
-## 4. 确定起点
+## 确定起点
 
 
 
