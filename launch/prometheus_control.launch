@@ -1,8 +1,8 @@
 <launch>
     <!-- 启动Prometheus代码 -->
-    <group ns="prometheus_control">
+    <group ns="uav_control">
         <!-- run the px4_pos_estimator.cpp -->
-        <node pkg="prometheus_control" type="px4_pos_estimator" name="px4_pos_estimator" output="screen">
+        <node pkg="uav_control" type="px4_pos_estimator" name="px4_pos_estimator" output="screen">
             <!--
             0 for optitrack，
             6 for VICON
@@ -22,12 +22,12 @@
         </node>
 
         <!-- run the px4_sender.cpp -->
-        <node pkg="prometheus_control" type="px4_sender" name="px4_sender" output="screen">
+        <node pkg="uav_control" type="px4_sender" name="px4_sender" output="screen">
             <rosparam command="load" file="$(find uav_navigation)/config/px4_sender.yaml"/>
         </node>
 
         <!-- run the terminal_control.cpp -->
-        <node pkg="prometheus_control" type="terminal_control" name="terminal_control" output="screen" launch-prefix="gnome-terminal --">
+        <node pkg="uav_control" type="terminal_control" name="terminal_control" output="screen" launch-prefix="gnome-terminal --">
             <rosparam command="load" file="$(find uav_navigation)/config/px4_sender.yaml" />
         </node>
     </group>
