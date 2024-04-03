@@ -12,8 +12,10 @@
 
 
 **NOTICE**：
+- **UAV控制**请前往此仓库👉https://github.com/HuaYuXiao/uav_control
 - **UAV定位**请前往此仓库👉https://github.com/HuaYuXiao/uav_localization
 - **UAV建图**请前往此仓库👉https://github.com/HuaYuXiao/uav_octomapping
+- **UAV导航**请前往此仓库👉https://github.com/HuaYuXiao/uav_navigation
 - **UAV仿真**请前往此仓库👉https://github.com/HuaYuXiao/uav_simulation
 
 
