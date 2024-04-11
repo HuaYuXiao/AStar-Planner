@@ -122,8 +122,8 @@ Visualization Manager:
     - Class: rviz/Group
       Displays:
         - Alpha: 1
-          Axes Length: 1
-          Axes Radius: 0.1
+          Axes Length: 0.2
+          Axes Radius: 0.02
           Class: rviz/Pose
           Color: 255; 25; 0
           Enabled: true
