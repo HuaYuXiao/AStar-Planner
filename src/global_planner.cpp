@@ -81,14 +81,21 @@ void Global_Planner::initialpose_cb(const geometry_msgs::PoseWithCovarianceStamp
 
 // 获得新目标点
 void Global_Planner::goal_cb(const geometry_msgs::PoseStampedConstPtr& msg){
+    // goal position
     if (is_2D){
         goal_pos << msg->pose.position.x, msg->pose.position.y, fly_height_2D;
     }else{
-        goal_pos << msg->pose.position.x, msg->pose.position.y, msg->pose.position.z;
+        goal_pos << msg->pose.position.x, msg->pose.position.y, _DroneState.position[2];
     }
+
+    // goal rotation
+    double z = msg->pose.orientation.z;
+    double w = msg->pose.orientation.w;
+    desired_yaw = std::atan2(2 * w * z, w * w - z * z);
+
+    // goal velocity
     goal_vel.setZero();
 
-    // TODO is state machine really necessary?
     goal_ready = true;
 
     ROS_INFO("Get a new goal point: (%f, %f, %f)", goal_pos(0), goal_pos(1), goal_pos(2));
@@ -128,10 +135,6 @@ void Global_Planner::drone_state_cb(const prometheus_msgs::DroneStateConstPtr& m
     Drone_odom.twist.twist.linear.x = msg->velocity[0];
     Drone_odom.twist.twist.linear.y = msg->velocity[1];
     Drone_odom.twist.twist.linear.z = msg->velocity[2];
-
-    //TODO: check if drone is safe, if not, directly land
-
-
 }
 
 
