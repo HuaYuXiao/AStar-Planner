@@ -1,12 +1,13 @@
 <?xml version="1.0"?>
 <package format="2">
     <name>uav_navigation</name>
-    <version>4.1.0</version>
+    <version>4.1.1</version>
     <description>A ROS package for navigation in 3D octomap on Prometheus P450</description>
     <maintainer email="hyx020222@gmail.com">Eason Hua</maintainer>
     <license>MIT</license>
 
-    <url type="website">https://github.com/HuaYuXiao/uav_navigation</url>
+    <url type="website">https://www.amovlab.com</url>
+    <url type="repository">https://github.com/HuaYuXiao/uav_navigation.git</url>
     <author email="fatmoonqyp@126.com">Yuhua Qi</author>
 
     <buildtool_depend>catkin</buildtool_depend>

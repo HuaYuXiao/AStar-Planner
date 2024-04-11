@@ -280,7 +280,7 @@ void Global_Planner::track_path_cb(const ros::TimerEvent& e){
     Command_Now.Reference_State.velocity_ref[0]     = (path_cmd.poses[i].pose.position.x - _DroneState.position[0])/time_per_path;
     Command_Now.Reference_State.velocity_ref[1]     = (path_cmd.poses[i].pose.position.y - _DroneState.position[1])/time_per_path;
     Command_Now.Reference_State.velocity_ref[2]     = (path_cmd.poses[i].pose.position.z - _DroneState.position[2])/time_per_path;
-    Command_Now.Reference_State.yaw_ref             = desired_yaw;
+    Command_Now.Reference_State.yaw_ref             = desired_yaw * cur_id / Num_total_wp;
 
     command_pub.publish(Command_Now);
 
