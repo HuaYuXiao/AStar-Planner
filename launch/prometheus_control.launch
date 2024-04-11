@@ -1,32 +1,29 @@
 <launch>
-    <!-- 启动Prometheus代码 -->
-    <group ns="uav_control">
-        <!-- run the px4_pos_estimator.cpp -->
-        <node pkg="uav_control" type="px4_pos_estimator" name="px4_pos_estimator" output="screen">
-            <!--
-            6 for VICON
-            3 for t265
-            2 for gazebo ground truth(仿真用)
-            -->
-            <!-- TODO 1. provide a choice for user 2. mix source for odom -->
-            <param name="input_source" value="6"/>
-            <!-- offset -->
-            <param name="offset_x" value="0.0"/>
-            <param name="offset_y" value="0.0"/>
-            <param name="offset_z" value="0.23"/>
-            <param name="offset_yaw" value="0.0"/>
-            <param name="offset_pitch" value="0.0"/>
-            <param name="offset_roll" value="0.0"/>
-        </node>
+    <!-- run the px4_pos_estimator.cpp -->
+    <node pkg="uav_control" type="px4_pos_estimator" name="px4_pos_estimator" output="screen">
+        <!--
+        6 for VICON
+        3 for t265
+        2 for gazebo ground truth(仿真用)
+        -->
+        <!-- TODO mix source for odom -->
+        <param name="input_source" value="3"/>
+        <!-- offset -->
+        <param name="offset_x" value="0.0"/>
+        <param name="offset_y" value="0.0"/>
+        <param name="offset_z" value="0.23"/>
+        <param name="offset_yaw" value="0.0"/>
+        <param name="offset_pitch" value="0.0"/>
+        <param name="offset_roll" value="0.0"/>
+    </node>
 
-        <!-- run the px4_sender.cpp -->
-        <node pkg="uav_control" type="px4_sender" name="px4_sender" output="screen">
-            <rosparam command="load" file="$(find uav_navigation)/config/px4_sender.yaml"/>
-        </node>
+    <!-- run the px4_sender.cpp -->
+    <node pkg="uav_control" type="px4_sender" name="px4_sender" output="screen">
+        <rosparam command="load" file="$(find uav_navigation)/config/px4_sender.yaml"/>
+    </node>
 
-        <!-- run the terminal_control.cpp -->
-        <node pkg="uav_control" type="terminal_control" name="terminal_control" output="screen" launch-prefix="gnome-terminal --">
-            <rosparam command="load" file="$(find uav_navigation)/config/px4_sender.yaml" />
-        </node>
-    </group>
+    <!-- run the terminal_control.cpp -->
+    <node pkg="uav_control" type="terminal_control" name="terminal_control" output="screen" launch-prefix="gnome-terminal --">
+        <rosparam command="load" file="$(find uav_navigation)/config/px4_sender.yaml" />
+    </node>
 </launch>
