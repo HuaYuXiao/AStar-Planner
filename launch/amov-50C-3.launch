@@ -29,10 +29,6 @@
     <!-- TODO why is remap necessary? -->
     <remap from="/scan" to="/prometheus/sensors/2Dlidar_scan" />
   </node>
-
-  <!-- run the laser_to_pointcloud -->
-  <node pkg="prometheus_gazebo" type="laser_to_pointcloud.py" name="laser_to_pointcloud" >
-  </node>
 </launch>
 
 

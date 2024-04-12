@@ -7,7 +7,7 @@
         2 for gazebo ground truth(仿真用)
         -->
         <!-- TODO mix source for odom -->
-        <param name="input_source" value="3"/>
+        <param name="input_source" value="6"/>
         <!-- offset -->
         <param name="offset_x" value="0.0"/>
         <param name="offset_y" value="0.0"/>
