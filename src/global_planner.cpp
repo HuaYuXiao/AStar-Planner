@@ -1,7 +1,8 @@
 #include "global_planner.h"
 
 namespace Global_Planning {
-/* 初始化函数 */ void Global_Planner::init(ros::NodeHandle& nh){
+/* 初始化函数 */
+void Global_Planner::init(ros::NodeHandle& nh){
     // subscribe /initialpose
     initialpose_sub = nh.subscribe<geometry_msgs::PoseWithCovarianceStamped>("/initialpose", 1, &Global_Planner::initialpose_cb, this);
     // 订阅 目标点
@@ -11,7 +12,7 @@ namespace Global_Planning {
 
     // 根据map_input选择地图更新方式
     if(map_input == 0){
-        Gpointcloud_sub = nh.subscribe<sensor_msgs::PointCloud2>("/prometheus/planning/global_pcl", 1, &Global_Planner::Gpointcloud_cb, this);
+        Gpointcloud_sub = nh.subscribe<sensor_msgs::PointCloud2>("/octomap_point_cloud_centers", 10, &Global_Planner::Gpointcloud_cb, this);
     }else if(map_input == 1){
         Lpointcloud_sub = nh.subscribe<sensor_msgs::PointCloud2>("/prometheus/planning/local_pcl", 1, &Global_Planner::Lpointcloud_cb, this);
     }else if(map_input == 2){
@@ -26,9 +27,9 @@ namespace Global_Planning {
     // 定时器 安全检测
     // safety_timer = nh.createTimer(ros::Duration(2.0), &Global_Planner::safety_cb, this);
     // 定时器 规划器算法执行周期
-    mainloop_timer = nh.createTimer(ros::Duration(1.5), &Global_Planner::mainloop_cb, this);
+    mainloop_timer = nh.createTimer(ros::Duration(1.0), &Global_Planner::mainloop_cb, this);
     // 路径追踪循环，快速移动场景应当适当提高执行频率
-    track_path_timer = nh.createTimer(ros::Duration(time_per_path), &Global_Planner::track_path_cb, this);
+    track_path_timer = nh.createTimer(ros::Duration(1.0), &Global_Planner::track_path_cb, this);
 
     // Astar algorithm
     Astar_ptr.reset(new Astar);
@@ -41,8 +42,10 @@ namespace Global_Planning {
     drone_ready = false;
     goal_ready = false;
     sensor_ready = false;
+    path_ok = false;
     is_safety = true;
     is_new_path = false;
+    cur_id = 0;
 
     // 初始化发布的指令
     Command_Now.header.stamp = ros::Time::now();
@@ -124,9 +127,9 @@ void Global_Planner::drone_state_cb(const prometheus_msgs::DroneStateConstPtr& m
         drone_ready = false;
     }
 
+    // TODO: Drone_odom is never used
     Drone_odom.header = msg->header;
     Drone_odom.child_frame_id = "base_link";
-    // TODO modify pose according to tf from vicon
     Drone_odom.pose.pose.position.x = msg->position[0];
     Drone_odom.pose.pose.position.y = msg->position[1];
     Drone_odom.pose.pose.position.z = msg->position[2];
@@ -147,7 +150,7 @@ void Global_Planner::Gpointcloud_cb(const sensor_msgs::PointCloud2ConstPtr& msg)
 
     sensor_ready = true;
 
-    if(!map_groundtruth){
+    if(map_groundtruth){
         // 对Astar中的地图进行更新
         Astar_ptr->Occupy_map_ptr->map_update_gpcl(msg);
         // 并对地图进行膨胀
@@ -156,7 +159,7 @@ void Global_Planner::Gpointcloud_cb(const sensor_msgs::PointCloud2ConstPtr& msg)
         static int update_num=0;
         update_num++;
 
-        // TODO 此处改为根据循环时间计算的数值
+        // TODO: 此处改为根据循环时间计算的数值
         if(update_num == 10){
             // 对Astar中的地图进行更新
             Astar_ptr->Occupy_map_ptr->map_update_gpcl(msg);
@@ -231,7 +234,7 @@ void Global_Planner::track_path_cb(const ros::TimerEvent& e){
     is_new_path = false;
 
     // 抵达终点
-    // TODO: convert to bool comparison
+//    cout << "[TEST] start of track_path_cb: " << cur_id << path_ok << endl;
     if(cur_id == Num_total_wp - 1) {
         // the last part of waypoints, move_mode = xyz_pos
         Command_Now.header.stamp = ros::Time::now();
@@ -284,6 +287,7 @@ void Global_Planner::track_path_cb(const ros::TimerEvent& e){
     command_pub.publish(Command_Now);
 
     cur_id = cur_id + 1;
+//    cout << "[TEST] end of track_path_cb: " << cur_id << endl;
 }
 
 
@@ -294,7 +298,9 @@ void Global_Planner::mainloop_cb(const ros::TimerEvent& e){
 
     // 检查当前状态，不满足规划条件则直接退出主循环
     // 此处打印消息与后面的冲突了，逻辑上存在问题
-    if(!odom_ready || !drone_ready || !sensor_ready){
+    if(!odom_ready ||
+        !drone_ready ||
+        !sensor_ready){
         // 此处改为根据循环时间计算的数值
         if(exec_num == 10){
             if(!odom_ready){
@@ -338,7 +344,6 @@ void Global_Planner::mainloop_cb(const ros::TimerEvent& e){
             int astar_state;
 
             // Astar algorithm
-            // TODO directly use msg from drone_state?
             astar_state = Astar_ptr->search(start_pos, goal_pos);
 
             // 未寻找到路径
@@ -353,6 +358,7 @@ void Global_Planner::mainloop_cb(const ros::TimerEvent& e){
                 Num_total_wp = path_cmd.poses.size();
                 start_point_index = get_start_point_id();
                 cur_id = start_point_index;
+//                cout << "[TEST] end of mainloop_cb: " << cur_id << endl;
                 tra_start_time = ros::Time::now();
                 exec_state = EXEC_STATE::TRACKING;
                 path_cmd_pub.publish(path_cmd);
@@ -388,31 +394,31 @@ void Global_Planner::safety_cb(const ros::TimerEvent& e){
     is_safety = Astar_ptr->check_safety(cur_pos, safe_distance);
 }
 
-// TODO: 选择与当前无人机所在位置最近的点,并从该点开始追踪
-int Global_Planner::get_start_point_id(void){
-    int id = 0;
-    float distance_to_wp_min = abs(path_cmd.poses[0].pose.position.x - _DroneState.position[0])
-                                + abs(path_cmd.poses[0].pose.position.y - _DroneState.position[1])
-                                + abs(path_cmd.poses[0].pose.position.z - _DroneState.position[2]);
+    // 选择与当前无人机所在位置最近的点,并从该点开始追踪
+    int Global_Planner::get_start_point_id(void){
+        int id = 0;
+        float distance_to_wp_min = abs(path_cmd.poses[0].pose.position.x - _DroneState.position[0])
+                                   + abs(path_cmd.poses[0].pose.position.y - _DroneState.position[1])
+                                   + abs(path_cmd.poses[0].pose.position.z - _DroneState.position[2]);
 
-    float distance_to_wp;
+        float distance_to_wp;
 
-    for (int j=1; j<Num_total_wp;j++){
-        distance_to_wp = abs(path_cmd.poses[j].pose.position.x - _DroneState.position[0])
-                                + abs(path_cmd.poses[j].pose.position.y - _DroneState.position[1])
-                                + abs(path_cmd.poses[j].pose.position.z - _DroneState.position[2]);
+        for (int j=1; j<Num_total_wp;j++){
+            distance_to_wp = abs(path_cmd.poses[j].pose.position.x - _DroneState.position[0])
+                             + abs(path_cmd.poses[j].pose.position.y - _DroneState.position[1])
+                             + abs(path_cmd.poses[j].pose.position.z - _DroneState.position[2]);
 
-        if(distance_to_wp < distance_to_wp_min){
-            distance_to_wp_min = distance_to_wp;
-            id = j;
+            if(distance_to_wp < distance_to_wp_min){
+                distance_to_wp_min = distance_to_wp;
+                id = j;
+            }
         }
-    }
 
-    //　为防止出现回头的情况，此处对航点进行前馈处理
-    if(id + 2 < Num_total_wp){
-        id = id + 2;
-    }
+        //　为防止出现回头的情况，此处对航点进行前馈处理
+        if(id + 2 < Num_total_wp){
+            id = id + 2;
+        }
 
-    return id;
-}
+        return id;
+    }
 }
