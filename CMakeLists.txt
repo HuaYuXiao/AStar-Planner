@@ -41,15 +41,20 @@ include_directories(
 
 link_directories(${PCL_LIBRARY_DIRS})
 
-add_executable(uav_navigation
-		src/global_planner_node.cpp
-		src/global_planner.cpp
-		src/Astar.cpp
-		src/occupy_map.cpp
-)
+add_library(occupy_map src/occupy_map.cpp)
+target_link_libraries(occupy_map ${PCL_LIBRARIES})
 
-target_link_libraries(uav_navigation
+add_library(Astar src/Astar.cpp)
+target_link_libraries(Astar occupy_map)
+
+add_library(global_planner src/global_planner.cpp)
+target_link_libraries(global_planner Astar)
+
+add_executable(global_planner_main src/global_planner_node.cpp)
+add_dependencies(global_planner_main prometheus_global_planner_gencpp)
+target_link_libraries(global_planner_main
 		${catkin_LIBRARIES}
 		${PCL_LIBRARIES}
 		${OCTOMAP_LIBRARIES}
+		global_planner
 )
