@@ -1,12 +1,11 @@
 # ![logo200x60](https://github.com/HuaYuXiao/UAV-Dynamic-Obstacle-Avoidance/assets/117464811/88415d13-8c7c-4d5c-a3e7-04f02d7b746d) UAV navigation
 
-阿木P450(nano)Astar导航包，基于[global_planning](https://github.com/amov-lab/Prometheus/tree/v1.1/Modules/planning/global_planning)开发。
+阿木P450导航包，基于[global_planning](https://github.com/amov-lab/Prometheus/tree/v1.1/Modules/planning/global_planning)开发。
 
 ![HitCount](https://img.shields.io/endpoint?url=https%3A%2F%2Fhits.dwyl.com%2FHuaYuXiao%2Fuav_navigation.json%3Fcolor%3Dpink)
 ![Static Badge](https://img.shields.io/badge/ROS-melodic-22314E?logo=ros)
-![Static Badge](https://img.shields.io/badge/C%2B%2B-11-00599C?logo=cplusplus)
-![Static Badge](https://img.shields.io/badge/Python-2.7.17-3776AB?logo=python)
-
+![Static Badge](https://img.shields.io/badge/C%2B%2B-14-00599C?logo=cplusplus)
+![Static Badge](https://img.shields.io/badge/Python-3.6.9-3776AB?logo=python)
 ![Static Badge](https://img.shields.io/badge/Ubuntu-18.04.6-E95420?logo=ubuntu)
 ![Static Badge](https://img.shields.io/badge/NVIDIA-Jetson_Nano-76B900?LOGO=nvidia)
 
@@ -46,7 +45,7 @@ catkin_make install -j1 -l1 --source src/uav_navigation --build build/uav_naviga
 ### 开始导航
 
 ```bash
-roslaunch uav_navigation uav_navigation.launch
+roslaunch uav_navigation uav_experienment.launch
 ```
 
 **2024-03-15更新**：以下指令已弃用：（可以用，但是不推荐）

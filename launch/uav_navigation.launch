@@ -1,33 +1,38 @@
 <launch>
-    <!-- VICON -->
-    <include file="$(find uav_navigation)/launch/mavros_vicon_bridge.launch">
-    </include>
+    <!-- 启动全局规划算法 -->
+    <arg name="topic_of_global_pcl" default="/octomap_point_cloud_centers"/>
+    <arg name="launch_prefix" default="gnome-terminal --" />
 
-    <!-- MAVROS -->
-    <include file="$(find uav_navigation)/launch/mavros.launch">
-    </include>
+    <node pkg="uav_navigation" name="global_planner_main" type="global_planner_main" output="screen" launch-prefix="$(arg launch_prefix)">
+        <!-- 二维平面规划 -->
+        <param name="global_planner/is_2D" value="false" type="bool"/>
+        <!-- ２维高度，建议与起飞高度一致 -->
+        <param name="global_planner/fly_height_2D" value="0.4" type="double"/>
 
-    <!-- T265 -->
-   <include file="$(find uav_navigation)/launch/rs_t265.launch">
-   </include>
+        <param name="global_planner/time_per_path" value="1.0" type="double"/>
+        <param name="global_planner/replan_time" value="2.0" type="double"/>
+        <param name="global_planner/map_input" value="0" type="int"/>
+        <param name="global_planner/sim_mode" value="false" type="bool"/>
+        <!-- 最大搜索步数 -->
+        <param name="astar/allocate_num" value="200" type="int"/>
+        <!-- 启发式函数系数 -->
+        <param name="astar/lambda_heu" value="2.0" type="double"/>
+        <!-- 分辨率 -->
+        <param name="map/resolution" value="0.05" type="double"/>
 
-    <!-- LIDAR -->
-    <include file="$(find uav_navigation)/launch/amov-50C-3.launch">
-    </include>
+        <!-- 停止距离 -->
+        <param name="global_planner/safe_distance" value="0.05" type="double"/>
+        <!-- 障碍物膨胀距离 为飞机的轴距即可 -->
+        <param name="map/inflate" value="0.3" type="double"/>
 
-    <!-- PX4 -->
-    <include file="$(find uav_navigation)/launch/prometheus_control.launch">
-    </include>
+        <!-- 地图范围 -->
+        <param name="map/origin_x" value="0.0" type="double"/>
+        <param name="map/origin_y" value="0.0" type="double"/>
+        <param name="map/origin_z" value="0.0" type="double"/>
+        <param name="map/map_size_x" value="10.0" type="double"/>
+        <param name="map/map_size_y" value="10.0" type="double"/>
+        <param name="map/map_size_z" value="3.0" type="double"/>
 
-    <!-- STATION -->
-    <include file="$(find uav_navigation)/launch/prometheus_station.launch">
-    </include>
-
-    <!-- octomap -->
-    <include file="$(find uav_navigation)/launch/uav_octomapping.launch">
-    </include>
-
-	<!-- rviz -->
-    <node type="rviz" name="rviz" pkg="rviz" args="-d $(find uav_navigation)/config/rviz.rviz" >
+        <remap from="/prometheus/planning/global_pcl" to="$(arg topic_of_global_pcl)" />
     </node>
 </launch>

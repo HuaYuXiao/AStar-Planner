@@ -16,12 +16,12 @@ double resolution_;
 double inflate_;
 
 int main(int argc, char** argv){
-    ros::init(argc, argv, "global_planner");
+    ros::init(argc, argv, "global_planner_main");
 
     ros::NodeHandle nh("~");
 
     // 2d参数 1代表2D平面规划及搜索,0代表3D
-    nh.param("global_planner/is_2D", is_2D, true);
+    nh.param("global_planner/is_2D", is_2D, false);
     // 2D规划时,定高高度
     nh.param("global_planner/fly_height_2D", fly_height_2D, 0.4);
     // 安全距离，若膨胀距离设置已考虑安全距离，建议此处设为0
