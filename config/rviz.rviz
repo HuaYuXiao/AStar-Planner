@@ -303,7 +303,7 @@ Visualization Manager:
       Radius: 0.03
       Shaft Diameter: 0.1
       Shaft Length: 0.1
-      Topic: /prometheus/global_planning/path_cmd
+      Topic: /prometheus/planning/path_cmd
       Unreliable: false
       Value: true
 

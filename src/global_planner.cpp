@@ -1,8 +1,7 @@
 #include "global_planner.h"
 
 namespace Global_Planning {
-// 初始化函数
-void Global_Planner::init(ros::NodeHandle& nh){
+/* 初始化函数 */ void Global_Planner::init(ros::NodeHandle& nh){
     // subscribe /initialpose
     initialpose_sub = nh.subscribe<geometry_msgs::PoseWithCovarianceStamped>("/initialpose", 1, &Global_Planner::initialpose_cb, this);
     // 订阅 目标点
@@ -12,17 +11,17 @@ void Global_Planner::init(ros::NodeHandle& nh){
 
     // 根据map_input选择地图更新方式
     if(map_input == 0){
-        Gpointcloud_sub = nh.subscribe<sensor_msgs::PointCloud2>("/prometheus/global_planning/global_pcl", 1, &Global_Planner::Gpointcloud_cb, this);
+        Gpointcloud_sub = nh.subscribe<sensor_msgs::PointCloud2>("/prometheus/planning/global_pcl", 1, &Global_Planner::Gpointcloud_cb, this);
     }else if(map_input == 1){
-        Lpointcloud_sub = nh.subscribe<sensor_msgs::PointCloud2>("/prometheus/global_planning/local_pcl", 1, &Global_Planner::Lpointcloud_cb, this);
+        Lpointcloud_sub = nh.subscribe<sensor_msgs::PointCloud2>("/prometheus/planning/local_pcl", 1, &Global_Planner::Lpointcloud_cb, this);
     }else if(map_input == 2){
-        laserscan_sub = nh.subscribe<sensor_msgs::LaserScan>("/prometheus/global_planning/laser_scan", 1, &Global_Planner::laser_cb, this);
+        laserscan_sub = nh.subscribe<sensor_msgs::LaserScan>("/prometheus/planning/laser_scan", 1, &Global_Planner::laser_cb, this);
     }
 
     // 发布 路径指令
     command_pub = nh.advertise<prometheus_msgs::ControlCommand>("/prometheus/control_command", 10);
     // 发布路径用于显示
-    path_cmd_pub = nh.advertise<nav_msgs::Path>("/prometheus/global_planning/path_cmd", 10);
+    path_cmd_pub = nh.advertise<nav_msgs::Path>("/prometheus/planning/path_cmd", 10);
 
     // 定时器 安全检测
     // safety_timer = nh.createTimer(ros::Duration(2.0), &Global_Planner::safety_cb, this);

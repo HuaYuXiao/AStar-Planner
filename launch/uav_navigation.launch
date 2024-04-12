@@ -14,7 +14,7 @@
         <param name="global_planner/map_input" value="0" type="int"/>
         <param name="global_planner/sim_mode" value="false" type="bool"/>
         <!-- 最大搜索步数 -->
-        <param name="astar/allocate_num" value="10000" type="int"/>
+        <param name="astar/allocate_num" value="200" type="int"/>
         <!-- 启发式函数系数 -->
         <param name="astar/lambda_heu" value="2.0" type="double"/>
         <!-- 分辨率 -->
@@ -33,6 +33,6 @@
         <param name="map/map_size_y" value="10.0" type="double"/>
         <param name="map/map_size_z" value="3.0" type="double"/>
 
-        <remap from="/prometheus/global_planning/global_pcl" to="$(arg topic_of_global_pcl)" />
+        <remap from="/prometheus/planning/global_pcl" to="$(arg topic_of_global_pcl)" />
     </node>
 </launch>
