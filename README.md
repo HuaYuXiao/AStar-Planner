@@ -38,7 +38,7 @@ cd ~/catkin_ws
 ```
 
 ```bash
-catkin_make install -j1 -l1 --source src/uav_navigation --build build/uav_navigation
+catkin_make install --source src/uav_navigation --build build/uav_navigation
 ```
 
 
