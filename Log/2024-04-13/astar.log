@@ -1,0 +1,172 @@
+[ INFO] [1713009206.630540689]: Get a new goal point: (1.176577, 1.047493, 0.447131)
+[ INFO] [1713009208.226184182]: Astar take time 0.000346 s.
+end of mainloop_cb: 2
+[ INFO] [1713009208.226817316]: Get a new path!
+start of track_path_cb: 21
+Moving to Waypoint: [ 2 / 24 ] 
+Moving to Waypoint:2.24019 m 0.0807358 m 0.422935 m 
+end of track_path_cb: 3
+start of track_path_cb: 31
+Moving to Waypoint: [ 3 / 24 ] 
+Moving to Waypoint:2.19019 m 0.130736 m 0.422935 m 
+end of track_path_cb: 4
+start of track_path_cb: 41
+Moving to Waypoint: [ 4 / 24 ] 
+Moving to Waypoint:2.14019 m 0.180736 m 0.422935 m 
+end of track_path_cb: 5
+start of track_path_cb: 51
+Moving to Waypoint: [ 5 / 24 ] 
+Moving to Waypoint:2.09019 m 0.230736 m 0.422935 m 
+end of track_path_cb: 6
+[ INFO] [1713009212.226302465]: Astar take time 0.000295 s.
+end of mainloop_cb: 2
+[ INFO] [1713009212.229878762]: Get a new path!
+start of track_path_cb: 21
+Moving to Waypoint: [ 2 / 24 ] 
+Moving to Waypoint:2.20568 m 0.0667446 m 0.448283 m 
+end of track_path_cb: 3
+start of track_path_cb: 31
+Moving to Waypoint: [ 3 / 24 ] 
+Moving to Waypoint:2.15568 m 0.116745 m 0.448283 m 
+end of track_path_cb: 4
+[ INFO] [1713009216.640819412]: Astar take time 0.000281 s.
+end of mainloop_cb: 2
+[ INFO] [1713009216.641045821]: Get a new path!
+start of track_path_cb: 21
+Moving to Waypoint: [ 2 / 24 ] 
+Moving to Waypoint:2.23071 m 0.0550604 m 0.424022 m 
+end of track_path_cb: 3
+start of track_path_cb: 31
+Moving to Waypoint: [ 3 / 24 ] 
+Moving to Waypoint:2.18071 m 0.10506 m 0.424022 m 
+end of track_path_cb: 4
+[ INFO] [1713009217.641659785]: Astar take time 0.000297 s.
+end of mainloop_cb: 2
+[ INFO] [1713009217.642258282]: Get a new path!
+start of track_path_cb: 21
+Moving to Waypoint: [ 2 / 24 ] 
+Moving to Waypoint:2.22607 m 0.0624014 m 0.442181 m 
+end of track_path_cb: 3
+start of track_path_cb: 31
+Moving to Waypoint: [ 3 / 24 ] 
+Moving to Waypoint:2.17607 m 0.112401 m 0.442181 m 
+end of track_path_cb: 4
+start of track_path_cb: 41
+Moving to Waypoint: [ 4 / 24 ] 
+Moving to Waypoint:2.12607 m 0.162401 m 0.442181 m 
+end of track_path_cb: 5
+start of track_path_cb: 51
+Moving to Waypoint: [ 5 / 24 ] 
+Moving to Waypoint:2.07607 m 0.212401 m 0.442181 m 
+end of track_path_cb: 6
+[ INFO] [1713009221.642106791]: Astar take time 0.000611 s.
+end of mainloop_cb: 2
+[ INFO] [1713009221.643699937]: Get a new path!
+start of track_path_cb: 21
+Moving to Waypoint: [ 2 / 24 ] 
+Moving to Waypoint:2.24008 m 0.0721235 m 0.443047 m 
+end of track_path_cb: 3
+start of track_path_cb: 31
+Moving to Waypoint: [ 3 / 24 ] 
+Moving to Waypoint:2.19008 m 0.122124 m 0.443047 m 
+end of track_path_cb: 4
+[ INFO] [1713009225.881876531]: Astar take time 0.000274 s.
+end of mainloop_cb: 2
+[ INFO] [1713009225.882779043]: Get a new path!
+start of track_path_cb: 21
+Moving to Waypoint: [ 2 / 23 ] 
+Moving to Waypoint:2.18126 m 0.0578927 m 0.43764 m 
+end of track_path_cb: 3
+start of track_path_cb: 31
+Moving to Waypoint: [ 3 / 23 ] 
+Moving to Waypoint:2.13126 m 0.107893 m 0.43764 m 
+end of track_path_cb: 4
+start of track_path_cb: 41
+Moving to Waypoint: [ 4 / 23 ] 
+Moving to Waypoint:2.08126 m 0.157893 m 0.43764 m 
+end of track_path_cb: 5
+[ INFO] [1713009227.883503694]: Astar take time 0.000312 s.
+end of mainloop_cb: 2
+[ INFO] [1713009227.883664738]: Get a new path!
+start of track_path_cb: 21
+Moving to Waypoint: [ 2 / 24 ] 
+Moving to Waypoint:2.21934 m 0.0641195 m 0.447176 m 
+end of track_path_cb: 3
+start of track_path_cb: 31
+Moving to Waypoint: [ 3 / 24 ] 
+Moving to Waypoint:2.16934 m 0.11412 m 0.447176 m 
+end of track_path_cb: 4
+start of track_path_cb: 41
+Moving to Waypoint: [ 4 / 24 ] 
+Moving to Waypoint:2.11934 m 0.16412 m 0.447176 m 
+end of track_path_cb: 5
+[ INFO] [1713009231.948022402]: Astar take time 0.001398 s.
+end of mainloop_cb: 2
+[ INFO] [1713009231.948250947]: Get a new path!
+start of track_path_cb: 21
+Moving to Waypoint: [ 2 / 24 ] 
+Moving to Waypoint:2.21366 m 0.0594524 m 0.443571 m 
+end of track_path_cb: 3
+start of track_path_cb: 31
+Moving to Waypoint: [ 3 / 24 ] 
+Moving to Waypoint:2.16366 m 0.109452 m 0.443571 m 
+end of track_path_cb: 4
+[ INFO] [1713009233.946849815]: Astar take time 0.000286 s.
+end of mainloop_cb: 2
+[ INFO] [1713009233.947022578]: Get a new path!
+start of track_path_cb: 21
+Moving to Waypoint: [ 2 / 24 ] 
+Moving to Waypoint:2.22915 m 0.0743954 m 0.441428 m 
+end of track_path_cb: 3
+start of track_path_cb: 31
+Moving to Waypoint: [ 3 / 24 ] 
+Moving to Waypoint:2.17915 m 0.124395 m 0.441428 m 
+end of track_path_cb: 4
+start of track_path_cb: 41
+Moving to Waypoint: [ 4 / 24 ] 
+Moving to Waypoint:2.12915 m 0.174395 m 0.441428 m 
+end of track_path_cb: 5
+[ INFO] [1713009238.408200100]: Astar take time 0.005164 s.
+end of mainloop_cb: 2
+[ INFO] [1713009238.409269853]: Get a new path!
+start of track_path_cb: 21
+Moving to Waypoint: [ 2 / 25 ] 
+Moving to Waypoint:2.25137 m 0.0812327 m 0.42655 m 
+end of track_path_cb: 3
+start of track_path_cb: 31
+Moving to Waypoint: [ 3 / 25 ] 
+Moving to Waypoint:2.20137 m 0.131233 m 0.42655 m 
+end of track_path_cb: 4
+[ INFO] [1713009240.403271290]: Astar take time 0.000327 s.
+end of mainloop_cb: 2
+[ INFO] [1713009240.404184896]: Get a new path!
+start of track_path_cb: 21
+Moving to Waypoint: [ 2 / 24 ] 
+Moving to Waypoint:2.21913 m 0.0549963 m 0.391084 m 
+end of track_path_cb: 3
+start of track_path_cb: 31
+Moving to Waypoint: [ 3 / 24 ] 
+Moving to Waypoint:2.16913 m 0.104996 m 0.391084 m 
+end of track_path_cb: 4
+start of track_path_cb: 41
+Moving to Waypoint: [ 4 / 24 ] 
+Moving to Waypoint:2.11913 m 0.154996 m 0.391084 m 
+end of track_path_cb: 5
+start of track_path_cb: 51
+Moving to Waypoint: [ 5 / 24 ] 
+Moving to Waypoint:2.06913 m 0.204996 m 0.441084 m 
+end of track_path_cb: 6
+[ INFO] [1713009244.403121745]: Astar take time 0.000294 s.
+end of mainloop_cb: 2
+[ INFO] [1713009244.403886391]: Get a new path!
+start of track_path_cb: 21
+Moving to Waypoint: [ 2 / 23 ] 
+Moving to Waypoint:2.19867 m 0.0630092 m 0.216178 m 
+end of track_path_cb: 3
+start of track_path_cb: 31
+Moving to Waypoint: [ 3 / 23 ] 
+Moving to Waypoint:2.14867 m 0.113009 m 0.266178 m 
+end of track_path_cb: 4
+[ WARN] [1713009249.095166457]: max_search_num: open set empty.
+[ WARN] [1713009249.095371459]: Planner can't find path!
+[ WARN] [1713009261.510636472]: Drone is not ready.
