@@ -33,7 +33,7 @@ int main(int argc, char** argv){
     nh.param("global_planner/replan_time", replan_time, 2.0);
     // 是否为仿真模式
     nh.param("global_planner/sim_mode", sim_mode, false);
-    nh.param("global_planner/map_groundtruth", map_groundtruth, false);
+    nh.param("global_planner/map_groundtruth", map_groundtruth, true);
     // 规划搜索相关参数 加速引导参数
     nh.param("astar/lambda_heu", lambda_heu_, 2.0);
     // 最大搜索节点数
