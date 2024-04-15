@@ -20,6 +20,7 @@ private:
     // subcribe目标点
     ros::Subscriber initialpose_sub;
     ros::Subscriber goal_sub;
+    ros::Subscriber goal2D_sub;
     // 订阅无人机状态
     ros::Subscriber drone_state_sub;
     // 支持2维激光雷达、3维激光雷达、D435i等实体传感器
