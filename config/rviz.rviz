@@ -321,6 +321,9 @@ Visualization Manager:
     - Class: rviz/SetInitialPose
     - Class: rviz_plugins/Goal3DTool
       Topic: /prometheus/planning/goal
+    - Class: rviz/SetGoal
+      Topic: /goal
+
   Value: true
 
   Views:

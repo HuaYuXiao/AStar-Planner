@@ -8,6 +8,7 @@ namespace Global_Planning {
         initialpose_sub = nh.subscribe<geometry_msgs::PoseWithCovarianceStamped>("/initialpose", 1, &Global_Planner::initialpose_cb, this);
         // 订阅 目标点
         goal_sub = nh.subscribe<geometry_msgs::PoseStamped>("/prometheus/planning/goal", 1, &Global_Planner::goal_cb, this);
+        goal2D_sub = nh.subscribe<geometry_msgs::PoseStamped>("/goal", 1, &Global_Planner::goal_cb, this);
         // 订阅 无人机状态
         drone_state_sub = nh.subscribe<prometheus_msgs::DroneState>("/prometheus/drone_state", 10, &Global_Planner::drone_state_cb, this);
 
