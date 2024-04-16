@@ -4,16 +4,16 @@ namespace Global_Planning{
     // 初始化函数
     void Occupy_map::init(ros::NodeHandle& nh){
         // 地图原点
-        nh.param("map/origin_x", origin_(0), 0.0);
-        nh.param("map/origin_y", origin_(1), 0.0);
+        nh.param("map/origin_x", origin_(0), -8.0);
+        nh.param("map/origin_y", origin_(1), -5.0);
         nh.param("map/origin_z", origin_(2), 0.0);
         // 地图实际尺寸，单位：米
-        nh.param("map/map_size_x", map_size_3d_(0), 10.0);
+        nh.param("map/map_size_x", map_size_3d_(0), 16.0);
         nh.param("map/map_size_y", map_size_3d_(1), 10.0);
         nh.param("map/map_size_z", map_size_3d_(2), 3.0);
 
         // 发布 地图rviz显示
-        global_pcl_pub = nh.advertise<sensor_msgs::PointCloud2>("/prometheus/planning/global_pcl",  10);
+        global_pcl_pub = nh.advertise<sensor_msgs::PointCloud2>("/prometheus/planning/global_pcl",  1);
         // 发布膨胀后的点云
         inflate_pcl_pub = nh.advertise<sensor_msgs::PointCloud2>("/prometheus/planning/global_inflate_pcl", 1);
 
