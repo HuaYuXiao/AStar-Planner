@@ -60,7 +60,7 @@ namespace Global_Planning{
     int Astar::search(Eigen::Vector3d start_pt, Eigen::Vector3d end_pt){
       // 首先检查目标点是否可到达
       if(Occupy_map_ptr->getOccupancy(end_pt)){
-        ROS_WARN("Astar can't find path: goal point is occupied.");
+        ROS_WARN("[AStar] can't find path: goal point is OCCUPIED.");
         return NO_PATH;
       }
 
@@ -104,7 +104,7 @@ namespace Global_Planning{
           retrievePath(terminate_node);
 
           // 时间一般很短，远远小于膨胀点云的时间
-          ROS_INFO("Astar take time %f s.", (ros::Time::now()-time_astar_start).toSec());
+//          ROS_INFO("Astar take time %f s.", (ros::Time::now()-time_astar_start).toSec());
 
           return REACH_END;
         }
@@ -184,7 +184,7 @@ namespace Global_Planning{
                 use_node_num_ += 1;
                 // 超过最大搜索次数
                 if (use_node_num_ == max_search_num){
-                    ROS_WARN("Astar can't find path: reach the max_search_num.");
+                    ROS_WARN("[AStar] can't find path: reach MAX SEARCH NUM.");
                     return NO_PATH;
                 }
               }else if (expand_node->node_state == IN_OPEN_SET){
@@ -204,7 +204,7 @@ namespace Global_Planning{
 
       // 搜索完所有可行点，即使没达到最大搜索次数，也没有找到路径
       // 这种一般是因为无人机周围被占据，或者无人机与目标点之间无可通行路径造成的
-      ROS_WARN("max_search_num: open set empty.");
+      ROS_WARN("[AStar] max_search_num: STUCK in obstacle.");
       return NO_PATH;
     }
 

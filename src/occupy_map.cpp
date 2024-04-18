@@ -131,15 +131,15 @@ namespace Global_Planning{
 
         inflate_pcl_pub.publish(map_inflate_vis);
 
-        static int exec_num=0;
-        exec_num++;
-
-        // 此处改为根据循环时间计算的数值
-        if(exec_num == 20){
-            // 膨胀地图效率与地图大小有关（有点久，Astar更新频率是多久呢？ 怎么才能提高膨胀效率呢？）
-            ROS_INFO("inflate global point take %f [s].",   (ros::Time::now()-time_start).toSec());
-            exec_num=0;
-        }
+//        static int exec_num=0;
+//        exec_num++;
+//
+//        // 此处改为根据循环时间计算的数值
+//        if(exec_num == 20){
+//            // 膨胀地图效率与地图大小有关（有点久，Astar更新频率是多久呢？ 怎么才能提高膨胀效率呢？）
+//            ROS_INFO("inflate global point take %f [s].",   (ros::Time::now()-time_start).toSec());
+//            exec_num=0;
+//        }
     }
 
 
