@@ -1,61 +1,26 @@
-# ![logo200x60](https://github.com/HuaYuXiao/UAV-Dynamic-Obstacle-Avoidance/assets/117464811/88415d13-8c7c-4d5c-a3e7-04f02d7b746d) UAV navigation
+# ![logo200x60](https://github.com/HuaYuXiao/UAV-Dynamic-Obstacle-Avoidance/assets/117464811/88415d13-8c7c-4d5c-a3e7-04f02d7b746d) AStar-Planner
 
-阿木P450导航包，基于[global_planning](https://github.com/amov-lab/Prometheus/tree/v1.1/Modules/planning/global_planning)开发。
+阿木P450导航包，modified from [global_planning](https://github.com/amov-lab/Prometheus/tree/v1.1/Modules/planning/global_planning)
 
 ![HitCount](https://img.shields.io/endpoint?url=https%3A%2F%2Fhits.dwyl.com%2FHuaYuXiao%2Fuav_navigation.json%3Fcolor%3Dpink)
 ![Static Badge](https://img.shields.io/badge/ROS-melodic-22314E?logo=ros)
 ![Static Badge](https://img.shields.io/badge/C%2B%2B-14-00599C?logo=cplusplus)
-![Static Badge](https://img.shields.io/badge/Python-3.6.9-3776AB?logo=python)
+![Static Badge](https://img.shields.io/badge/Python-3.8.10-3776AB?logo=python)
 ![Static Badge](https://img.shields.io/badge/Ubuntu-18.04.6-E95420?logo=ubuntu)
 ![Static Badge](https://img.shields.io/badge/NVIDIA-Jetson_Nano-76B900?LOGO=nvidia)
 
 
-**NOTICE**：
-- **UAV控制**请前往此仓库👉https://github.com/HuaYuXiao/uav_control
-- **UAV定位**请前往此仓库👉https://github.com/HuaYuXiao/uav_localization
-- **UAV建图**请前往此仓库👉https://github.com/HuaYuXiao/uav_octomapping
-- **UAV导航**请前往此仓库👉https://github.com/HuaYuXiao/uav_navigation
-- **UAV仿真**请前往此仓库👉https://github.com/HuaYuXiao/uav_simulation
-
-
-## How to Use?
-
-### 下载源码
-
-```bash
-cd ~/catkin_ws/src
-```
-
-```bash
-git clone https://github.com/HuaYuXiao/uav_navigation.git
-```
-
-
-### 编译安装
-
-```bash
-cd ~/catkin_ws
-```
+## Compilation
 
 ```bash
 catkin_make install --source src/uav_navigation --build build/uav_navigation
 ```
 
 
-### 开始导航
+## Launch
 
 ```bash
 roslaunch uav_navigation uav_experienment.launch
-```
-
-**2024-03-15更新**：以下指令已弃用：（可以用，但是不推荐）
-
-```bash
-roslaunch p450_experiment astar_onboard.launch
-```
-
-```bash
-roslaunch p450_experiment astar_ground.launch
 ```
 
 Reference:
@@ -66,11 +31,8 @@ Reference:
 
 ## 确定起点
 
-
-
 Reference:
 - ⭐ [How to Create an Initial Pose and Goal Publisher in ROS](https://automaticaddison.com/how-to-create-an-initial-pose-and-goal-publisher-in-ros/)
-
 
 
 
