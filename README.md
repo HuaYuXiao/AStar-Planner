@@ -12,7 +12,7 @@ A ROS package for drone planning and navigation.
 ## Compilation
 
 ```bash
-catkin_make install --source src/AStar-Planner --build src/AStar-Planner/build
+catkin_make install --source Planning/AStar-Planner --build Planning/AStar-Planner/build
 ```
 
 
@@ -22,8 +22,9 @@ catkin_make install --source src/AStar-Planner --build src/AStar-Planner/build
 roslaunch astar_planner simulation.launch
 ```
 
-Reference:
-- ⭐ [进阶功能-室内自主避障](https://wiki.amovlab.com/public/prometheuswiki/P450%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C/%E8%BF%9B%E9%98%B6%E5%8A%9F%E8%83%BD-%E5%AE%A4%E5%86%85%E8%87%AA%E4%B8%BB%E9%81%BF%E9%9A%9C.html)
+## Reference
+
+- [进阶功能-室内自主避障](https://wiki.amovlab.com/public/prometheuswiki/P450%E4%BD%BF%E7%94%A8%E6%89%8B%E5%86%8C/%E8%BF%9B%E9%98%B6%E5%8A%9F%E8%83%BD-%E5%AE%A4%E5%86%85%E8%87%AA%E4%B8%BB%E9%81%BF%E9%9A%9C.html)
 - [技术分享 | Prometheus避障—A_star算法代码阅读](https://mp.weixin.qq.com/s/TR9KgxV2lFZX_4VJ_I6kAQ)
 - [技术分享 | Prometheus（P450）-室内外避障](https://mp.weixin.qq.com/s/j4-Z_OIIW9ReXpfisAh37Q)
 

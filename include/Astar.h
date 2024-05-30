@@ -1,7 +1,7 @@
 #ifndef _ASTAR_H
 #define _ASTAR_H
 
-#include "occupy_map.h"
+#include "plan_env/occupy_map.h"
 
 #define NODE_NAME "Global_Planner"
 

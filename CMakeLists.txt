@@ -22,11 +22,13 @@ find_package(catkin REQUIRED COMPONENTS
 		pcl_ros
 		visualization_msgs
 		easondrone_msgs
+		plan_env
 )
 
 catkin_package(
 		INCLUDE_DIRS include
 		LIBRARIES ${PROJECT_NAME}
+		CATKIN_DEPENDS plan_env
 )
 
 include_directories(
@@ -41,29 +43,14 @@ include_directories(
 
 link_directories(${PCL_LIBRARY_DIRS})
 
-add_library(occupy_map src/occupy_map.cpp)
-target_link_libraries(occupy_map ${PCL_LIBRARIES})
-
-add_library(Astar src/Astar.cpp)
-target_link_libraries(Astar occupy_map)
-
-add_library(global_planner src/global_planner.cpp)
-target_link_libraries(global_planner Astar)
-
-add_executable(global_planner_main src/global_planner_node.cpp)
-add_dependencies(global_planner_main ${PROJECT_NAME}_gencpp)
-target_link_libraries(global_planner_main
-		${catkin_LIBRARIES}
-		${PCL_LIBRARIES}
-		${OCTOMAP_LIBRARIES}
-		global_planner
+add_executable(astar_planner_node
+		src/global_planner_node.cpp
+		src/global_planner.cpp
+		src/Astar.cpp
 )
+target_link_libraries(astar_planner_node ${catkin_LIBRARIES})
 
 ## Mark other files for installation (e.g. launch and bag files, etc.)
-install(DIRECTORY launch
-		DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
-)
-
-install(DIRECTORY config
+install(DIRECTORY launch config
 		DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )

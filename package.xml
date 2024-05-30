@@ -22,6 +22,7 @@
     <depend>nav_msgs</depend>
     <depend>easondrone_msgs</depend>
     <depend>pcl_ros</depend>
+    <depend>plan_env</depend>
 
     <build_depend>octomap</build_depend>
 
