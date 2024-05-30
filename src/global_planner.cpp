@@ -1,35 +1,31 @@
 #include "global_planner.h"
 
-
 namespace Global_Planning {
     /* 初始化函数 */
     void Global_Planner::init(ros::NodeHandle& nh){
-        // subscribe /initialpose
-        initialpose_sub = nh.subscribe<geometry_msgs::PoseWithCovarianceStamped>("/initialpose", 1, &Global_Planner::initialpose_cb, this);
         // 订阅 目标点
-        goal_sub = nh.subscribe<geometry_msgs::PoseStamped>("/prometheus/planning/goal", 1, &Global_Planner::goal_cb, this);
-        goal2D_sub = nh.subscribe<geometry_msgs::PoseStamped>("/goal", 1, &Global_Planner::goal_cb, this);
+        goal_sub = nh.subscribe<geometry_msgs::PoseStamped>("/move_base_simple/goal", 1, &Global_Planner::goal_cb, this);
         // 订阅 无人机状态
-        drone_state_sub = nh.subscribe<prometheus_msgs::DroneState>("/prometheus/drone_state", 10, &Global_Planner::drone_state_cb, this);
+        drone_state_sub = nh.subscribe<easondrone_msgs::DroneState>("/easondrone/drone_state", 10, &Global_Planner::drone_state_cb, this);
 
         // 根据map_input选择地图更新方式
         if(map_input == 0){
-            Gpointcloud_sub = nh.subscribe<sensor_msgs::PointCloud2>("/prometheus/planning/global_pcl", 10, &Global_Planner::Gpointcloud_cb, this);
+            Gpointcloud_sub = nh.subscribe<sensor_msgs::PointCloud2>("/octomap_point_cloud_centers", 10, &Global_Planner::Gpointcloud_cb, this);
         }else if(map_input == 1){
-            Lpointcloud_sub = nh.subscribe<sensor_msgs::PointCloud2>("/prometheus/planning/local_pcl", 1, &Global_Planner::Lpointcloud_cb, this);
+            Lpointcloud_sub = nh.subscribe<sensor_msgs::PointCloud2>("/easondrone/planning/local_pcl", 1, &Global_Planner::Lpointcloud_cb, this);
         }else if(map_input == 2){
-            laserscan_sub = nh.subscribe<sensor_msgs::LaserScan>("/prometheus/planning/laser_scan", 1, &Global_Planner::laser_cb, this);
+            laserscan_sub = nh.subscribe<sensor_msgs::LaserScan>("/easondrone/planning/laser_scan", 1, &Global_Planner::laser_cb, this);
         }
 
         // 发布 路径指令
-        command_pub = nh.advertise<prometheus_msgs::ControlCommand>("/prometheus/control_command", 10);
+        command_pub = nh.advertise<easondrone_msgs::ControlCommand>("/easondrone/control_command", 10);
         // 发布路径用于显示
-        path_cmd_pub = nh.advertise<nav_msgs::Path>("/prometheus/planning/path_cmd", 10);
+        path_cmd_pub = nh.advertise<nav_msgs::Path>("/easondrone/planning/path_cmd", 10);
 
         // 定时器 安全检测
         // safety_timer = nh.createTimer(ros::Duration(2.0), &Global_Planner::safety_cb, this);
         // 定时器 规划器算法执行周期
-        mainloop_timer = nh.createTimer(ros::Duration(1.0), &Global_Planner::mainloop_cb, this);
+        mainloop_timer = nh.createTimer(ros::Duration(0.2), &Global_Planner::mainloop_cb, this);
         // 路径追踪循环，快速移动场景应当适当提高执行频率
         track_path_timer = nh.createTimer(ros::Duration(1.0), &Global_Planner::track_path_cb, this);
 
@@ -51,46 +47,16 @@ namespace Global_Planning {
 
         // 初始化发布的指令
         Command_Now.header.stamp = ros::Time::now();
-        Command_Now.Mode         = prometheus_msgs::ControlCommand::Idle;
+        Command_Now.Mode         = easondrone_msgs::ControlCommand::Idle;
         Command_Now.Command_ID   = 0;
         Command_Now.source       = NODE_NAME;
+
         desired_yaw = 0.0;
     }
 
-
-    // Take initialpose as input and publish initial
-    void Global_Planner::initialpose_cb(const geometry_msgs::PoseWithCovarianceStampedConstPtr& msg) {
-        // TEST 从 initialpose 消息中提取位姿信息
-        cout << msg->pose << endl;
-
-        // 将位姿信息转换到 odom 坐标系下
-        static_transformStamped.header.stamp    = ros::Time::now();
-        static_transformStamped.header.frame_id = "map";  // 地图坐标系
-        static_transformStamped.child_frame_id  = "odom";  // 里程计坐标系
-        // 发布 odom 到 map 的 TF
-        static_transformStamped.transform.translation.x = msg->pose.pose.position.x;
-        static_transformStamped.transform.translation.y = msg->pose.pose.position.y;
-        static_transformStamped.transform.translation.z = msg->pose.pose.position.z;
-        static_transformStamped.transform.rotation.x = 0.0;
-        static_transformStamped.transform.rotation.y = 0.0;
-        static_transformStamped.transform.rotation.z = msg->pose.pose.orientation.z;
-        static_transformStamped.transform.rotation.w = msg->pose.pose.orientation.w;
-
-        // 发布静态tf变换
-        static_broadcaster.sendTransform(static_transformStamped);
-
-        ROS_INFO("Inintial Pose set!");
-    }
-
-
     // 获得新目标点
     void Global_Planner::goal_cb(const geometry_msgs::PoseStampedConstPtr& msg){
-        // goal position
-        if (is_2D){
-            goal_pos << msg->pose.position.x, msg->pose.position.y, fly_height_2D;
-        }else{
             goal_pos << msg->pose.position.x, msg->pose.position.y, _DroneState.position[2];
-        }
 
         // goal rotation
         double z = msg->pose.orientation.z;
@@ -105,21 +71,11 @@ namespace Global_Planning {
         ROS_INFO("Get a new goal point: (%f, %f, %f)", goal_pos(0), goal_pos(1), goal_pos(2));
     }
 
-
-    void Global_Planner::drone_state_cb(const prometheus_msgs::DroneStateConstPtr& msg){
+    void Global_Planner::drone_state_cb(const easondrone_msgs::DroneStateConstPtr& msg){
         _DroneState = *msg;
 
-        if (is_2D){
-            start_pos << msg->position[0], msg->position[1], fly_height_2D;
-            start_vel << msg->velocity[0], msg->velocity[1], 0.0;
-
-            if(abs(fly_height_2D - msg->position[2]) > 0.2){
-                ROS_WARN("Drone is not in the desired height.");
-            }
-        }else{
             start_pos << msg->position[0], msg->position[1], msg->position[2];
             start_vel << msg->velocity[0], msg->velocity[1], msg->velocity[2];
-        }
 
         odom_ready = true;
 
@@ -141,7 +97,6 @@ namespace Global_Planning {
         Drone_odom.twist.twist.linear.z = msg->velocity[2];
     }
 
-
     // 根据全局点云更新地图
     // 情况：已知全局点云的场景、由SLAM实时获取的全局点云
     void Global_Planner::Gpointcloud_cb(const sensor_msgs::PointCloud2ConstPtr& msg){
@@ -152,26 +107,11 @@ namespace Global_Planning {
 
         sensor_ready = true;
 
-        if(map_groundtruth){
             // 对Astar中的地图进行更新
             Astar_ptr->Occupy_map_ptr->map_update_gpcl(msg);
             // 并对地图进行膨胀
             Astar_ptr->Occupy_map_ptr->inflate_point_cloud();
-        }else{
-            static int update_num=0;
-            update_num++;
-
-            // TODO: 此处改为根据循环时间计算的数值
-            if(update_num == 10){
-                // 对Astar中的地图进行更新
-                Astar_ptr->Occupy_map_ptr->map_update_gpcl(msg);
-                // 并对地图进行膨胀
-                Astar_ptr->Occupy_map_ptr->inflate_point_cloud();
-                update_num = 0;
-            }
-        }
     }
-
 
     // 根据局部点云更新地图
     // 情况：RGBD相机、三维激光雷达
@@ -190,7 +130,6 @@ namespace Global_Planning {
         Astar_ptr->Occupy_map_ptr->inflate_point_cloud();
     }
 
-
     // 根据2维雷达数据更新地图
     // 情况：2维激光雷达
     void Global_Planner::laser_cb(const sensor_msgs::LaserScanConstPtr& msg){
@@ -207,7 +146,6 @@ namespace Global_Planning {
         Astar_ptr->Occupy_map_ptr->inflate_point_cloud();
     }
 
-
     void Global_Planner::track_path_cb(const ros::TimerEvent& e){
         if(!path_ok){
             return;
@@ -220,7 +158,7 @@ namespace Global_Planning {
              ROS_WARN("Drone Position Dangerous! STOP HERE and wait for new goal.");
 
              Command_Now.header.stamp = ros::Time::now();
-             Command_Now.Mode         = prometheus_msgs::ControlCommand::Hold;
+             Command_Now.Mode         = easondrone_msgs::ControlCommand::Hold;
              Command_Now.Command_ID   = Command_Now.Command_ID + 1;
              Command_Now.source = NODE_NAME;
 
@@ -236,21 +174,20 @@ namespace Global_Planning {
         is_new_path = false;
 
         // 抵达终点
-    //    cout << "[TEST] start of track_path_cb: " << cur_id << path_ok << endl;
-        if(cur_id == Num_total_wp - 1) {
+        if(cur_id >= Num_total_wp - 1) {
             // the last part of waypoints, move_mode = xyz_pos
             Command_Now.header.stamp = ros::Time::now();
-            Command_Now.Mode                                = prometheus_msgs::ControlCommand::Move;
+            Command_Now.Mode                                = easondrone_msgs::ControlCommand::Move;
             Command_Now.Command_ID                          = Command_Now.Command_ID + 1;
             Command_Now.source = NODE_NAME;
-            Command_Now.Reference_State.Move_mode           = prometheus_msgs::PositionReference::XYZ_POS;
-            Command_Now.Reference_State.Move_frame          = prometheus_msgs::PositionReference::ENU_FRAME;
+            Command_Now.Reference_State.Move_mode           = easondrone_msgs::PositionReference::XYZ_POS;
+            Command_Now.Reference_State.Move_frame          = easondrone_msgs::PositionReference::ENU_FRAME;
             Command_Now.Reference_State.position_ref[0]     = goal_pos[0];
             Command_Now.Reference_State.position_ref[1]     = goal_pos[1];
             Command_Now.Reference_State.position_ref[2]     = goal_pos[2];
             Command_Now.Reference_State.yaw_ref             = desired_yaw;
-
             command_pub.publish(Command_Now);
+
             ROS_INFO("Reach the goal.");
 
             // 停止执行
@@ -273,25 +210,23 @@ namespace Global_Planning {
         // 采用轨迹控制的方式进行追踪，期望速度 = （期望位置 - 当前位置）/预计时间；
 
         Command_Now.header.stamp = ros::Time::now();
-        Command_Now.Mode                                = prometheus_msgs::ControlCommand::Move;
+        Command_Now.Mode                                = easondrone_msgs::ControlCommand::Move;
         Command_Now.Command_ID                          = Command_Now.Command_ID + 1;
         Command_Now.source = NODE_NAME;
-        Command_Now.Reference_State.Move_mode           = prometheus_msgs::PositionReference::TRAJECTORY;
-        Command_Now.Reference_State.Move_frame          = prometheus_msgs::PositionReference::ENU_FRAME;
+        Command_Now.Reference_State.Move_mode           = easondrone_msgs::PositionReference::TRAJECTORY;
+        Command_Now.Reference_State.Move_frame          = easondrone_msgs::PositionReference::ENU_FRAME;
         Command_Now.Reference_State.position_ref[0]     = path_cmd.poses[i].pose.position.x;
         Command_Now.Reference_State.position_ref[1]     = path_cmd.poses[i].pose.position.y;
         Command_Now.Reference_State.position_ref[2]     = path_cmd.poses[i].pose.position.z;
         Command_Now.Reference_State.velocity_ref[0]     = (path_cmd.poses[i].pose.position.x - _DroneState.position[0])/time_per_path;
         Command_Now.Reference_State.velocity_ref[1]     = (path_cmd.poses[i].pose.position.y - _DroneState.position[1])/time_per_path;
         Command_Now.Reference_State.velocity_ref[2]     = (path_cmd.poses[i].pose.position.z - _DroneState.position[2])/time_per_path;
-        Command_Now.Reference_State.yaw_ref             = desired_yaw * cur_id / Num_total_wp;
+        Command_Now.Reference_State.yaw_ref             = desired_yaw;
 
         command_pub.publish(Command_Now);
 
         cur_id = cur_id + 1;
-    //    cout << "[TEST] end of track_path_cb: " << cur_id << endl;
     }
-
 
     // 主循环
     void Global_Planner::mainloop_cb(const ros::TimerEvent& e){
@@ -316,7 +251,7 @@ namespace Global_Planning {
             }
             return;
         }else{
-            // TODO: necessary? 对检查的状态进行重置
+            // 对检查的状态进行重置
             odom_ready = false;
             drone_ready = false;
             sensor_ready = false;
@@ -352,7 +287,7 @@ namespace Global_Planning {
                 if(astar_state==Astar::NO_PATH){
                     path_ok = false;
                     exec_state = EXEC_STATE::WAIT_GOAL;
-                    ROS_WARN("Planner can't find path!");
+//                    ROS_WARN("Planner can't find path!");
                 }else{
                     path_ok = true;
                     is_new_path = true;
@@ -360,7 +295,6 @@ namespace Global_Planning {
                     Num_total_wp = path_cmd.poses.size();
                     start_point_index = get_start_point_id();
                     cur_id = start_point_index;
-    //                cout << "[TEST] end of mainloop_cb: " << cur_id << endl;
                     tra_start_time = ros::Time::now();
                     exec_state = EXEC_STATE::TRACKING;
                     path_cmd_pub.publish(path_cmd);
@@ -380,7 +314,6 @@ namespace Global_Planning {
         }
     }
 
-
     // 【获取当前时间函数】 单位：秒
     float Global_Planner::get_time_in_sec(const ros::Time& begin_time){
         ros::Time time_now = ros::Time::now();
@@ -388,7 +321,6 @@ namespace Global_Planning {
         float currTimenSec = time_now.nsec / 1e9 - begin_time.nsec / 1e9;
         return (currTimeSec + currTimenSec);
     }
-
 
     void Global_Planner::safety_cb(const ros::TimerEvent& e){
         Eigen::Vector3d cur_pos(_DroneState.position[0], _DroneState.position[1], _DroneState.position[2]);

@@ -1,9 +1,9 @@
 #ifndef GLOBAL_PLANNER
 #define GLOBAL_PLANNER
 
-#define NODE_NAME "Global_Planner [main]"
-
 #include "Astar.h"
+
+#define NODE_NAME "Global_Planner"
 
 using namespace std;
 
@@ -18,9 +18,7 @@ private:
     // 调用轨迹优化算法 规划轨迹
 
     // subcribe目标点
-    ros::Subscriber initialpose_sub;
     ros::Subscriber goal_sub;
-    ros::Subscriber goal2D_sub;
     // 订阅无人机状态
     ros::Subscriber drone_state_sub;
     // 支持2维激光雷达、3维激光雷达、D435i等实体传感器
@@ -46,11 +44,11 @@ private:
     geometry_msgs::TransformStamped static_transformStamped;
     tf2_ros::StaticTransformBroadcaster static_broadcaster;
 
-    prometheus_msgs::DroneState _DroneState;
+    easondrone_msgs::DroneState _DroneState;
     nav_msgs::Odometry Drone_odom;
 
     nav_msgs::Path path_cmd;
-    prometheus_msgs::ControlCommand Command_Now;
+    easondrone_msgs::ControlCommand Command_Now;
 
     double distance_walked;
     double distance_to_goal;
@@ -86,9 +84,8 @@ private:
     EXEC_STATE exec_state;
 
     // 回调函数
-    void initialpose_cb(const geometry_msgs::PoseWithCovarianceStampedConstPtr& msg);
     void goal_cb(const geometry_msgs::PoseStampedConstPtr& msg);
-    void drone_state_cb(const prometheus_msgs::DroneStateConstPtr& msg);
+    void drone_state_cb(const easondrone_msgs::DroneStateConstPtr& msg);
 
     void Gpointcloud_cb(const sensor_msgs::PointCloud2ConstPtr& msg);
     void Lpointcloud_cb(const sensor_msgs::PointCloud2ConstPtr& msg);

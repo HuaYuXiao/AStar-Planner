@@ -1,4 +1,4 @@
-#include <occupy_map.h>
+#include "occupy_map.h"
 
 namespace Global_Planning{
     // 初始化函数
@@ -13,9 +13,9 @@ namespace Global_Planning{
         nh.param("map/map_size_z", map_size_3d_(2), 3.0);
 
         // 发布 地图rviz显示
-        global_pcl_pub = nh.advertise<sensor_msgs::PointCloud2>("/prometheus/planning/global_pcl",  1);
+        global_pcl_pub = nh.advertise<sensor_msgs::PointCloud2>("/easondrone/planning/global_pcl", 1);
         // 发布膨胀后的点云
-        inflate_pcl_pub = nh.advertise<sensor_msgs::PointCloud2>("/prometheus/planning/global_inflate_pcl", 1);
+        inflate_pcl_pub = nh.advertise<sensor_msgs::PointCloud2>("/easondrone/planning/global_inflate_pcl", 1);
 
         // 发布二维占据图？
         // 发布膨胀后的二维占据图？
@@ -31,12 +31,6 @@ namespace Global_Planning{
 
         min_range_ = origin_;
         max_range_ = origin_ + map_size_3d_;
-
-        // 对于二维情况，重新限制点云高度
-        if(is_2D){
-            min_range_(2) = fly_height_2D - resolution_;
-            max_range_(2) = fly_height_2D + resolution_;
-        }
     }
 
     // 地图更新函数 - 输入：全局点云
@@ -68,14 +62,9 @@ namespace Global_Planning{
             return;
         }
 
-        //记录开始时间
-        ros::Time time_start = ros::Time::now();
-
         // 转化为PCL的格式进行处理
         pcl::PointCloud<pcl::PointXYZ> latest_global_cloud_;
         pcl::fromROSMsg(*global_env_, latest_global_cloud_);
-
-        //printf("time 1 take %f [s].\n",   (ros::Time::now()-time_start).toSec());
 
         if ((int)latest_global_cloud_.points.size() == 0){
             return;
@@ -130,16 +119,6 @@ namespace Global_Planning{
         pcl::toROSMsg(cloud_inflate_vis_, map_inflate_vis);
 
         inflate_pcl_pub.publish(map_inflate_vis);
-
-        static int exec_num=0;
-        exec_num++;
-
-        // 此处改为根据循环时间计算的数值
-        if(exec_num == 20){
-            // 膨胀地图效率与地图大小有关（有点久，Astar更新频率是多久呢？ 怎么才能提高膨胀效率呢？）
-            ROS_INFO("inflate global point take %f [s].",   (ros::Time::now()-time_start).toSec());
-            exec_num=0;
-        }
     }
 
 
