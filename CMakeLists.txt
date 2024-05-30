@@ -58,3 +58,12 @@ target_link_libraries(global_planner_main
 		${OCTOMAP_LIBRARIES}
 		global_planner
 )
+
+## Mark other files for installation (e.g. launch and bag files, etc.)
+install(DIRECTORY launch
+		DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
+)
+
+install(DIRECTORY config
+		DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
+)

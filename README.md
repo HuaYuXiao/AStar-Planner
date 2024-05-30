@@ -9,16 +9,16 @@ A ROS package for drone planning and navigation.
 ![Static Badge](https://img.shields.io/badge/Ubuntu-18.04.6-E95420?logo=ubuntu)
 
 
-## 编译安装
+## Compilation
 
 ```bash
 catkin_make install --source src/AStar-Planner --build src/AStar-Planner/build
 ```
 
-## 开始导航
+## Launch
 
 ```bash
-roslaunch astar_planner AStar-Planner.launch
+roslaunch astar_planner simulation.launch
 ```
 
 Reference:

@@ -1,0 +1,25 @@
+<launch>
+    <arg name="planner" default="AStar-Planner"/>
+
+    <!-- world -->
+    <include file="$(find easondrone_gazebo)/launch/empty_world.launch"/>
+
+    <!-- 1号无人机 -->
+    <include file="$(find easondrone_gazebo)/launch/sitl_p450.launch"/>
+
+    <include file="$(find easondrone_gazebo)/launch/transform.launch"/>
+
+    <include file="$(find easondrone_control)/launch/control_p450_indoor.launch"/>
+
+    <!-- STATION -->
+    <include file="$(find easondrone_station)/launch/easondrone_station.launch"/>
+
+    <!-- 启动octomap建图 -->
+    <include file="$(find easondrone_mapping)/launch/mapping.launch"/>
+
+    <!-- 启动导航 -->
+    <include file="$(find astar_planner)/launch/$(arg planner).launch"/>
+
+    <!-- 启动rviz -->
+    <node type="rviz" name="rviz" pkg="rviz" args="-d $(find astar_planner)/config/$(arg planner).rviz"/>
+</launch>

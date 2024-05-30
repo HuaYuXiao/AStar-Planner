@@ -3,8 +3,6 @@
 namespace Global_Planning {
     /* 初始化函数 */
     void Global_Planner::init(ros::NodeHandle& nh){
-        // subscribe /initialpose
-        initialpose_sub = nh.subscribe<geometry_msgs::PoseWithCovarianceStamped>("/initialpose", 1, &Global_Planner::initialpose_cb, this);
         // 订阅 目标点
         goal_sub = nh.subscribe<geometry_msgs::PoseStamped>("/move_base_simple/goal", 1, &Global_Planner::goal_cb, this);
         // 订阅 无人机状态
@@ -12,7 +10,7 @@ namespace Global_Planning {
 
         // 根据map_input选择地图更新方式
         if(map_input == 0){
-            Gpointcloud_sub = nh.subscribe<sensor_msgs::PointCloud2>("/easondrone/planning/global_pcl", 10, &Global_Planner::Gpointcloud_cb, this);
+            Gpointcloud_sub = nh.subscribe<sensor_msgs::PointCloud2>("/octomap_point_cloud_centers", 10, &Global_Planner::Gpointcloud_cb, this);
         }else if(map_input == 1){
             Lpointcloud_sub = nh.subscribe<sensor_msgs::PointCloud2>("/easondrone/planning/local_pcl", 1, &Global_Planner::Lpointcloud_cb, this);
         }else if(map_input == 2){
@@ -54,27 +52,6 @@ namespace Global_Planning {
         Command_Now.source       = NODE_NAME;
 
         desired_yaw = 0.0;
-    }
-
-    // Take initialpose as input and publish initial
-    void Global_Planner::initialpose_cb(const geometry_msgs::PoseWithCovarianceStampedConstPtr& msg) {
-        // 将位姿信息转换到 odom 坐标系下
-        static_transformStamped.header.stamp    = ros::Time::now();
-        static_transformStamped.header.frame_id = "map";  // 地图坐标系
-        static_transformStamped.child_frame_id  = "odom";  // 里程计坐标系
-        // 发布 odom 到 map 的 TF
-        static_transformStamped.transform.translation.x = msg->pose.pose.position.x;
-        static_transformStamped.transform.translation.y = msg->pose.pose.position.y;
-        static_transformStamped.transform.translation.z = msg->pose.pose.position.z;
-        static_transformStamped.transform.rotation.x = 0.0;
-        static_transformStamped.transform.rotation.y = 0.0;
-        static_transformStamped.transform.rotation.z = msg->pose.pose.orientation.z;
-        static_transformStamped.transform.rotation.w = msg->pose.pose.orientation.w;
-
-        // 发布静态tf变换
-        static_broadcaster.sendTransform(static_transformStamped);
-
-        ROS_INFO("Inintial Pose set!");
     }
 
     // 获得新目标点
@@ -130,17 +107,10 @@ namespace Global_Planning {
 
         sensor_ready = true;
 
-        static int update_num=0;
-        update_num++;
-
-        // TODO: 此处改为根据循环时间计算的数值
-        if(update_num >= 10){
             // 对Astar中的地图进行更新
             Astar_ptr->Occupy_map_ptr->map_update_gpcl(msg);
             // 并对地图进行膨胀
             Astar_ptr->Occupy_map_ptr->inflate_point_cloud();
-            update_num = 0;
-        }
     }
 
     // 根据局部点云更新地图

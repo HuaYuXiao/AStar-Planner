@@ -3,7 +3,7 @@
 
 #include "occupy_map.h"
 
-#define NODE_NAME "Global_Planner [Astar]"
+#define NODE_NAME "Global_Planner"
 
 namespace Global_Planning{
 
@@ -11,7 +11,6 @@ namespace Global_Planning{
 #define IN_OPEN_SET 'b'
 #define NOT_EXPAND 'c'
 //#define inf 1 >> 30
-
 
 class Node{
     public:

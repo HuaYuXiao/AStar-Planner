@@ -3,7 +3,7 @@
 
 #include "tools.h"
 
-#define NODE_NAME "Global_Planner [map]"
+#define NODE_NAME "Global_Planner"
 
 namespace Global_Planning{
 class Occupy_map{
@@ -64,5 +64,4 @@ class Occupy_map{
         bool check_safety(Eigen::Vector3d& pos, double check_distance/*, Eigen::Vector3d& map_point*/);
 };
 }
-
 #endif

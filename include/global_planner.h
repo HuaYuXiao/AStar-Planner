@@ -1,9 +1,9 @@
 #ifndef GLOBAL_PLANNER
 #define GLOBAL_PLANNER
 
-#define NODE_NAME "Global_Planner [main]"
-
 #include "Astar.h"
+
+#define NODE_NAME "Global_Planner"
 
 using namespace std;
 
@@ -18,7 +18,6 @@ private:
     // 调用轨迹优化算法 规划轨迹
 
     // subcribe目标点
-    ros::Subscriber initialpose_sub;
     ros::Subscriber goal_sub;
     // 订阅无人机状态
     ros::Subscriber drone_state_sub;
@@ -85,7 +84,6 @@ private:
     EXEC_STATE exec_state;
 
     // 回调函数
-    void initialpose_cb(const geometry_msgs::PoseWithCovarianceStampedConstPtr& msg);
     void goal_cb(const geometry_msgs::PoseStampedConstPtr& msg);
     void drone_state_cb(const easondrone_msgs::DroneStateConstPtr& msg);
 
