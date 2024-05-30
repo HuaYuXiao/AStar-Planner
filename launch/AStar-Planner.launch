@@ -3,37 +3,29 @@
     <arg name="topic_of_global_pcl" default="/octomap_point_cloud_centers"/>
     <arg name="launch_prefix" default="gnome-terminal --" />
 
-    <node pkg="uav_navigation" name="global_planner_main" type="global_planner_main" output="screen" launch-prefix="$(arg launch_prefix)">
-        <!-- 二维平面规划 -->
-        <param name="global_planner/is_2D" value="false" type="bool"/>
-        <!-- ２维高度，建议与起飞高度一致 -->
-        <param name="global_planner/fly_height_2D" value="0.4" type="double"/>
-
+    <node pkg="astar_planner" name="global_planner_main" type="global_planner_main" output="screen" launch-prefix="$(arg launch_prefix)">
         <param name="global_planner/time_per_path" value="1.0" type="double"/>
-        <param name="global_planner/replan_time" value="2.0" type="double"/>
+        <param name="global_planner/replan_time" value="0.02" type="double"/>
         <param name="global_planner/map_input" value="0" type="int"/>
-        <param name="global_planner/sim_mode" value="false" type="bool"/>
-        <param name="global_planner/map_groundtruth" value="true" type="bool"/>
+
         <!-- 最大搜索步数 -->
         <param name="astar/allocate_num" value="200" type="int"/>
         <!-- 启发式函数系数 -->
         <param name="astar/lambda_heu" value="2.0" type="double"/>
         <!-- 分辨率 -->
-        <param name="map/resolution" value="0.05" type="double"/>
+        <param name="map/resolution" value="0.1" type="double"/>
 
         <!-- 停止距离 -->
         <param name="global_planner/safe_distance" value="0.05" type="double"/>
         <!-- 障碍物膨胀距离 为飞机的轴距即可 -->
-        <param name="map/inflate" value="0.3" type="double"/>
+        <param name="map/inflate" value="0.35" type="double"/>
 
         <!-- 地图范围 -->
         <param name="map/origin_x" value="0.0" type="double"/>
         <param name="map/origin_y" value="0.0" type="double"/>
         <param name="map/origin_z" value="0.0" type="double"/>
-        <param name="map/map_size_x" value="10.0" type="double"/>
+        <param name="map/map_size_x" value="16.0" type="double"/>
         <param name="map/map_size_y" value="10.0" type="double"/>
         <param name="map/map_size_z" value="3.0" type="double"/>
-
-<!--        <remap from="/prometheus/planning/global_pcl" to="$(arg topic_of_global_pcl)" />-->
     </node>
 </launch>

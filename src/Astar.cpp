@@ -128,10 +128,6 @@ namespace Global_Planning{
           for (double dy = -resolution_; dy <= resolution_ + 1e-3; dy += resolution_){
             for (double dz = -resolution_; dz <= resolution_ + 1e-3; dz += resolution_){
               d_pos << dx, dy, dz;
-              // 对于2d情况，不扩展z轴
-              if (is_2D){
-                d_pos(2) = 0.0;
-              }
 
               // 跳过自己那个格子
               if (d_pos.norm() < 1e-3){

@@ -1,4 +1,4 @@
-#include <occupy_map.h>
+#include "occupy_map.h"
 
 namespace Global_Planning{
     // 初始化函数
@@ -13,9 +13,9 @@ namespace Global_Planning{
         nh.param("map/map_size_z", map_size_3d_(2), 3.0);
 
         // 发布 地图rviz显示
-        global_pcl_pub = nh.advertise<sensor_msgs::PointCloud2>("/prometheus/planning/global_pcl",  1);
+        global_pcl_pub = nh.advertise<sensor_msgs::PointCloud2>("/easondrone/planning/global_pcl", 1);
         // 发布膨胀后的点云
-        inflate_pcl_pub = nh.advertise<sensor_msgs::PointCloud2>("/prometheus/planning/global_inflate_pcl", 1);
+        inflate_pcl_pub = nh.advertise<sensor_msgs::PointCloud2>("/easondrone/planning/global_inflate_pcl", 1);
 
         // 发布二维占据图？
         // 发布膨胀后的二维占据图？
@@ -31,12 +31,6 @@ namespace Global_Planning{
 
         min_range_ = origin_;
         max_range_ = origin_ + map_size_3d_;
-
-        // 对于二维情况，重新限制点云高度
-        if(is_2D){
-            min_range_(2) = fly_height_2D - resolution_;
-            max_range_(2) = fly_height_2D + resolution_;
-        }
     }
 
     // 地图更新函数 - 输入：全局点云

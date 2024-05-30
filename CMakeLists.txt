@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(uav_navigation)
+project(astar_planner)
 
 set(CMAKE_BUILD_TYPE "Release")
 set(CMAKE_CXX_FLAGS "-std=c++14")
@@ -21,22 +21,22 @@ find_package(catkin REQUIRED COMPONENTS
 		nav_msgs
 		pcl_ros
 		visualization_msgs
-		prometheus_msgs
+		easondrone_msgs
 )
 
 catkin_package(
 		INCLUDE_DIRS include
-		LIBRARIES uav_navigation
+		LIBRARIES ${PROJECT_NAME}
 )
 
 include_directories(
+		include
 		SYSTEM
 		${catkin_INCLUDE_DIRS}
 		${Eigen3_INCLUDE_DIRS}
 		${PCL_INCLUDE_DIRS}
 		${OCTOMAP_INCLUDE_DIRS}
-		${PROJECT_SOURCE_DIR}/include
-		$ENV{HOME}/Prometheus/Modules/common/include
+		$ENV{HOME}/EasonDrone/Modules/common/include
 )
 
 link_directories(${PCL_LIBRARY_DIRS})
@@ -51,7 +51,7 @@ add_library(global_planner src/global_planner.cpp)
 target_link_libraries(global_planner Astar)
 
 add_executable(global_planner_main src/global_planner_node.cpp)
-add_dependencies(global_planner_main prometheus_global_planner_gencpp)
+add_dependencies(global_planner_main ${PROJECT_NAME}_gencpp)
 target_link_libraries(global_planner_main
 		${catkin_LIBRARIES}
 		${PCL_LIBRARIES}
